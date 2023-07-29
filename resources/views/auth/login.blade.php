@@ -1,4 +1,7 @@
 @extends('layouts.parent')
+@section('title_head')
+    Login
+@endsection
 @section('content')
     <div class="section-authentication-cover">
         <div class="">

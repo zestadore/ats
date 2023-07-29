@@ -20,8 +20,8 @@
 	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
 	<link href="{{asset('assets/css/app.css')}}" rel="stylesheet">
 	<link href="{{asset('assets/css/icons.css')}}" rel="stylesheet">
-    @yield('styles')
-	<title>ATS</title>
+    @yield('style')
+	<title>@yield('title_head')</title>
 </head>
 
 <body class="">
