@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 class Client extends Model
 {
     use HasFactory,SoftDeletes;
-    protected $table = 'agents';
+    protected $table = 'clients';
     protected $guarded=[];
 
     public static function boot()
@@ -26,6 +26,7 @@ class Client extends Model
         static::deleting(function($model)
         {
             $model->deleted_by = Auth::user()->id;
+            $model->save();
         });
     }
 }

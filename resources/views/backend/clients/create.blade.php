@@ -21,24 +21,17 @@
                         </ol>
                     </nav>
                 </div>
-                <div class="ms-auto">
-                    <a href="{{route('admin.clients.create')}}" class="btn btn-primary">Add New</a>
-                </div>
             </div>
             @if (session('error'))
-                <div class="alert alert-danger alert-dismissable" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                    <p class="mb-0">{{ session('error') }}</p>
+                <div class="alert alert-danger border-0 bg-danger alert-dismissible fade show">
+                    <div class="text-white">{{ session('error') }}</div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif
             @if (session('success'))
-                <div class="alert alert-success alert-dismissable" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                    <p class="mb-0">{{ session('success') }}</p>
+                <div class="alert alert-primary border-0 bg-primary alert-dismissible fade show">
+                    <div class="text-white">{{ session('success') }}</div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif
             <div class="card">

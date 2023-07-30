@@ -2687,3 +2687,7 @@ input::placeholder {
 		display: none
 	}
 }
+
+div.dt-buttons {
+	float: right;
+}
