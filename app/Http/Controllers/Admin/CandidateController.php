@@ -18,7 +18,7 @@ class CandidateController extends Controller
             $search = $request->search;
             if ($search) {
                 $data->where(function ($query) use ($search) {
-                    $query->where('client_name', 'like', '%' . $search . '%');
+                    $query->where('candidate_name', 'like', '%' . $search . '%');
                 });
             }
             return DataTables::of($data)

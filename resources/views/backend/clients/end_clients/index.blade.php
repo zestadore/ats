@@ -3,24 +3,24 @@
     <link href="{{asset('assets/plugins/datatable/css/dataTables.bootstrap5.min.css')}}" rel="stylesheet" />
 @endsection
 @section('title')
-    ATS - Clients
+    ATS - End Clients
 @endsection
 @section('contents')
     <div class="page-wrapper">
         <div class="page-content">
             <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-                <div class="breadcrumb-title pe-3">Clients</div>
+                <div class="breadcrumb-title pe-3">End Clients</div>
                 <div class="ps-3">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb mb-0 p-0">
                             <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}"><i class="bx bx-home-alt"></i></a>
                             </li>
-                            <li class="breadcrumb-item active" aria-current="page">Clients</li>
+                            <li class="breadcrumb-item active" aria-current="page">End Clients</li>
                         </ol>
                     </nav>
                 </div>
                 <div class="ms-auto">
-                    <a href="{{route('admin.clients.create')}}" class="btn btn-primary">Add New</a>
+                    <a href="{{route('admin.clients.end-clients.create',[$client_id])}}" class="btn btn-primary">Add New</a>
                 </div>
             </div>
             @if (session('error'))
@@ -41,7 +41,7 @@
                         <form id="filterfordatatable" class="form-horizontal" onsubmit="event.preventDefault();">
                             <div class="row ">
                                 <div class="col">
-                                    <input type="text" name="search" class="form-control" placeholder="Search with client name">
+                                    <input type="text" name="search" class="form-control" placeholder="Search with end client">
                                 </div>
                             </div>
                         </form><br>
@@ -49,10 +49,7 @@
                             <thead>
                                 <tr>
                                     <th class="nosort">#</th>
-                                    <th>{{ __('Client') }}</th>
-                                    <th>{{ __('Designation') }}</th>
-                                    <th>{{ __('Email') }}</th>
-                                    <th>{{ __('Contact') }}</th>
+                                    <th>{{ __('End client') }}</th>
                                     <th class="nosort">Action</th>
                                 </tr>
                             </thead>
@@ -62,7 +59,6 @@
             </div>
         </div>
     </div>
-    
 @endsection
 @section('javascripts')
     <script src="{{asset('assets/plugins/datatable/js/jquery.dataTables.min.js')}}"></script>
@@ -71,6 +67,8 @@
     <script>
         function drawTable()
         {
+            var url="{{route('admin.clients.end-clients.index',['CLIENTID'])}}";
+            url=url.replace('CLIENTID','{{$client_id}}');
             var table = $('#item-table').DataTable({
                 processing: true,
                 serverSide: true,
@@ -85,7 +83,7 @@
                 pagingType: "full_numbers",
                 dom: 'B<"clear">lrtip',
                 ajax: {
-                    "url": '{{route("admin.clients.index")}}',
+                    "url": url,
                     "data": function(d) {
                         var searchprams = $('#filterfordatatable').serializeArray();
                         var indexed_array = {};
@@ -101,20 +99,8 @@
                         name: 'name'
                     },
                     {
-                        data: 'client_name',
-                        name: 'client_name'
-                    },
-                    {
-                        data: 'designation',
-                        name: 'designation'
-                    },
-                    {
-                        data: 'email',
-                        name: 'email'
-                    },
-                    {
-                        data: 'contact',
-                        name: 'contact'
+                        data: 'end_client',
+                        name: 'end_client'
                     },
                     {
                         data: 'action',
@@ -137,7 +123,8 @@
         drawTable();
 
         function editData(id){
-            var url="{{route('admin.clients.edit','ID')}}";
+            var url="{{route('admin.clients.end-clients.edit',['CLIENTID','ID'])}}";
+            url=url.replace('CLIENTID','{{$client_id}}');
             url=url.replace('ID',id);
             window.location.href=url;
         }
@@ -152,7 +139,8 @@
                 dangerMode: true,
             }).then((result) => {
                 if (result) {
-                    var url="{{route('admin.clients.destroy','ID')}}";
+                    var url="{{route('admin.clients.end-clients.destroy',['CLIENTID','ID'])}}";
+                    url=url.replace('CLIENTID','{{$client_id}}');
                     url=url.replace('ID',id);
                     $.ajax({
                         url: url,
@@ -172,12 +160,6 @@
                     });
                 }
             })
-        }
-
-        function endClients(id){
-            var url="{{route('admin.clients.end-clients.index','ID')}}";
-            url=url.replace('ID',id);
-            window.location.href=url;
         }
 
     </script>

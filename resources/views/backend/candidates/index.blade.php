@@ -45,7 +45,7 @@
                                 </div>
                             </div>
                         </form><br>
-                        <table id="item-table" class="table table-striped table-bordered">
+                        <table id="item-table" class="table table-striped table-bordered" style="white-space:pre-wrap; word-wrap:break-word;">
                             <thead>
                                 <tr>
                                     <th class="nosort">#</th>
