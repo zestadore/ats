@@ -43,6 +43,19 @@
                     </li>
                 </ul>
             </li>
+            <li class="{{ (request()->is('admin/candidates*'))? 'mm-active' : '' }}">
+                <a href="javascript:;" class="has-arrow">
+                    <div class="parent-icon"><i class="bx bx-user-check"></i>
+                    </div>
+                    <div class="menu-title">Candidates</div>
+                </a>
+                <ul>
+                    <li> <a href="{{route('admin.candidates.index')}}"><i class='bx bx-radio-circle'></i>View candidates</a>
+                    </li>
+                    <li> <a href="{{route('admin.candidates.create')}}"><i class='bx bx-radio-circle'></i>Add candidate</a>
+                    </li>
+                </ul>
+            </li>
         </ul>
         <!--end navigation-->
     </div>

@@ -1,0 +1,10 @@
+cPanel URL : https://cloudnew.sparrowhost.net:2083/
+Username : wergexap
+Password : #2#+|gSiz9hL
+
+
+
+Sub Domain : ats.wergexapps.in
+Database Name : wergexap_ats
+Database User : wergexap_ats
+Database Password : fQo6GYl$]{Q_

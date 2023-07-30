@@ -28,8 +28,7 @@
     <label class="form-label" for="{{$name}}">{{$title}} @if($required=="True")<span style="color:red;"> *</span>@endif</label>
     <div class="input-group">
         <div class="custom-file">
-            <input type="file" class="{{$class}}" id="{{$id}}" name="{{$name}}"  @if($required=="True") required @endif>
-            <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+            <input type="file" class="{{$class}}" id="{{$id}}" name="{{$name}}"  @if($required=="True") required @endif style="width:100% !important;">
         </div>
     </div>
     @error($name)

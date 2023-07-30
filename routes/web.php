@@ -17,7 +17,7 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
-// Auth::routes();
+Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/migrate', function () {
