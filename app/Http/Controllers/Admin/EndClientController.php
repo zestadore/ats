@@ -84,4 +84,10 @@ class EndClientController extends Controller
             return response()->json(['error'=>"Failed to delete the data, kindly try again!"]);
         }
     }
+
+    public function getList($id)
+    {
+        $endClients=EndClient::where('client_id',$id)->get();
+        return response()->json($endClients);
+    }
 }

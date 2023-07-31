@@ -1,0 +1,99 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+use App\Http\Controllers\Controller;
+use App\Models\Client;
+use App\Models\JobOpportunity;
+use Illuminate\Http\Request;
+use App\Http\Requests\ValidateJobOpportunity;
+use Illuminate\Support\Facades\Crypt;
+use DataTables;
+
+class JobOpportunityController extends Controller
+{
+    
+    public function index(Request $request)
+    {
+        if ($request->ajax()) {
+            $data= JobOpportunity::query();
+            $search = $request->search;
+            if ($search) {
+                $data->where(function ($query) use ($search) {
+                    $query->where('title', 'like', '%' . $search . '%');
+                });
+            }
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', 'backend.job_opportunities.action')
+                ->addColumn('client', function($data) {
+                    if($data->client_id){
+                        return $data->client->client_name;
+                    }else{
+                        return Null;
+                    }
+                })
+                ->addColumn('end_client', function($data) {
+                    if($data->end_client_id){
+                        return $data->endClient->end_client;
+                    }else{
+                        return Null;
+                    }
+                })
+                ->make(true);
+        }
+        return view('backend.job_opportunities.index');
+    }
+
+    public function create()
+    {
+        $clients=Client::get();
+        return view('backend.job_opportunities.create',['clients'=>$clients]);
+    }
+
+    public function store(ValidateJobOpportunity $request)
+    {
+        $res=JobOpportunity::create($request->except(['_token','files']));
+        if($res){
+            return redirect()->back()->with('success', 'Successfully updated the data.');
+        }else{
+            return redirect()->back()->with('error', 'Failed to update the data. Please try again.');
+        }
+    }
+
+    public function show(JobOpportunity $jobOpportunity)
+    {
+        //
+    }
+
+    public function edit($id)
+    {
+        $id=Crypt::decrypt($id);
+        $data=JobOpportunity::findOrFail($id);
+        return view('backend.job_opportunities.edit',['data'=>$data]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $id=Crypt::decrypt($id);
+        $data=JobOpportunity::findOrFail($id);
+        $res=$data->update($request->except('_token'));
+        if($res){
+            return redirect()->back()->with('success', 'Successfully updated the data.');
+        }else{
+            return redirect()->back()->with('error', 'Failed to update the data. Please try again.');
+        }
+    }
+
+    public function destroy($id)
+    {
+        $id=Crypt::decrypt($id);
+        $data=JobOpportunity::findOrFail($id);
+        $res=$data->delete();
+        if($res){
+            return response()->json(['success'=>"Data deleted successfully!"]);
+        }else{
+            return response()->json(['error'=>"Failed to delete the data, kindly try again!"]);
+        }
+    }
+
+}

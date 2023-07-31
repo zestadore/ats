@@ -56,6 +56,19 @@
                     </li>
                 </ul>
             </li>
+            <li class="{{ (request()->is('admin/job-opportunities*'))? 'mm-active' : '' }}">
+                <a href="javascript:;" class="has-arrow">
+                    <div class="parent-icon"><i class="bx bx-book-add"></i>
+                    </div>
+                    <div class="menu-title">Job Opportunities</div>
+                </a>
+                <ul>
+                    <li> <a href="{{route('admin.job-opportunities.index')}}"><i class='bx bx-radio-circle'></i>View job opportunities</a>
+                    </li>
+                    <li> <a href="{{route('admin.job-opportunities.create')}}"><i class='bx bx-radio-circle'></i>Add job opportunity</a>
+                    </li>
+                </ul>
+            </li>
         </ul>
         <!--end navigation-->
     </div>
