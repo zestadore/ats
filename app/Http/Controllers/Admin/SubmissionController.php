@@ -2,53 +2,71 @@
 
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
+use App\Models\Submission;
+use App\Models\JobOpportunity;
 use App\Models\Candidate;
 use Illuminate\Http\Request;
-use App\Http\Requests\ValidateCandidate;
+use App\Http\Requests\ValidateSubmission;
 use Illuminate\Support\Facades\Crypt;
 use DataTables;
 
-class CandidateController extends Controller
+class SubmissionController extends Controller
 {
     
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data= Candidate::query();
+            $data= Submission::query();
             $search = $request->search;
             if ($search) {
                 $data->where(function ($query) use ($search) {
-                    $query->where('candidate_name', 'like', '%' . $search . '%');
+                    $query->where('job_title', 'like', '%' . $search . '%');
                 });
             }
             return DataTables::of($data)
                 ->addIndexColumn()
-                ->addColumn('action', 'backend.candidates.action')
+                ->addColumn('candidate', function($data) {
+                    if($data->candidate_id){
+                        return $data->candidate->candidate_name;
+                    }else{
+                        return Null;
+                    }
+                })
+                ->addColumn('job_opportunity', function($data) {
+                    if($data->job_title_id){
+                        return $data->jobOpportunity->title;
+                    }else{
+                        return Null;
+                    }
+                })
+                ->addColumn('action', 'backend.job_submissions.action')
                 ->make(true);
         }
-        return view('backend.candidates.index');
+        return view('backend.job_submissions.index');
     }
 
     public function create()
     {
-        return view('backend.candidates.create');
+        $opportunities=JobOpportunity::get();
+        $candidates=Candidate::take(100)->get();
+        return view('backend.job_submissions.create',['opportunities'=>$opportunities,'candidates'=>$candidates]);
     }
 
-    public function store(ValidateCandidate $request)
+    public function store(ValidateSubmission $request)
     {
         if($request->file('resume')){
             $request->validate([
                 'resume' => 'required|file|max:2048|mimes:docx,doc,pdf',
             ]);
         }
-        $res=Candidate::create($request->except(['_token','resume']))->id;
+        $res=Submission::create($request->except(['_token','resume']))->id;
         if($request->file('resume')){
             $file= $request->file('resume');
             $filename= date('YmdHi').$file->getClientOriginalName();
             $file-> move(public_path('uploads/resumes'), $filename);
             $resume= $filename;
             if($res){
-                Candidate::where('id',$res)->update(['resume'=>$resume]);
+                Submission::where('id',$res)->update(['resume'=>$resume]);
             }
         }
         if($res){
@@ -58,7 +76,7 @@ class CandidateController extends Controller
         }
     }
 
-    public function show(Candidate $candidate)
+    public function show(Submission $submission)
     {
         //
     }
@@ -66,11 +84,13 @@ class CandidateController extends Controller
     public function edit($id)
     {
         $id=Crypt::decrypt($id);
-        $candidate=Candidate::findOrFail($id);
-        return view('backend.candidates.edit',['data'=>$candidate]);
+        $data=Submission::findOrFail($id);
+        $opportunities=JobOpportunity::get();
+        $candidates=Candidate::take(100)->get();
+        return view('backend.job_submissions.edit',['data'=>$data,'opportunities'=>$opportunities,'candidates'=>$candidates]);
     }
 
-    public function update(ValidateCandidate $request, $id)
+    public function update(ValidateSubmission $request, $id)
     {
         if($request->file('resume')){
             $request->validate([
@@ -78,18 +98,18 @@ class CandidateController extends Controller
             ]);
         }
         $id=Crypt::decrypt($id);
-        $candidate=Candidate::findOrFail($id);
-        $res=$candidate->update($request->except(['_token','resume']));
+        $data=Submission::findOrFail($id);
+        $res=$data->update($request->except(['_token','resume']));
         if($request->file('resume')){
-            if($candidate->resume!=null){
-                $d=unlink(public_path('uploads/resumes/'. $candidate->resume));
+            if($data->resume!=null){
+                $d=unlink(public_path('uploads/resumes/'. $data->resume));
             }
             $file= $request->file('resume');
             $filename= date('YmdHi').$file->getClientOriginalName();
             $file-> move(public_path('uploads/resumes'), $filename);
             $resume= $filename;
             if($res){
-                $candidate->update(['resume'=>$resume]);
+                $data->update(['resume'=>$resume]);
             }
         }
         if($res){
@@ -99,21 +119,15 @@ class CandidateController extends Controller
         }
     }
 
-    public function destroy( $id)
+    public function destroy($id)
     {
         $id=Crypt::decrypt($id);
-        $candidate=Candidate::findOrFail($id);
-        $res=$candidate->delete();
+        $data=Submission::findOrFail($id);
+        $res=$data->delete();
         if($res){
             return response()->json(['success'=>"Data deleted successfully!"]);
         }else{
             return response()->json(['error'=>"Failed to delete the data, kindly try again!"]);
         }
-    }
-
-    public function getCandidatesDetails($id)
-    {
-        $candidate=Candidate::findOrFail($id);
-        return response()->json($candidate);
     }
 }

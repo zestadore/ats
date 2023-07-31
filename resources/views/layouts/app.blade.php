@@ -69,6 +69,19 @@
                     </li>
                 </ul>
             </li>
+            <li class="{{ (request()->is('admin/job-submissions*'))? 'mm-active' : '' }}">
+                <a href="javascript:;" class="has-arrow">
+                    <div class="parent-icon"><i class="bx bx-comment-check"></i>
+                    </div>
+                    <div class="menu-title">Job Submissions</div>
+                </a>
+                <ul>
+                    <li> <a href="{{route('admin.job-submissions.index')}}"><i class='bx bx-radio-circle'></i>View job sumbissions</a>
+                    </li>
+                    <li> <a href="{{route('admin.job-submissions.create')}}"><i class='bx bx-radio-circle'></i>Add job submission</a>
+                    </li>
+                </ul>
+            </li>
         </ul>
         <!--end navigation-->
     </div>

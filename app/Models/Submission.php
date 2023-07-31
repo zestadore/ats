@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
-class Candidate extends Model
+class Submission extends Model
 {
     use HasFactory,SoftDeletes;
-    protected $table = 'candidates';
+    protected $table = 'submissions';
     protected $guarded=[];
 
     public static function boot()
@@ -33,4 +33,13 @@ class Candidate extends Model
             $model->save();
         });
     }
+
+    public function candidate(){
+        return $this->hasOne(Candidate::class, 'id', 'candidate_id');
+    }
+
+    public function jobOpportunity(){
+        return $this->hasOne(JobOpportunity::class, 'id', 'job_title_id');
+    }
+
 }
