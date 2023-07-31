@@ -97,6 +97,7 @@
                             <input class="form-check-input" type="checkbox" name="status" value=1 id="status" checked>
                             <label class="form-check-label" for="type">Job status</label>
                         </div>
+                        <x-forms.input class="form-control {{ $errors->has('key_skills') ? ' is-invalid' : '' }}" title="Key skills" name="key_skills" id="key_skills" type="text" required="False"/>
                         <div class="row g-3">
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <x-forms.input class="form-control {{ $errors->has('notes') ? ' is-invalid' : '' }}" title="Notes" name="notes" id="notes" type="textarea" required="False"/>

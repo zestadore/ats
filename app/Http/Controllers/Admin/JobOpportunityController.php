@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Client;
+use App\Models\EndClient;
 use App\Models\JobOpportunity;
 use Illuminate\Http\Request;
 use App\Http\Requests\ValidateJobOpportunity;
@@ -52,7 +53,10 @@ class JobOpportunityController extends Controller
 
     public function store(ValidateJobOpportunity $request)
     {
-        $res=JobOpportunity::create($request->except(['_token','files']));
+        $res=JobOpportunity::create($request->except(['_token','files']))->id;
+        if(!$request->status){
+            $res=JobOpportunity::where('id',$res)->update(['status'=>0]);
+        }
         if($res){
             return redirect()->back()->with('success', 'Successfully updated the data.');
         }else{
@@ -69,14 +73,19 @@ class JobOpportunityController extends Controller
     {
         $id=Crypt::decrypt($id);
         $data=JobOpportunity::findOrFail($id);
-        return view('backend.job_opportunities.edit',['data'=>$data]);
+        $clients=Client::get();
+        $endClients=EndClient::where('client_id',$data->client_id)->get();
+        return view('backend.job_opportunities.edit',['data'=>$data,'clients'=>$clients,'endClients'=>$endClients]);
     }
 
     public function update(Request $request, $id)
     {
         $id=Crypt::decrypt($id);
         $data=JobOpportunity::findOrFail($id);
-        $res=$data->update($request->except('_token'));
+        $res=$data->update($request->except(['_token','files']));
+        if(!$request->status){
+            $res=$data->update(['status'=>0]);
+        }
         if($res){
             return redirect()->back()->with('success', 'Successfully updated the data.');
         }else{
