@@ -26,15 +26,15 @@
                                 </div>
                                 <div class="text-center mb-4">
                                     {{-- <h5 class="">Rocker Admin</h5> --}}
-                                    <p class="mb-0">Please log in to your account</p>
+                                    <p class="mb-0">Welcome to Amnext's Application Tracking System (ATS). Please enter your login credentials below to access your account.</p>
                                 </div>
                                 <div class="form-body">
                                     <form class="row g-3" action="{{ route('login') }}" id="jQueryValidationForm" method="post">@csrf
                                         <div class="col-12">
-                                            <x-forms.input class="form-control {{ $errors->has('email') ? ' is-invalid' : '' }}" title="Username [ Email ]" name="email" id="email" type="email" required="True"/>
+                                            <x-forms.input class="form-control {{ $errors->has('email') ? ' is-invalid' : '' }}" title="Username [Email Addrerss] : " name="email" id="email" type="email" required="True"/>
                                         </div>
                                         <div class="col-12">
-                                            <x-forms.input class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}" title="Password" name="password" id="password" type="password" required="True"/>
+                                            <x-forms.input class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}" title="Password : " name="password" id="password" type="password" required="True"/>
                                         </div>
                                         <div class="col-md-6"></div>
                                         <div class="col-md-6 text-end">	<a href="authentication-forgot-password.html">Forgot Password ?</a>

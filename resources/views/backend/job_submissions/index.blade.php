@@ -78,6 +78,12 @@
             var table = $('#item-table').DataTable({
                 processing: true,
                 serverSide: true,
+                "oLanguage": {
+                    "oPaginate": {
+                        "sFirst": "",
+                        "sLast": ""
+                    }
+                },
                 destroy: true,
                 // responsive: true,
                 buttons: [
