@@ -7,11 +7,11 @@
         <div class="">
             <div class="row g-0">
 
-                <div class="col-12 col-xl-7 col-xxl-8 auth-cover-left align-items-center justify-content-center d-none d-xl-flex">
+                <div class="col-12 col-xl-7 col-xxl-8 auth-cover-left align-items-center justify-content-center d-none d-xl-flex" style="background:#d9eefd;">
 
                     <div class="card shadow-none bg-transparent shadow-none rounded-0 mb-0">
                         <div class="card-body">
-                            <img src="{{asset('assets/images/login-images/login-cover.svg')}}" class="img-fluid auth-img-cover-login" width="650" alt=""/>
+                            <img src="{{asset('assets/images/login-images/ats_login.png')}}" class="img-fluid auth-img-cover-login" width="100%" alt=""/>
                         </div>
                     </div>
                     
