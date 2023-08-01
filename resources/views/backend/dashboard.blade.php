@@ -38,7 +38,7 @@
                                     <h4 class="my-1 text-info">{{getClientsCount()}}</h4>
                                     <p class="mb-0 font-13">+{{getLastWeekClientsCount()}} from last week</p>
                                 </div>
-                                <div class="widgets-icons-2 rounded-circle bg-gradient-blues text-white ms-auto"><i class="bx bxs-cart"></i>
+                                <div class="widgets-icons-2 rounded-circle bg-gradient-blues text-white ms-auto"><i class="bx bx-user-plus"></i>
                                 </div>
                             </div>
                         </div>
@@ -53,7 +53,7 @@
                                     <h4 class="my-1 text-info">{{getCandidatesCount()}}</h4>
                                     <p class="mb-0 font-13">+{{getLastWeekCandidatesCount()}} from last week</p>
                                 </div>
-                                <div class="widgets-icons-2 rounded-circle bg-gradient-blues text-white ms-auto"><i class="bx bxs-cart"></i>
+                                <div class="widgets-icons-2 rounded-circle bg-gradient-blues text-white ms-auto"><i class="bx bx-user-check"></i>
                                 </div>
                             </div>
                         </div>
@@ -68,7 +68,7 @@
                                     <h4 class="my-1 text-info">{{getJobOpportunitiesCount()}}</h4>
                                     <p class="mb-0 font-13">+{{getLastWeekJobOpportunitiesCount()}} from last week</p>
                                 </div>
-                                <div class="widgets-icons-2 rounded-circle bg-gradient-blues text-white ms-auto"><i class="bx bxs-cart"></i>
+                                <div class="widgets-icons-2 rounded-circle bg-gradient-blues text-white ms-auto"><i class="bx bx-book-add"></i>
                                 </div>
                             </div>
                         </div>
@@ -83,8 +83,78 @@
                                     <h4 class="my-1 text-info">{{getSubmissionsCount()}}</h4>
                                     <p class="mb-0 font-13">+{{getLastWeekSubmissionsCount()}} from last week</p>
                                 </div>
-                                <div class="widgets-icons-2 rounded-circle bg-gradient-blues text-white ms-auto"><i class="bx bxs-cart"></i>
+                                <div class="widgets-icons-2 rounded-circle bg-gradient-blues text-white ms-auto"><i class="bx bx-comment-check"></i>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="card radius-10">
+                        <div class="card-header">
+                            <div class="d-flex align-items-center">
+                                <div>
+                                    <h6 class="mb-0">Recent Clients</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                               <table class="table align-middle mb-0">
+                                <thead class="table-light">
+                                 <tr>
+                                   <th>Client</th>
+                                   <th>Designation</th>
+                                   <th>Email</th>
+                                   <th>Contact</th>
+                                 </tr>
+                                 </thead>
+                                    @foreach (getLatestClients() as $item)
+                                        <tr>
+                                            <td>{{$item->client_name}}</td>
+                                            <td>{{$item->designation}}</td>
+                                            <td>{{$item->email}}</td>
+                                            <td>{{$item->contact}}</td>
+                                        </tr>
+                                    @endforeach
+                                 <tbody>
+                                </tbody>
+                              </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="card radius-10">
+                        <div class="card-header">
+                            <div class="d-flex align-items-center">
+                                <div>
+                                    <h6 class="mb-0">Recent Candidates</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                               <table class="table align-middle mb-0">
+                                <thead class="table-light">
+                                 <tr>
+                                   <th>Candidate</th>
+                                   <th>Email</th>
+                                   <th>Contact</th>
+                                 </tr>
+                                 </thead>
+                                    @foreach (getLatestCandidates() as $item)
+                                        <tr>
+                                            <td>{{$item->candidate_name}}</td>
+                                            <td>{{$item->email}}</td>
+                                            <td>{{$item->contact}}</td>
+                                        </tr>
+                                    @endforeach
+                                 <tbody>
+                                </tbody>
+                              </table>
                             </div>
                         </div>
                     </div>

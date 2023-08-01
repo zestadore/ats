@@ -38,4 +38,20 @@ use Carbon\Carbon;
         return Submission::whereBetween('created_at', [Carbon::now()->subWeek()->startOfWeek(), Carbon::now()->subWeek()->endOfWeek()])->count();
     }
 
+    function getLatestClients(){
+        return Client::latest()->take(10)->get();
+    }
+
+    function getLatestCandidates(){
+        return Candidate::latest()->take(10)->get();
+    }
+
+    function getLatestJobOpportunities(){
+        return JobOpportunity::latest()->take(10)->get();
+    }
+
+    function getLatestSubmissions(){
+        return Submission::latest()->take(10)->get();
+    }
+
 ?>
