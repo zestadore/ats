@@ -58,9 +58,9 @@ class JobOpportunityController extends Controller
             $res=JobOpportunity::where('id',$res)->update(['status'=>0]);
         }
         if($res){
-            return redirect()->back()->with('success', 'Successfully updated the data.');
+            return redirect()->route('admin.job-opportunities.index')->with('success', 'Successfully updated the data.');
         }else{
-            return redirect()->back()->with('error', 'Failed to update the data. Please try again.');
+            return redirect()->route('admin.job-opportunities.index')->with('error', 'Failed to update the data. Please try again.');
         }
     }
 
@@ -87,9 +87,9 @@ class JobOpportunityController extends Controller
             $res=$data->update(['status'=>0]);
         }
         if($res){
-            return redirect()->back()->with('success', 'Successfully updated the data.');
+            return redirect()->route('admin.job-opportunities.index')->with('success', 'Successfully updated the data.');
         }else{
-            return redirect()->back()->with('error', 'Failed to update the data. Please try again.');
+            return redirect()->back()->route('admin.job-opportunities.index')->with('error', 'Failed to update the data. Please try again.');
         }
     }
 

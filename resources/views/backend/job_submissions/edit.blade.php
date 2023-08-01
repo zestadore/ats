@@ -132,9 +132,9 @@
                             </div>
                         </div><p> </p>
                         <div class="row g-3">
-                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            {{-- <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                 <x-forms.input class="form-control {{ $errors->has('open_for_location') ? ' is-invalid' : '' }}" title="Open for location" name="open_for_location" id="open_for_location" type="text" required="False"/>
-                            </div>
+                            </div> --}}
                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                 <x-forms.input class="form-control {{ $errors->has('resume') ? ' is-invalid' : '' }}" title="Resume" name="resume" id="resume" type="file" required="False"/>
                             </div>
@@ -216,7 +216,7 @@
             $('#relocation').val('{{$data->relocation}}');
             $('#candidate_type').val('{{$data->candidate_type}}');
             $('#interview_availability').val('{{$data->interview_availability}}');
-            $('#open_for_location').val('{{$data->open_for_location}}');
+            // $('#open_for_location').val('{{$data->open_for_location}}');
         }
         prefillForm();
 

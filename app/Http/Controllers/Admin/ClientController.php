@@ -38,9 +38,9 @@ class ClientController extends Controller
     {
         $res=Client::create($request->except('_token'));
         if($res){
-            return redirect()->back()->with('success', 'Successfully updated the data.');
+            return redirect()->route('admin.clients.index')->with('success', 'Successfully updated the data.');
         }else{
-            return redirect()->back()->with('error', 'Failed to update the data. Please try again.');
+            return redirect()->route('admin.clients.index')->with('error', 'Failed to update the data. Please try again.');
         }
     }
 
@@ -62,9 +62,9 @@ class ClientController extends Controller
         $client=Client::findOrFail($id);
         $res=$client->update($request->except('_token'));
         if($res){
-            return redirect()->back()->with('success', 'Successfully updated the data.');
+            return redirect()->route('admin.clients.index')->with('success', 'Successfully updated the data.');
         }else{
-            return redirect()->back()->with('error', 'Failed to update the data. Please try again.');
+            return redirect()->route('admin.clients.index')->with('error', 'Failed to update the data. Please try again.');
         }
     }
 

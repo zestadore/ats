@@ -40,9 +40,9 @@ class EndClientController extends Controller
         ]);
         $res=EndClient::create($request->except(['_token']))->id;
         if($res){
-            return redirect()->back()->with('success', 'Successfully updated the data.');
+            return redirect()->route('admin.clients.end-clients.index',$client_id)->with('success', 'Successfully updated the data.');
         }else{
-            return redirect()->back()->with('error', 'Failed to update the data. Please try again.');
+            return redirect()->route('admin.clients.end-clients.index',$client_id)->with('error', 'Failed to update the data. Please try again.');
         }
     }
 
@@ -67,9 +67,9 @@ class EndClientController extends Controller
         $client=EndClient::findOrFail($id);
         $res=$client->update($request->except('_token'));
         if($res){
-            return redirect()->back()->with('success', 'Successfully updated the data.');
+            return redirect()->route('admin.clients.end-clients.index',Crypt::encrypt($client->client_id))->with('success', 'Successfully updated the data.');
         }else{
-            return redirect()->back()->with('error', 'Failed to update the data. Please try again.');
+            return redirect()->route('admin.clients.end-clients.index',Crypt::encrypt($client->client_id))->with('error', 'Failed to update the data. Please try again.');
         }
     }
 

@@ -18,9 +18,15 @@ class SubmissionController extends Controller
         if ($request->ajax()) {
             $data= Submission::query();
             $search = $request->search;
+            $candidate = $request->candidate;
             if ($search) {
-                $data->where(function ($query) use ($search) {
-                    $query->where('job_title', 'like', '%' . $search . '%');
+                $data->whereHas("jobOpportunity",function ($query) use ($search) {
+                    $query->where('title', 'like', '%' . $search . '%');
+                });
+            }
+            if ($candidate) {
+                $data->whereHas("candidate",function ($query) use ($candidate) {
+                    $query->where('candidate_name', 'like', '%' . $candidate . '%');
                 });
             }
             return DataTables::of($data)
@@ -70,9 +76,9 @@ class SubmissionController extends Controller
             }
         }
         if($res){
-            return redirect()->back()->with('success', 'Successfully updated the data.');
+            return redirect()->route('admin.job-submissions.index')->with('success', 'Successfully updated the data.');
         }else{
-            return redirect()->back()->with('error', 'Failed to update the data. Please try again.');
+            return redirect()->route('admin.job-submissions.index')->with('error', 'Failed to update the data. Please try again.');
         }
     }
 
@@ -113,9 +119,9 @@ class SubmissionController extends Controller
             }
         }
         if($res){
-            return redirect()->back()->with('success', 'Successfully updated the data.');
+            return redirect()->route('admin.job-submissions.index')->with('success', 'Successfully updated the data.');
         }else{
-            return redirect()->back()->with('error', 'Failed to update the data. Please try again.');
+            return redirect()->route('admin.job-submissions.index')->with('error', 'Failed to update the data. Please try again.');
         }
     }
 

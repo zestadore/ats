@@ -52,9 +52,9 @@ class CandidateController extends Controller
             }
         }
         if($res){
-            return redirect()->back()->with('success', 'Successfully updated the data.');
+            return redirect()->route('admin.candidates.index')->with('success', 'Successfully updated the data.');
         }else{
-            return redirect()->back()->with('error', 'Failed to update the data. Please try again.');
+            return redirect()->route('admin.candidates.index')->with('error', 'Failed to update the data. Please try again.');
         }
     }
 
@@ -93,9 +93,9 @@ class CandidateController extends Controller
             }
         }
         if($res){
-            return redirect()->back()->with('success', 'Successfully updated the data.');
+            return redirect()->route('admin.candidates.index')->with('success', 'Successfully updated the data.');
         }else{
-            return redirect()->back()->with('error', 'Failed to update the data. Please try again.');
+            return redirect()->route('admin.candidates.index')->with('error', 'Failed to update the data. Please try again.');
         }
     }
 
