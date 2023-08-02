@@ -92,7 +92,7 @@ class SubmissionController extends Controller
         $id=Crypt::decrypt($id);
         $data=Submission::findOrFail($id);
         $opportunities=JobOpportunity::get();
-        $candidates=Candidate::take(100)->get();
+        $candidates=Candidate::where('id',$data->candidate_id)->first();
         return view('backend.job_submissions.edit',['data'=>$data,'opportunities'=>$opportunities,'candidates'=>$candidates]);
     }
 

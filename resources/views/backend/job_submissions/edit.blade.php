@@ -1,6 +1,13 @@
 @extends('layouts.app')
 @section('styles')
     <link href="{{asset('assets/plugins/datatable/css/dataTables.bootstrap5.min.css')}}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
+    <style>
+        .select2-container .select2-selection--single {
+            height: 37px !important;
+        }
+    </style>
 @endsection
 @section('title')
     ATS - Edit Job Submission
@@ -55,12 +62,12 @@
                                 @enderror
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                <label class="form-label" for="candidate_id">Legal name <span style="color:red;"> *</span></label>
+                                <label class="form-label" for="candidate_id">Legal name <span style="color:red;"> *</span></label><button type="button" class="btn btn-primary btn-sm" style="float:right;" data-bs-toggle="modal" data-bs-target="#addCandidateModal">+</button>
                                 <select name="candidate_id" id="candidate_id" class="form-select mb-3" required>
-                                    <option value="">Select candidate</option>
-                                    @foreach ($candidates as $item)
+                                    <option value="{{$candidates->id}}">{{$candidates->candidate_name}}</option>
+                                    {{-- @foreach ($candidates as $item)
                                         <option value="{{$item->id}}">{{$item->candidate_name}}</option>
-                                    @endforeach
+                                    @endforeach --}}
                                 </select>
                                 @error('candidate_id')
                                     <span class="error mt-2 text-danger" role="alert">
@@ -145,14 +152,173 @@
             </div>
         </div>
     </div>
-    
+     <!-- Modal -->
+     <div class="modal fade" id="addCandidateModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Candidate</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="#" id="candidateValidationForm" method="POST" enctype="multipart/form-data">@csrf
+                        <div class="row g-3">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <x-forms.input class="form-control {{ $errors->has('candidate_name') ? ' is-invalid' : '' }}" title="Candidate name" name="candidate_name" id="candidate_name" type="text" required="True"/>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <x-forms.input class="form-control {{ $errors->has('email') ? ' is-invalid' : '' }}" title="Email" name="email" id="email" type="email" required="True"/>
+                            </div>
+                        </div><p> </p>
+                        <div class="row g-3">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <x-forms.input class="form-control {{ $errors->has('contact') ? ' is-invalid' : '' }}" title="Contact" name="contact" id="contact" type="text" required="True"/>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <x-forms.input class="form-control {{ $errors->has('skills') ? ' is-invalid' : '' }}" title="Skills" name="skills" id="skills" type="text" required="False"/>
+                            </div>
+                        </div><p> </p>
+                        <div class="row g-3">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <x-forms.input class="form-control {{ $errors->has('key_skills') ? ' is-invalid' : '' }}" title="Key skills" name="key_skills" id="key_skills" type="text" required="False"/>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <x-forms.input class="form-control {{ $errors->has('location') ? ' is-invalid' : '' }}" title="Location" name="location" id="location" type="text" required="True"/>
+                            </div>
+                        </div><p> </p>
+                        <div class="row g-3">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <x-forms.input class="form-control {{ $errors->has('linked_in') ? ' is-invalid' : '' }}" title="LinkedIn" name="linked_in" id="linked_in" type="text" required="False"/>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <label class="form-label" for="visa_status">Visa status <span style="color:red;"> *</span></label>
+                                <select name="visa_status" id="visa_status" class="form-select mb-3" required>
+                                    <option value="OPT">OPT</option>
+                                    <option value="CPT">CPT</option>
+                                    <option value="H1B">H1B</option>
+                                    <option value="H4 EAD">H4 EAD</option>
+                                    <option value="GC">GC</option>
+                                    <option value="GC EAD">GC EAD</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                                @error('visa_status')
+                                    <span class="error mt-2 text-danger" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div><p> </p>
+                        <div class="row g-3">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <label class="form-label" for="candidate_type">Candidate type</label>
+                                <select name="candidate_type" id="candidate_type" class="form-select mb-3">
+                                    <option value="1099">1099</option>
+                                    <option value="W2">W2</option>
+                                    <option value="C2C">C2C</option>
+                                    <option value="Bench Candidate">Bench Candidate</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                                @error('candidate_type')
+                                    <span class="error mt-2 text-danger" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <x-forms.input class="form-control {{ $errors->has('job_tag') ? ' is-invalid' : '' }}" title="Job tag" name="job_tag" id="job_tag" type="text" required="False"/>
+                            </div>
+                        </div><p> </p>
+                        <div class="row g-3">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <x-forms.input class="form-control {{ $errors->has('job_title') ? ' is-invalid' : '' }}" title="Job title" name="job_title" id="job_title" type="text" required="True"/>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <x-forms.input class="form-control {{ $errors->has('resume') ? ' is-invalid' : '' }}" title="Resume" name="resume" id="resume" type="file" required="False"/>
+                            </div>
+                        </div><p> </p>
+                        <div class="row g-3">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <x-forms.input class="form-control {{ $errors->has('notes') ? ' is-invalid' : '' }}" title="Notes" name="notes" id="notes" type="textarea" required="False"/>
+                            </div>
+                        </div><p> </p>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" name="employer_details" value=1 id="employer_details">
+                            <label class="form-check-label" for="employer_details">Employer details</label>
+                        </div><p> </p>
+                        <div class="row g-3" id="employerSection">
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                <x-forms.input class="form-control {{ $errors->has('employer_name') ? ' is-invalid' : '' }}" title="Employer name" name="employer_name" id="employer_name" type="text" required="False"/>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                <x-forms.input class="form-control {{ $errors->has('employer_contact') ? ' is-invalid' : '' }}" title="Employer contact" name="employer_contact" id="employer_contact" type="text" required="False"/>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                <x-forms.input class="form-control {{ $errors->has('employer_email') ? ' is-invalid' : '' }}" title="Employer email" name="employer_email" id="employer_email" type="email" required="False"/>
+                            </div>
+                        </div><p> </p>
+                        <button type="button" class="btn btn-primary" id="submitCandidate" style="float:right;">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 @section('javascripts')
     <script src="{{asset('assets/plugins/validation/jquery.validate.min.js')}}"></script>
     {{-- <script src="{{asset('assets/plugins/validation/validation-script.js')}}"></script> --}}
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
         $( document ).ready( function () {
             $( "#jQueryValidationForm" ).validate( {
+                rules: {
+                    yourname: "required",
+                    phone: "required",
+                    username: {
+                        required: true,
+                        minlength: 2
+                    },
+                    password: {
+                        required: true,
+                        minlength: 5
+                    },
+                    confirm_password: {
+                        required: true,
+                        minlength: 5,
+                        equalTo: "#input38"
+                    },
+                    email: {
+                        required: true,
+                        email: true
+                    },
+                    country: "required",
+                    address: "required",
+                    agree: "required"
+                },
+                messages: {
+                    yourname: "Please enter your your name",
+                    phone: "Please enter your phone number",
+                    username: {
+                        required: "Please enter a username",
+                        minlength: "Your username must consist of at least 2 characters"
+                    },
+                    password: {
+                        required: "Please provide a password",
+                        minlength: "Your password must be at least 5 characters long"
+                    },
+                    confirm_password: {
+                        required: "Please provide a password",
+                        minlength: "Your password must be at least 5 characters long",
+                        equalTo: "Please enter the same password as above"
+                    },
+                    email: "Please enter a valid email address",
+                    country: "Please select country",
+                    address: "Please type your message",
+                    agree: "Please accept our policy"
+                },
+            } );
+        } );
+
+        $( "#candidateValidationForm" ).validate( {
                 rules: {
                     yourname: "required",
                     phone: "required",
@@ -233,5 +399,36 @@
                 },
             });
         });
+
+        $('#submitCandidate').click(function(){
+            if($( "#candidateValidationForm" ).valid()){
+                var formData = new FormData($('#candidateValidationForm')[0]);
+                $.ajax({
+                    url: "{{route('admin.candidates.store')}}",
+                    method: "post",
+                    processData: false,
+                    contentType: false,
+                    data: formData,
+                    success: function (data) {
+                        $('#addCandidateModal').modal('hide');
+                    },
+                });
+            }
+        });
+
+        $('#candidate_id').select2({
+            minimumInputLength: 3,
+            ajax: {
+                url: getUrl(),
+                dataType: 'json',
+            },
+        });
+
+        function getUrl(){
+            var search=$('#candidate_id').val();
+            var url="{{route('admin.get-candidates-list','SEARCH')}}";
+            url=url.replace('SEARCH',search);
+            return url;
+        }
     </script>
 @endsection
