@@ -21,7 +21,7 @@ return new class extends Migration
             $table->timestamp('mobile_verified_at')->nullable();
             $table->string('password');
             $table->text('image')->nullable();
-            $table->enum('role',  ['user', 'reservations', 'admin','accounts'])->default('user');
+            $table->enum('role',  ['super_admin','recruiter','account_manager','team_lead'])->default('recruiter');
             $table->integer('status')->default(1);
             $table->rememberToken();
             $table->timestamps();

@@ -21,7 +21,7 @@ class AdminSeeder extends Seeder
             'email' => 'admin@demoapplicationz.com',
             'mobile' => '1234567890',
             'password' => Hash::make('12345678'),
-            'role' => 'admin',
+            'role' => 'super_admin',
         ]);
     }
 }
