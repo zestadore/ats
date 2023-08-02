@@ -115,7 +115,14 @@
                     },
                     {
                         data: 'type',
-                        name: 'type'
+                        name: 'type',
+                        render: function(data) {
+                            if(data==0){
+                                return "Contract";
+                            }else if(data==1){
+                                return "Fulltime";
+                            }
+                        }
                     },
                     {
                         data: 'job_owner',
