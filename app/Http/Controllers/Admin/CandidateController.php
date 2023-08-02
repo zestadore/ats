@@ -52,6 +52,9 @@ class CandidateController extends Controller
             }
         }
         if($res){
+            if($request->ajax()){
+                return response()->json(['success'=>"Data added successfully!"]);
+            }
             return redirect()->route('admin.candidates.index')->with('success', 'Successfully updated the data.');
         }else{
             return redirect()->route('admin.candidates.index')->with('error', 'Failed to update the data. Please try again.');
@@ -115,5 +118,11 @@ class CandidateController extends Controller
     {
         $candidate=Candidate::findOrFail($id);
         return response()->json($candidate);
+    }
+
+    public function getCandidatesSearch(Request $request)
+    {
+        $candidates=Candidate::where('candidate_name', 'like', '%' . $request->term . '%')->get(['id', 'candidate_name as text']);
+        return ['results' => $candidates];
     }
 }
