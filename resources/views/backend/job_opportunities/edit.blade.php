@@ -110,7 +110,9 @@
                                 <x-forms.input class="form-control summernote {{ $errors->has('description') ? ' is-invalid' : '' }}" title="Description" name="description" id="description" type="textarea" required="False"/>
                             </div>
                         </div><p> </p>
-                        <button type="submit" class="btn btn-primary" style="float:right;">Submit</button>
+                        @canany(['isAdmin','isAccountManager','isTeamLead'])
+                            <button type="submit" class="btn btn-primary" style="float:right;">Submit</button>
+                        @endcanany
                     </form>
                 </div>
             </div>

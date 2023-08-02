@@ -30,19 +30,21 @@
                     <div class="menu-title">Dashboard</div>
                 </a>
             </li>
-            <li class="{{ (request()->is('admin/clients*'))? 'mm-active' : '' }}">
-                <a href="javascript:;" class="has-arrow">
-                    <div class="parent-icon"><i class="bx bx-user-plus"></i>
-                    </div>
-                    <div class="menu-title">Clients</div>
-                </a>
-                <ul>
-                    <li> <a href="{{route('admin.clients.index')}}"><i class='bx bx-radio-circle'></i>View clients</a>
-                    </li>
-                    <li> <a href="{{route('admin.clients.create')}}"><i class='bx bx-radio-circle'></i>Add client</a>
-                    </li>
-                </ul>
-            </li>
+            @canany(['isAdmin','isAccountManager','isTeamLead'])
+                <li class="{{ (request()->is('admin/clients*'))? 'mm-active' : '' }}">
+                    <a href="javascript:;" class="has-arrow">
+                        <div class="parent-icon"><i class="bx bx-user-plus"></i>
+                        </div>
+                        <div class="menu-title">Clients</div>
+                    </a>
+                    <ul>
+                        <li> <a href="{{route('admin.clients.index')}}"><i class='bx bx-radio-circle'></i>View clients</a>
+                        </li>
+                        <li> <a href="{{route('admin.clients.create')}}"><i class='bx bx-radio-circle'></i>Add client</a>
+                        </li>
+                    </ul>
+                </li>
+            @endcanany
             <li class="{{ (request()->is('admin/candidates*'))? 'mm-active' : '' }}">
                 <a href="javascript:;" class="has-arrow">
                     <div class="parent-icon"><i class="bx bx-user-check"></i>
@@ -65,8 +67,10 @@
                 <ul>
                     <li> <a href="{{route('admin.job-opportunities.index')}}"><i class='bx bx-radio-circle'></i>View job opportunities</a>
                     </li>
-                    <li> <a href="{{route('admin.job-opportunities.create')}}"><i class='bx bx-radio-circle'></i>Add job opportunity</a>
-                    </li>
+                    @canany(['isAdmin','isAccountManager','isTeamLead'])
+                        <li> <a href="{{route('admin.job-opportunities.create')}}"><i class='bx bx-radio-circle'></i>Add job opportunity</a>
+                        </li>
+                    @endcanany
                 </ul>
             </li>
             <li class="{{ (request()->is('admin/job-submissions*'))? 'mm-active' : '' }}">
