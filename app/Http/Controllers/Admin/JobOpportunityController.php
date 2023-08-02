@@ -28,14 +28,14 @@ class JobOpportunityController extends Controller
                 ->addColumn('action', 'backend.job_opportunities.action')
                 ->addColumn('client', function($data) {
                     if($data->client_id){
-                        return $data->client->client_name;
+                        return $data?->client?->client_name??Null;
                     }else{
                         return Null;
                     }
                 })
                 ->addColumn('end_client', function($data) {
                     if($data->end_client_id){
-                        return $data->endClient->end_client;
+                        return $data?->endClient?->end_client??Null;
                     }else{
                         return Null;
                     }
