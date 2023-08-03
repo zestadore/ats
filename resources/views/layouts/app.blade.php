@@ -99,6 +99,19 @@
                     </li>
                 </ul>
             </li>
+            <li class="{{ (request()->is('admin/interviews*'))? 'mm-active' : '' }}">
+                <a href="javascript:;" class="has-arrow">
+                    <div class="parent-icon"><i class="bx bx-book-reader"></i>
+                    </div>
+                    <div class="menu-title">Interviews</div>
+                </a>
+                <ul>
+                    <li> <a href="{{route('admin.interviews.index')}}"><i class='bx bx-radio-circle'></i>View interviews</a>
+                    </li>
+                    <li> <a href="{{route('admin.interviews.create')}}"><i class='bx bx-radio-circle'></i>Add interview</a>
+                    </li>
+                </ul>
+            </li>
         </ul>
         <!--end navigation-->
     </div>
