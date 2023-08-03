@@ -30,6 +30,19 @@
                     <div class="menu-title">Dashboard</div>
                 </a>
             </li>
+            <li class="{{ (request()->is('admin/users*'))? 'mm-active' : '' }}">
+                <a href="javascript:;" class="has-arrow">
+                    <div class="parent-icon"><i class="bx bx-user-circle"></i>
+                    </div>
+                    <div class="menu-title">Users</div>
+                </a>
+                <ul>
+                    <li> <a href="{{route('admin.users.index')}}"><i class='bx bx-radio-circle'></i>View users</a>
+                    </li>
+                    <li> <a href="{{route('admin.users.create')}}"><i class='bx bx-radio-circle'></i>Add user</a>
+                    </li>
+                </ul>
+            </li>
             @canany(['isAdmin','isAccountManager','isTeamLead'])
                 <li class="{{ (request()->is('admin/clients*'))? 'mm-active' : '' }}">
                     <a href="javascript:;" class="has-arrow">
