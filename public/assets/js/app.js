@@ -1,9 +1,26 @@
 $(function() {
 	"use strict";
+	var mode=localStorage.getItem('mode');
+	var icon=localStorage.getItem('icon');
+	if(mode==null){
+		mode="light-theme";
+		localStorage.setItem("mode",mode);
+		$("html").attr("class", mode);
+	}else{
+		$("html").attr("class", mode);
+	}
+	if(icon==null){
+		icon="bx bx-moon";
+		localStorage.setItem("icon",icon);
+		$(".dark-mode-icon i").attr("class", icon);
+	}else{
+		$(".dark-mode-icon i").attr("class", icon);
+	}
 	new PerfectScrollbar(".app-container"),
 	new PerfectScrollbar(".header-message-list"),
 	new PerfectScrollbar(".header-notifications-list"),
 
+		
 
 	    $(".mobile-search-icon").on("click", function() {
 			$(".search-bar").addClass("full-search-bar")
@@ -17,21 +34,19 @@ $(function() {
 			$(".wrapper").addClass("toggled")
 		}),
 		
-
-
-
 		$(".dark-mode").on("click", function() {
-
 			if($(".dark-mode-icon i").attr("class") == 'bx bx-sun') {
-				$(".dark-mode-icon i").attr("class", "bx bx-moon");
-				$("html").attr("class", "light-theme")
+				icon="bx bx-moon";
+				mode="light-theme";
 			} else {
-				$(".dark-mode-icon i").attr("class", "bx bx-sun");
-				$("html").attr("class", "dark-theme")
+				icon="bx bx-sun";
+				mode="dark-theme";
 			}
-
+			localStorage.setItem("mode",mode);
+			localStorage.setItem("icon",icon);
+			$(".dark-mode-icon i").attr("class", icon);
+			$("html").attr("class", mode);
 		}), 
-
 		
 		$(".toggle-icon").click(function() {
 			$(".wrapper").hasClass("toggled") ? ($(".wrapper").removeClass("toggled"), $(".sidebar-wrapper").unbind("hover")) : ($(".wrapper").addClass("toggled"), $(".sidebar-wrapper").hover(function() {

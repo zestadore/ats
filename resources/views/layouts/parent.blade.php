@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="semi-dark">
+<html lang="en" class="">
 
 <head>
 	<!-- Required meta tags -->
