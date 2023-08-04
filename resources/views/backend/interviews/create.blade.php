@@ -5,9 +5,9 @@
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
     <style>
         .select2-container .select2-choice:not(.select2-default) {
-    background-image: none !important;
-    background-color: #f9860b;
-}
+            background-image: none !important;
+            background-color: #f9860b;
+        }
     </style>
 @endsection
 @section('title')

@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\JobOpportunity;
 use Illuminate\Http\Request;
 use App\Http\Requests\ValidateInterview;
+use App\Models\Candidate;
 use Illuminate\Support\Facades\Crypt;
 use DataTables;
 
@@ -19,9 +20,15 @@ class InterviewController extends Controller
         if ($request->ajax()) {
             $data= Interview::query();
             $search = $request->search;
+            $candidate = $request->candidate;
             if ($search) {
                 $data->where(function ($query) use ($search) {
                     $query->where('interview_name', 'like', '%' . $search . '%');
+                });
+            }
+            if ($candidate) {
+                $data->whereHas("candidate",function ($query) use ($candidate) {
+                    $query->where('candidate_name', 'like', '%' . $candidate . '%');
                 });
             }
             return DataTables::of($data)
@@ -80,7 +87,11 @@ class InterviewController extends Controller
     {
         $id=Crypt::decrypt($id);
         $data=Interview::findOrFail($id);
-        return view('backend.interviews.edit',['data'=>$data]);
+        $clients=Client::get();
+        $users=User::whereNot('role', 'super_admin')->get();
+        $opportunities=JobOpportunity::get();
+        $candidate=Candidate::find($data->candidate_id);
+        return view('backend.interviews.edit',['data'=>$data,'clients'=>$clients,'users'=>$users,'opportunities'=>$opportunities,'candidate'=>$candidate]);
     }
 
     public function update(ValidateInterview $request, $id)
@@ -89,9 +100,9 @@ class InterviewController extends Controller
         $data=Interview::findOrFail($id);
         $res=$data->update($request->except('_token'));
         if($res){
-            return redirect()->route('admin.users.index')->with('success', 'Successfully updated the data.');
+            return redirect()->route('admin.interviews.index')->with('success', 'Successfully updated the data.');
         }else{
-            return redirect()->route('admin.users.index')->with('error', 'Failed to update the data. Please try again.');
+            return redirect()->route('admin.interviews.index')->with('error', 'Failed to update the data. Please try again.');
         }
     }
 
