@@ -87,7 +87,7 @@
                 destroy: true,
                 // responsive: true,
                 buttons: [
-                    'excel','pdf','print','copy'
+                    // 'excel','pdf','print','copy'
                 ],
                 lengthChange: true,
                 lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
