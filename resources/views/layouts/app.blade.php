@@ -707,22 +707,23 @@
                 </div>
                 <div class="user-box dropdown px-3">
                     <a class="d-flex align-items-center nav-link dropdown-toggle gap-3 dropdown-toggle-nocaret" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="{{asset('assets/images/avatars/avatar-2.png')}}" class="user-img" alt="user avatar">
+                        @if (Auth::user()->image==null)
+                            <img src="{{asset('assets/images/avatars/avatar-2.png')}}" class="user-img" alt="User Image">
+                        @else
+                            <img src="{{Auth::user()->image_path}}" class="user-img" alt="user avatar">
+                        @endif
+                        {{-- <img src="{{asset('assets/images/avatars/avatar-2.png')}}" class="user-img" alt="user avatar"> --}}
                         <div class="user-info">
                             <p class="user-name mb-0">{{Auth::user()->first_name}} {{Auth::user()->last_name}}</p>
                             <p class="designattion mb-0">{{Auth::user()->email}}</p>
                         </div>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item d-flex align-items-center" href="javascript:;"><i class="bx bx-user fs-5"></i><span>Profile</span></a>
+                        <li><a class="dropdown-item d-flex align-items-center" href="{{route('profile')}}"><i class="bx bx-user fs-5"></i><span>Profile</span></a>
                         </li>
-                        <li><a class="dropdown-item d-flex align-items-center" href="javascript:;"><i class="bx bx-cog fs-5"></i><span>Settings</span></a>
+                        <li><a class="dropdown-item d-flex align-items-center" href="{{route('change.password')}}"><i class="bx bx-cog fs-5"></i><span>Change Password</span></a>
                         </li>
-                        <li><a class="dropdown-item d-flex align-items-center" href="javascript:;"><i class="bx bx-home-circle fs-5"></i><span>Dashboard</span></a>
-                        </li>
-                        <li><a class="dropdown-item d-flex align-items-center" href="javascript:;"><i class="bx bx-dollar-circle fs-5"></i><span>Earnings</span></a>
-                        </li>
-                        <li><a class="dropdown-item d-flex align-items-center" href="javascript:;"><i class="bx bx-download fs-5"></i><span>Downloads</span></a>
+                        <li><a class="dropdown-item d-flex align-items-center" href="{{route('admin.dashboard')}}"><i class="bx bx-home-circle fs-5"></i><span>Dashboard</span></a>
                         </li>
                         <li>
                             <div class="dropdown-divider mb-0"></div>

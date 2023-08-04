@@ -185,5 +185,45 @@
             })
         }
 
+        function resetPassword(id){
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, reset!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        var url="{{route('admin.profile.password.update')}}";
+                        $.ajax({
+                            url: url,
+                            type:"post",
+                            data:{
+                                "_token": "{{ csrf_token() }}",
+                                id:id,
+                            },
+                            success:function(response){
+                            if(response.success){
+                                Swal.fire(
+                                    'Activated!',
+                                    response.message,
+                                    'success'
+                                )
+                                drawTable();
+                            }else{
+                                Swal.fire(
+                                    'Activated!',
+                                    'failed to reset the password',
+                                    'success'
+                                )
+                            }
+                            },
+                        });
+                    }
+                })
+            }
+
     </script>
 @endsection

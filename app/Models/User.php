@@ -18,7 +18,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'first_name','last_name','mobile','role',
+        'first_name','last_name','mobile','role','image',
         'email',
         'password',
     ];
@@ -42,4 +42,18 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    protected $appends=['image_path','full_name'];
+
+    public function getImagePathAttribute(){
+        if($this->attributes['image']!=null){
+            return url('/') .'/uploads/profiles/'.$this->attributes['image'];
+        }else{
+            return null;
+        }
+    }
+
+    public function getFullNameAttribute(){
+        return $this->attributes['first_name'] . ' ' . $this->attributes['last_name'];
+    }
 }
