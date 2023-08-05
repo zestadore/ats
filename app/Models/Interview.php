@@ -55,9 +55,22 @@ class Interview extends Model
     public function getInterviewersNamesAttribute(){
         $ids=json_decode($this->attributes['interviewers_id']);
         $names=[];
-        foreach($ids as $id){
-            $client=Client::find((int)$id);
-            $names[]=$client->client_name;
+        if(is_array($ids)){
+            foreach($ids as $id){
+                $client=Client::find((int)$id);
+                if($client){
+                    $names[]=$client->client_name;
+                }else{
+                    $names[]=Null;
+                }
+            }
+        }else{
+            $client=Client::find((int)$ids);
+            if($client){
+                $names[]=$client->client_name;
+            }else{
+                $names[]=Null;
+            }
         }
         return implode(", ",$names);
     }
