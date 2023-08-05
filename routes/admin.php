@@ -9,6 +9,7 @@ Route::middleware(['auth'])->name('admin.')->namespace("App\Http\Controllers\Adm
     Route::resource('clients.end-clients', EndClientController::class);
     Route::resource('candidates', CandidateController::class);
     Route::resource('job-opportunities', JobOpportunityController::class);
+    Route::get('/get-client-job-opportunity/{clientId}', [App\Http\Controllers\Admin\JobOpportunityController::class, 'getClientJobOpportunity'])->name('get-client-job-opportunity');
     Route::get('/get-end-clients/{id}', [App\Http\Controllers\Admin\EndClientController::class, 'getList'])->name('get-end-clients');
     Route::resource('job-submissions', SubmissionController::class);
     Route::get('/get-candidates-details/{id}', [App\Http\Controllers\Admin\CandidateController::class, 'getCandidatesDetails'])->name('get-candidates-details');

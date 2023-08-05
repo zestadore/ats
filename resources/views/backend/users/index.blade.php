@@ -63,7 +63,21 @@
             </div>
         </div>
     </div>
-    
+    <!-- Modal -->
+    <div class="modal fade" id="exampleLargeModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">View User</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="view-modal-body"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 @section('javascripts')
     <script src="{{asset('assets/plugins/datatable/js/jquery.dataTables.min.js')}}"></script>
@@ -212,6 +226,47 @@
                         });
                     }
                 })
+            }
+
+            function viewModal(id){
+                var url="{{route('admin.users.show','ID')}}";
+                url=url.replace('ID',id);
+                $.ajax({
+                    url: url,
+                    type:"get",
+                    success:function(response){
+                        console.log(response);
+                        if(response.success==true){
+                            var html="<table class='table table-striped table-bordered'>";
+                            html+="<tr>";
+                            html+="<td>First Name</td>";
+                            html+="<td>"+response.data.first_name+"</td>";
+                            html+="</tr>";
+                            html+="<tr>";
+                            html+="<td>Last Name</td>";
+                            html+="<td>"+response.data.last_name+"</td>";
+                            html+="</tr>";
+                            html+="<tr>";
+                            html+="<td>Email</td>";
+                            html+="<td>"+response.data.email+"</td>";
+                            html+="</tr>";
+                            html+="<tr>";
+                            html+="<td>Mobile</td>";
+                            html+="<td>"+response.data.mobile+"</td>";
+                            html+="</tr>";
+                            html+="<tr>";
+                            html+="<td>Role</td>";
+                            html+="<td>"+response.data.role.toUpperCase()+"</td>";
+                            html+="</tr>";
+                            html+="</table>";
+                            html=html+"</html>";
+                            $('#view-modal-body').html(html);
+                            $('#exampleLargeModal').modal('show');
+                        }else{
+                            swal("Oops!", "Failed to fetch the data!", "error");
+                        }
+                    },
+                });
             }
 
     </script>

@@ -97,9 +97,9 @@
                                 <label class="form-label" for="job_opportunity_id">Job title <span style="color:red;"> *</span></label>
                                 <select name="job_opportunity_id" id="job_opportunity_id" class="form-select mb-3" required>
                                     <option value="">Select Job Opportunity</option>
-                                    @foreach ($opportunities as $item)
+                                    {{-- @foreach ($opportunities as $item)
                                         <option value="{{$item->id}}">{{$item->title}}</option>
-                                    @endforeach
+                                    @endforeach --}}
                                 </select>
                                 @error('job_opportunity_id')
                                     <span class="error mt-2 text-danger" role="alert">
@@ -249,6 +249,27 @@
         }
 
         $('#interviewers_id').select2();
+
+        $('#client_id').change(function(){
+            var id = $(this).val();
+            var list = $("#job_opportunity_id");
+            var url="{{route('admin.get-client-job-opportunity','ID')}}";
+            url=url.replace('ID',id);
+            list.empty();
+            $.ajax({
+                url: url,
+                type:"get",
+                success:function(response){
+                    list.append(new Option("Select job opportunity", ""));
+                    $.each(response, function(index, item) {
+                        list.append($('<option/>', {
+                            value: item.id,
+                            text: item.title,
+                        }));
+                    });
+                },
+            });
+        });
 
     </script>
 @endsection

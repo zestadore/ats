@@ -44,9 +44,14 @@ class ClientController extends Controller
         }
     }
 
-    public function show(Client $client)
+    public function show($id)
     {
-        //
+        $res=Client::find(Crypt::decrypt($id));
+        if($res){
+            return response()->json(['success'=>true,'data'=>$res]);
+        }else{
+            return response()->json(['success'=>false,'data'=>Null]);
+        }
     }
 
     public function edit($id)

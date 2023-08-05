@@ -63,7 +63,21 @@
             </div>
         </div>
     </div>
-    
+    <!-- Modal -->
+    <div class="modal fade" id="exampleLargeModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">View User</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="view-modal-body"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 @section('javascripts')
     <script src="{{asset('assets/plugins/datatable/js/jquery.dataTables.min.js')}}"></script>
@@ -184,6 +198,75 @@
                 }
             })
         }
+
+        function viewModal(id){
+                var url="{{route('admin.candidates.show','ID')}}";
+                url=url.replace('ID',id);
+                $.ajax({
+                    url: url,
+                    type:"get",
+                    success:function(response){
+                        console.log(response);
+                        if(response.success==true){
+                            var html="<table class='table table-striped table-bordered'>";
+                            html+="<tr>";
+                            html+="<td>Candidate Name</td>";
+                            html+="<td>"+response.data.candidate_name+"</td>";
+                            html+="</tr>";
+                            html+="<tr>";
+                            html+="<td>Email</td>";
+                            html+="<td>"+response.data.email+"</td>";
+                            html+="</tr>";
+                            html+="<tr>";
+                            html+="<td>Contact</td>";
+                            html+="<td>"+response.data.contact+"</td>";
+                            html+="</tr>";
+                            html+="<tr>";
+                            html+="<td>Key skills</td>";
+                            html+="<td>"+response.data.key_skills+"</td>";
+                            html+="</tr>";
+                            html+="<tr>";
+                            html+="<td>Location</td>";
+                            html+="<td>"+response.data.location+"</td>";
+                            html+="</tr>";
+                            html+="<tr>";
+                            html+="<td>LinkedIn</td>";
+                            html+="<td>"+response.data.linked_in+"</td>";
+                            html+="</tr>";
+                            html+="<tr>";
+                            html+="<td>Visa status</td>";
+                            html+="<td>"+response.data.visa_status+"</td>";
+                            html+="</tr>";
+                            html+="<tr>";
+                            html+="<td>Candidate type</td>";
+                            html+="<td>"+response.data.candidate_type+"</td>";
+                            html+="</tr>";
+                            html+="<tr>";
+                            html+="<td>Job tag</td>";
+                            html+="<td>"+response.data.job_tag+"</td>";
+                            html+="</tr>";
+                            html+="<tr>";
+                            html+="<td>Job Title</td>";
+                            html+="<td>"+response.data.job_title+"</td>";
+                            html+="</tr>";
+                            html+="<tr>";
+                            html+="<td>Notes</td>";
+                            html+="<td>"+response.data.notes+"</td>";
+                            html+="</tr>";
+                            html+="<tr>";
+                            html+="<td>Resume</td>";
+                            html+="<td><a target='_blank' href='"+response.data.resume_path+"'>View</a></td>";
+                            html+="</tr>";
+                            html+="</table>";
+                            html=html+"</html>";
+                            $('#view-modal-body').html(html);
+                            $('#exampleLargeModal').modal('show');
+                        }else{
+                            swal("Oops!", "Failed to fetch the data!", "error");
+                        }
+                    },
+                });
+            }
 
     </script>
 @endsection

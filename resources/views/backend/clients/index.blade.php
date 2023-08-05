@@ -62,7 +62,21 @@
             </div>
         </div>
     </div>
-    
+    <!-- Modal -->
+    <div class="modal fade" id="exampleLargeModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">View User</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="view-modal-body"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 @section('javascripts')
     <script src="{{asset('assets/plugins/datatable/js/jquery.dataTables.min.js')}}"></script>
@@ -185,6 +199,51 @@
             url=url.replace('ID',id);
             window.location.href=url;
         }
+
+        function viewModal(id){
+                var url="{{route('admin.clients.show','ID')}}";
+                url=url.replace('ID',id);
+                $.ajax({
+                    url: url,
+                    type:"get",
+                    success:function(response){
+                        console.log(response);
+                        if(response.success==true){
+                            var html="<table class='table table-striped table-bordered'>";
+                            html+="<tr>";
+                            html+="<td>Client Name</td>";
+                            html+="<td>"+response.data.client_name+"</td>";
+                            html+="</tr>";
+                            html+="<tr>";
+                            html+="<td>Poc</td>";
+                            html+="<td>"+response.data.poc+"</td>";
+                            html+="</tr>";
+                            html+="<tr>";
+                            html+="<td>Designation</td>";
+                            html+="<td>"+response.data.designation+"</td>";
+                            html+="</tr>";
+                            html+="<tr>";
+                            html+="<td>Email</td>";
+                            html+="<td>"+response.data.email+"</td>";
+                            html+="</tr>";
+                            html+="<tr>";
+                            html+="<td>Contact</td>";
+                            html+="<td>"+response.data.contact+"</td>";
+                            html+="</tr>";
+                            html+="<tr>";
+                            html+="<td>Region</td>";
+                            html+="<td>"+response.data.region+"</td>";
+                            html+="</tr>";
+                            html+="</table>";
+                            html=html+"</html>";
+                            $('#view-modal-body').html(html);
+                            $('#exampleLargeModal').modal('show');
+                        }else{
+                            swal("Oops!", "Failed to fetch the data!", "error");
+                        }
+                    },
+                });
+            }
 
     </script>
 @endsection

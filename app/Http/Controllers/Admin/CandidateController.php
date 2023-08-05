@@ -61,9 +61,14 @@ class CandidateController extends Controller
         }
     }
 
-    public function show(Candidate $candidate)
+    public function show($id)
     {
-        //
+        $res=Candidate::find(Crypt::decrypt($id));
+        if($res){
+            return response()->json(['success'=>true,'data'=>$res]);
+        }else{
+            return response()->json(['success'=>false,'data'=>Null]);
+        }
     }
 
     public function edit($id)

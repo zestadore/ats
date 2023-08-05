@@ -64,8 +64,8 @@ class InterviewController extends Controller
     {
         $clients=Client::get();
         $users=User::whereNot('role', 'super_admin')->get();
-        $opportunities=JobOpportunity::get();
-        return view('backend.interviews.create',['clients'=>$clients,'users'=>$users,'opportunities'=>$opportunities]);
+        // $opportunities=JobOpportunity::get();
+        return view('backend.interviews.create',['clients'=>$clients,'users'=>$users]);
     }
 
     public function store(ValidateInterview $request)
@@ -117,4 +117,5 @@ class InterviewController extends Controller
             return response()->json(['error'=>"Failed to delete the data, kindly try again!"]);
         }
     }
+
 }

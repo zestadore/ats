@@ -27,8 +27,8 @@ class HelperClass {
             case 'account_manager':
                 $roleArray=[
                     [
-                        'id' => 'team_lead',
-                        'text'=> 'Team Lead',
+                        'id' => 'recruiter',
+                        'text'=> 'Recruiter',
                     ]
                 ];
                 break;

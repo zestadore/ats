@@ -11,6 +11,7 @@ class Candidate extends Model
     use HasFactory,SoftDeletes;
     protected $table = 'candidates';
     protected $guarded=[];
+    protected $appends=['resume_path'];
 
     public static function boot()
     {
@@ -32,5 +33,13 @@ class Candidate extends Model
             $model->deleted_by = Auth::user()->id;
             $model->save();
         });
+    }
+
+    public function getResumePathAttribute(){
+        if($this->attributes['resume']!=null){
+            return url('/') .'/uploads/resumes/'.$this->attributes['resume'];
+        }else{
+            return null;
+        }
     }
 }

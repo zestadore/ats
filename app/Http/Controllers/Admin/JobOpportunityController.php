@@ -105,4 +105,10 @@ class JobOpportunityController extends Controller
         }
     }
 
+    public function getClientJobOpportunity($clientId)
+    {
+        $data=JobOpportunity::where('client_id',$clientId)->get();
+        return response()->json($data);
+    }
+
 }

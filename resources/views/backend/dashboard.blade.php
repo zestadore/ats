@@ -28,23 +28,35 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif
+            @canany(['isAdmin','isAccountManager','isTeamLead'])
+                @php
+                    $class="col-lg-3 col-md-3 col-sm-6 col-xs-12";
+                @endphp
+            @endcanany
+            @can('isRecruiter')
+                @php    
+                    $class="col-lg-4 col-md-4 col-sm-6 col-xs-12";
+                @endphp
+            @endcan
             <div class="row">
-                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                    <div class="card radius-10 border-start border-0 border-4 border-info">
-                        <div class="card-body">
-                            <div class="d-flex align-items-center">
-                                <div>
-                                    <p class="mb-0 text-secondary">Total Clients</p>
-                                    <h4 class="my-1 text-info">{{getClientsCount()}}</h4>
-                                    <p class="mb-0 font-13">+{{getLastWeekClientsCount()}} from last week</p>
-                                </div>
-                                <div class="widgets-icons-2 rounded-circle bg-gradient-blues text-white ms-auto"><i class="bx bx-user-plus"></i>
+                @canany(['isAdmin','isAccountManager','isTeamLead'])
+                    <div class="{{$class}}">
+                        <div class="card radius-10 border-start border-0 border-4 border-info">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center">
+                                    <div>
+                                        <p class="mb-0 text-secondary">Total Clients</p>
+                                        <h4 class="my-1 text-info">{{getClientsCount()}}</h4>
+                                        <p class="mb-0 font-13">+{{getLastWeekClientsCount()}} from last week</p>
+                                    </div>
+                                    <div class="widgets-icons-2 rounded-circle bg-gradient-blues text-white ms-auto"><i class="bx bx-user-plus"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                @endcanany
+                <div class="{{$class}}">
                     <div class="card radius-10 border-start border-0 border-4 border-warning">
                         <div class="card-body">
                             <div class="d-flex align-items-center">
@@ -59,7 +71,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div class="{{$class}}">
                     <div class="card radius-10 border-start border-0 border-4 border-danger">
                         <div class="card-body">
                             <div class="d-flex align-items-center">
@@ -74,7 +86,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div class="{{$class}}">
                     <div class="card radius-10 border-start border-0 border-4 border-success">
                         <div class="card-body">
                             <div class="d-flex align-items-center">
@@ -91,74 +103,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                    <div class="card radius-10">
-                        <div class="card-header">
-                            <div class="d-flex align-items-center">
-                                <div>
-                                    <h6 class="mb-0">Recent Clients</h6>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                               <table class="table align-middle mb-0">
-                                <thead class="table-light">
-                                 <tr>
-                                   <th>Client</th>
-                                   <th>Designation</th>
-                                   <th>Email</th>
-                                   <th>Contact</th>
-                                 </tr>
-                                 </thead>
-                                    @foreach (getLatestClients() as $item)
-                                        <tr>
-                                            <td>{{$item->client_name}}</td>
-                                            <td>{{$item->designation}}</td>
-                                            <td>{{$item->email}}</td>
-                                            <td>{{$item->contact}}</td>
-                                        </tr>
-                                    @endforeach
-                                 <tbody>
-                                </tbody>
-                              </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                    <div class="card radius-10">
-                        <div class="card-header">
-                            <div class="d-flex align-items-center">
-                                <div>
-                                    <h6 class="mb-0">Recent Candidates</h6>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                               <table class="table align-middle mb-0">
-                                <thead class="table-light">
-                                 <tr>
-                                   <th>Candidate</th>
-                                   <th>Email</th>
-                                   <th>Contact</th>
-                                 </tr>
-                                 </thead>
-                                    @foreach (getLatestCandidates() as $item)
-                                        <tr>
-                                            <td>{{$item->candidate_name}}</td>
-                                            <td>{{$item->email}}</td>
-                                            <td>{{$item->contact}}</td>
-                                        </tr>
-                                    @endforeach
-                                 <tbody>
-                                </tbody>
-                              </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                
             </div>
         </div>
     </div>
