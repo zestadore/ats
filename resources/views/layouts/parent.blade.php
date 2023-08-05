@@ -40,6 +40,15 @@
 	<script src="{{asset('assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js')}}"></script>
 	<!--app JS-->
 	<script src="{{asset('assets/js/app.js')}}"></script>
+	<script>
+        var role="{{Auth::user()?->role}}";
+        var buttons=[];
+        if(role!="super_admin"){
+            buttons=[];
+        }else{
+			buttons=['excel','pdf','print','copy'];
+		}
+    </script>
     @yield('javascripts')
 </body>
 
