@@ -78,9 +78,15 @@ class InterviewController extends Controller
         }
     }
 
-    public function show(Interview $interview)
+    public function show($id)
     {
-        //
+        $id=Crypt::decrypt($id);
+        $data=Interview::with(['client','interviewOwners','candidate','jobOpportunity'])->findOrFail($id);
+        if($data){
+            return response()->json(['success'=>true,'data'=>$data]);
+        }else{
+            return response()->json(['success'=>false,'data'=>Null]);
+        }
     }
 
     public function edit($id)

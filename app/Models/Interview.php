@@ -5,12 +5,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Client;
 
 class Interview extends Model
 {
     use HasFactory,SoftDeletes;
     protected $table = 'interviews';
     protected $guarded=[];
+    protected $appends=['interviewers_names'];
 
     protected $casts = [
         'interviewers_id' => 'array',
@@ -48,5 +50,15 @@ class Interview extends Model
 
     public function interviewOwners(){
         return $this->hasOne(User::class, 'id', 'interview_owner_id');
+    }
+
+    public function getInterviewersNamesAttribute(){
+        $ids=json_decode($this->attributes['interviewers_id']);
+        $names=[];
+        foreach($ids as $id){
+            $client=Client::find((int)$id);
+            $names[]=$client->client_name;
+        }
+        return implode(", ",$names);
     }
 }

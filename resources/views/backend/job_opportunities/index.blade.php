@@ -67,7 +67,21 @@
             </div>
         </div>
     </div>
-    
+    <!-- Modal -->
+    <div class="modal fade" id="exampleLargeModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">View User</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="view-modal-body"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 @section('javascripts')
     <script src="{{asset('assets/plugins/datatable/js/jquery.dataTables.min.js')}}"></script>
@@ -209,6 +223,71 @@
                     });
                 }
             })
+        }
+
+        function viewModal(id){
+            var url="{{route('admin.job-opportunities.show','ID')}}";
+            url=url.replace('ID',id);
+            $.ajax({
+                url: url,
+                type:"get",
+                success:function(response){
+                    console.log(response);
+                    if(response.success==true){
+                        var type="Contract";
+                        if(response.data.type==1){
+                            type="Fulltime";
+                        }
+                        var status="Active";
+                        if(response.data.status==0){
+                            status="Inactive";
+                        }
+                        var html="<table class='table table-striped table-bordered'>";
+                        html+="<tr>";
+                        html+="<td>Title</td>";
+                        html+="<td>"+response.data.title+"</td>";
+                        html+="</tr>";
+                        html+="<tr>";
+                        html+="<td>Type</td>";
+                        html+="<td>"+type+"</td>";
+                        html+="</tr>";
+                        html+="<tr>";
+                        html+="<td>Job Owner</td>";
+                        html+="<td>"+response.data.job_owner+"</td>";
+                        html+="</tr>";
+                        html+="<tr>";
+                        html+="<td>Status</td>";
+                        html+="<td>"+status+"</td>";
+                        html+="</tr>";
+                        html+="<tr>";
+                        html+="<td>Client</td>";
+                        html+="<td>"+response.data.client.client_name+"</td>";
+                        html+="</tr>";
+                        html+="<tr>";
+                        html+="<td>End Client</td>";
+                        html+="<td>"+response.data.end_client.end_client+"</td>";
+                        html+="</tr>";
+                        html+="<tr>";
+                        html+="<td>Key Skills</td>";
+                        html+="<td>"+response.data.key_skills+"</td>";
+                        html+="</tr>";
+                        html+="<tr>";
+                        html+="<td>Notes</td>";
+                        html+="<td>"+response.data.notes+"</td>";
+                        html+="</tr>";
+                        html+="<tr>";
+                        html+="<td>Description</td>";
+                        html+="<td>"+response.data.description+"</td>";
+                        html+="</tr>";
+                        html+="</table>";
+                        html=html+"</html>";
+                        $('#view-modal-body').html(html);
+                        $('#exampleLargeModal').modal('show');
+                    }else{
+                        swal("Oops!", "Failed to fetch the data!", "error");
+                    }
+                },
+            });
         }
 
     </script>

@@ -66,7 +66,21 @@
             </div>
         </div>
     </div>
-    
+    <!-- Modal -->
+    <div class="modal fade" id="exampleLargeModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">View User</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="view-modal-body"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 @section('javascripts')
     <script src="{{asset('assets/plugins/datatable/js/jquery.dataTables.min.js')}}"></script>
@@ -185,6 +199,87 @@
                         },
                     });
                 }
+            });
+        }
+
+        function viewModal(id){
+            var url="{{route('admin.job-submissions.show','ID')}}";
+            url=url.replace('ID',id);
+            $.ajax({
+                url: url,
+                type:"get",
+                success:function(response){
+                    console.log(response);
+                    if(response.success==true){
+                        var html="<table class='table table-striped table-bordered'>";
+                        html+="<tr>";
+                        html+="<td>Job title</td>";
+                        html+="<td>"+response.data.job_opportunity.title+"</td>";
+                        html+="</tr>";
+                        html+="<tr>";
+                        html+="<td>Candidate</td>";
+                        html+="<td>"+response.data.candidate.candidate_name+"</td>";
+                        html+="</tr>";
+                        html+="<tr>";
+                        html+="<td>Contact</td>";
+                        html+="<td>"+response.data.contact+"</td>";
+                        html+="</tr>";
+                        html+="<tr>";
+                        html+="<td>Email</td>";
+                        html+="<td>"+response.data.email_id+"</td>";
+                        html+="</tr>";
+                        html+="<tr>";
+                        html+="<td>Current location</td>";
+                        html+="<td>"+response.data.current_location+"</td>";
+                        html+="</tr>";
+                        html+="<tr>";
+                        html+="<td>Total experience</td>";
+                        html+="<td>"+response.data.total_experience+"</td>";
+                        html+="</tr>";
+                        html+="<tr>";
+                        html+="<td>Relevant experience</td>";
+                        html+="<td>"+response.data.relevant_experience+"</td>";
+                        html+="</tr>";
+                        html+="<tr>";
+                        html+="<td>Visa status</td>";
+                        html+="<td>"+response.data.visa_status+"</td>";
+                        html+="</tr>";
+                        html+="<tr>";
+                        html+="<td>Education</td>";
+                        html+="<td>"+response.data.education+"</td>";
+                        html+="</tr>";
+                        html+="<tr>";
+                        html+="<td>Rate</td>";
+                        html+="<td>"+response.data.rate+"</td>";
+                        html+="</tr>";
+                        html+="<tr>";
+                        html+="<td>Notice period</td>";
+                        html+="<td>"+response.data.notice_period+"</td>";
+                        html+="</tr>";
+                        html+="<tr>";
+                        html+="<td>Candidate type</td>";
+                        html+="<td>"+response.data.candidate_type+"</td>";
+                        html+="</tr>";
+                        html+="<tr>";
+                        html+="<td>Relocation</td>";
+                        html+="<td>"+response.data.relocation+"</td>";
+                        html+="</tr>";
+                        html+="<tr>";
+                        html+="<td>Interview availability</td>";
+                        html+="<td>"+response.data.interview_availability+"</td>";
+                        html+="</tr>";
+                        html+="<tr>";
+                        html+="<td>Resume</td>";
+                        html+="<td><a target='_blank' href='"+response.data.resume_path+"'>View</a></td>";
+                        html+="</tr>";
+                        html+="</table>";
+                        html=html+"</html>";
+                        $('#view-modal-body').html(html);
+                        $('#exampleLargeModal').modal('show');
+                    }else{
+                        swal("Oops!", "Failed to fetch the data!", "error");
+                    }
+                },
             });
         }
 

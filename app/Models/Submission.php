@@ -11,6 +11,7 @@ class Submission extends Model
     use HasFactory,SoftDeletes;
     protected $table = 'submissions';
     protected $guarded=[];
+    protected $appends=['resume_path'];
 
     public static function boot()
     {
@@ -40,6 +41,14 @@ class Submission extends Model
 
     public function jobOpportunity(){
         return $this->hasOne(JobOpportunity::class, 'id', 'job_title_id');
+    }
+
+    public function getResumePathAttribute(){
+        if($this->attributes['resume']!=null){
+            return url('/') .'/uploads/resumes/'.$this->attributes['resume'];
+        }else{
+            return null;
+        }
     }
 
 }

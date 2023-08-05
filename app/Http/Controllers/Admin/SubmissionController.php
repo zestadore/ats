@@ -82,9 +82,14 @@ class SubmissionController extends Controller
         }
     }
 
-    public function show(Submission $submission)
+    public function show($id)
     {
-        //
+        $res=Submission::with(['jobOpportunity','candidate'])->find(Crypt::decrypt($id));
+        if($res){
+            return response()->json(['success'=>true,'data'=>$res]);
+        }else{
+            return response()->json(['success'=>false,'data'=>Null]);
+        }
     }
 
     public function edit($id)
