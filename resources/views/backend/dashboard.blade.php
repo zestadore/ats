@@ -103,7 +103,60 @@
                 </div>
             </div>
             <div class="row">
-                
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="d-flex align-items-center">
+                                <div>
+                                    <h6 class="mb-0">Upcoming Interviews</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-striped">
+                                <tr>
+                                    <th>Candidate</th>
+                                    <th>Client</th>
+                                    <th>Date</th>
+                                </tr>
+                                @foreach (getUpComingInterviews() as $item)
+                                    <tr>
+                                        <td>{{$item->candidate?->candidate_name}}</td>
+                                        <td>{{$item->client?->client_name}}</td>
+                                        <td>{{$item->from_date}}</td>
+                                    </tr>
+                                @endforeach
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="d-flex align-items-center">
+                                <div>
+                                    <h6 class="mb-0">Completed Interviews</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-striped">
+                                <tr>
+                                    <th>Candidate</th>
+                                    <th>Client</th>
+                                    <th>Date</th>
+                                </tr>
+                                @foreach (getCompletedInterviews() as $item)
+                                    <tr>
+                                        <td>{{$item->candidate?->candidate_name}}</td>
+                                        <td>{{$item->client?->client_name}}</td>
+                                        <td>{{$item->from_date}}</td>
+                                    </tr>
+                                @endforeach
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

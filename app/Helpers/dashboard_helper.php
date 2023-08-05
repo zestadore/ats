@@ -4,7 +4,9 @@ use App\Models\Client;
 use App\Models\Candidate;
 use App\Models\JobOpportunity;
 use App\Models\Submission;
+use App\Models\Interview;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
     function getClientsCount(){
         return Client::count();
@@ -38,20 +40,20 @@ use Carbon\Carbon;
         return Submission::whereBetween('created_at', [Carbon::now()->subWeek()->startOfWeek(), Carbon::now()->subWeek()->endOfWeek()])->count();
     }
 
-    function getLatestClients(){
-        return Client::latest()->take(10)->get();
+    function getUpComingInterviews(){
+        if(Auth::user()->role=="super_admin"){
+            return Interview::where('from_date','>=', Carbon::now())->latest()->take(10)->get();
+        }else{
+            return Interview::where('from_date','>=', Carbon::now())->where('created_by',Auth::user()->id)->latest()->take(10)->get();
+        }
     }
 
-    function getLatestCandidates(){
-        return Candidate::latest()->take(10)->get();
-    }
-
-    function getLatestJobOpportunities(){
-        return JobOpportunity::latest()->take(10)->get();
-    }
-
-    function getLatestSubmissions(){
-        return Submission::latest()->take(10)->get();
+    function getCompletedInterviews(){
+        if(Auth::user()->role=="super_admin"){
+            return Interview::where('to_date','<', Carbon::now())->latest()->take(10)->get();
+        }else{
+            return Interview::where('to_date','<', Carbon::now())->where('created_by',Auth::user()->id)->latest()->take(10)->get();
+        }
     }
 
 ?>
