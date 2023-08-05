@@ -106,7 +106,10 @@
                                 <x-forms.input class="form-control summernote {{ $errors->has('description') ? ' is-invalid' : '' }}" title="Description" name="description" id="description" type="textarea" required="False"/>
                             </div>
                         </div><p> </p>
-                        <button type="submit" class="btn btn-primary" style="float:right;">Submit</button>
+                        <div class="btn-group" role="group" aria-label="Basic example" style="float: right;">
+                            <a href="{{route('admin.job-opportunities.index')}}" class="btn btn-secondary">Cancel</a>
+                            <button type="submit" class="btn btn-primary" style="float:right;">Submit</button>
+                        </div>
                     </form>
                 </div>
             </div>

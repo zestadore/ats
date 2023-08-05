@@ -44,7 +44,10 @@
                                 <x-forms.input class="form-control {{ $errors->has('password_confirmation') ? ' is-invalid' : '' }}" title="Retype password" name="password_confirmation" id="password-confirm" type="password" required="True"/>
                             </div>
                         </div><p> </p>
-                        <button type="submit" class="btn btn-primary" style="float:right;">Submit</button>
+                        <div class="btn-group" role="group" aria-label="Basic example" style="float: right;">
+                            <a href="{{route('admin.dashboard')}}" class="btn btn-secondary">Cancel</a>
+                            <button type="submit" class="btn btn-primary" style="float:right;">Submit</button>
+                        </div>
                     </form>
                 </div>
             </div>

@@ -59,7 +59,10 @@
                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                             </div>
                         </div><p> </p>
-                        <button type="submit" class="btn btn-primary" style="float:right;">Submit</button>
+                        <div class="btn-group" role="group" aria-label="Basic example" style="float: right;">
+                            <a href="{{route('admin.dashboard')}}" class="btn btn-secondary">Cancel</a>
+                            <button type="submit" class="btn btn-primary" style="float:right;">Submit</button>
+                        </div>
                     </form>
                 </div>
             </div>

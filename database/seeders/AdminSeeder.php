@@ -23,5 +23,21 @@ class AdminSeeder extends Seeder
             'password' => Hash::make('12345678'),
             'role' => 'super_admin',
         ]);
+        User::create([
+            'first_name' => 'Nawaz',
+            'last_name' => 'Syed',
+            'email' => 'nawaz.syed@amnext.tech',
+            'mobile' => '1234567891',
+            'password' => Hash::make('12345678'),
+            'role' => 'super_admin',
+        ]);
+        User::create([
+            'first_name' => 'Naveed',
+            'last_name' => '',
+            'email' => 'naveed@amnext.tech',
+            'mobile' => '1234567892',
+            'password' => Hash::make('12345678'),
+            'role' => 'super_admin',
+        ]);
     }
 }

@@ -43,7 +43,7 @@
             @endif
             <div class="card">
                 <div class="card-body p-4">
-                    <h5 class="mb-4">Add New Client</h5>
+                    <h5 class="mb-4">Add New Job Submission</h5>
                     <form action="{{route('admin.job-submissions.store')}}" id="jQueryValidationForm" method="POST" enctype="multipart/form-data">@csrf
                         <div class="row g-3">
                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -145,7 +145,10 @@
                                 <x-forms.input class="form-control {{ $errors->has('resume') ? ' is-invalid' : '' }}" title="Resume" name="resume" id="resume" type="file" required="False"/>
                             </div>
                         </div><p> </p>
-                        <button type="submit" class="btn btn-primary" style="float:right;">Submit</button>
+                        <div class="btn-group" role="group" aria-label="Basic example" style="float: right;">
+                            <a href="{{route('admin.job-submissions.index')}}" class="btn btn-secondary">Cancel</a>
+                            <button type="submit" class="btn btn-primary" style="float:right;">Submit</button>
+                        </div>
                     </form>
                 </div>
             </div>

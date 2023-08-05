@@ -44,7 +44,7 @@
             @endif
             <div class="card">
                 <div class="card-body p-4">
-                    <h5 class="mb-4">Add New Client</h5>
+                    <h5 class="mb-4">Edit Interview</h5>
                     <form action="{{route('admin.interviews.update',[Crypt::encrypt($data->id)])}}" id="jQueryValidationForm" method="POST">@csrf
                         @method('put')
                         <div class="row g-3">
@@ -172,7 +172,10 @@
                         </div><p> </p>
                         <x-forms.input class="form-control {{ $errors->has('comments') ? ' is-invalid' : '' }}" title="Comments" name="comments" id="comments" type="textarea" required="False"/>
                         <p> </p>
-                        <button type="submit" class="btn btn-primary" style="float:right;">Submit</button>
+                        <div class="btn-group" role="group" aria-label="Basic example" style="float: right;">
+                            <a href="{{route('admin.interviews.index')}}" class="btn btn-secondary">Cancel</a>
+                            <button type="submit" class="btn btn-primary" style="float:right;">Submit</button>
+                        </div>
                     </form>
                 </div>
             </div>

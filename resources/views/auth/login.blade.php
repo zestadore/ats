@@ -36,8 +36,8 @@
                                         <div class="col-12">
                                             <x-forms.input class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}" title="Password : " name="password" id="password" type="password" required="True"/>
                                         </div>
-                                        <div class="col-md-6"></div>
-                                        <div class="col-md-6 text-end">	<a href="authentication-forgot-password.html">Forgot Password ?</a>
+                                        <div class="col-md-6"><p> </p></div>
+                                        {{-- <div class="col-md-6 text-end">	<a href="authentication-forgot-password.html">Forgot Password ?</a> --}}
                                         </div>
                                         <div class="col-12">
                                             <div class="d-grid">
