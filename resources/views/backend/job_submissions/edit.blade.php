@@ -365,7 +365,7 @@
                     agree: "Please accept our policy"
                 },
             } );
-        } );
+        
 
         function prefillForm(){
             $('#job_title_id').val('{{$data->job_title_id}}');

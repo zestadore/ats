@@ -186,17 +186,15 @@
         }
 
         function resetPassword(id){
-                Swal.fire({
-                    title: 'Are you sure?',
-                    text: "You won't be able to revert this!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, reset!'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        var url="{{route('admin.profile.password.update')}}";
+            swal({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                buttons: true,
+                dangerMode: true,
+            }).then((result) => {
+                if (result) {
+                    var url="{{route('admin.profile.password.update')}}";
                         $.ajax({
                             url: url,
                             type:"post",
@@ -206,18 +204,9 @@
                             },
                             success:function(response){
                             if(response.success){
-                                Swal.fire(
-                                    'Activated!',
-                                    response.message,
-                                    'success'
-                                )
-                                drawTable();
+                                swal("Good job!", response.message, "success");
                             }else{
-                                Swal.fire(
-                                    'Activated!',
-                                    'failed to reset the password',
-                                    'success'
-                                )
+                                swal("Oops!", "Failed to reset the password", "error");
                             }
                             },
                         });
