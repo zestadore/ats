@@ -45,7 +45,7 @@
             <div class="card">
                 <div class="card-body p-4">
                     <h5 class="mb-4">Add New Interview</h5>
-                    <form action="{{route('admin.interviews.store')}}" id="jQueryValidationForm" method="POST">@csrf
+                    <form action="{{route('admin.interviews.store')}}" id="jQueryValidationForm" method="POST" enctype="multipart/form-data">@csrf
                         <div class="row g-3">
                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                 <label class="form-label" for="interview_name">Interview name</label><span style="color:red;">*</span>
@@ -163,6 +163,21 @@
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                 <x-forms.input class="form-control {{ $errors->has('assesment_name') ? ' is-invalid' : '' }}" title="Assesment name" name="assesment_name" id="assesment_name" type="text" required="False"/>
+                            </div>
+                        </div><p> </p>
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <label class="form-label" for="attachments">Attachments(.docx / .pdf / .jpg) </label>
+                                <div class="input-group">
+                                    <div class="custom-file">
+                                        <input type="file" class="form-control" id="attachments" name="attachments[]" style="width:100% !important;" multiple>
+                                    </div>
+                                </div>
+                                @error("attachments")
+                                    <span class="error mt-2 text-danger" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                         </div><p> </p>
                         <x-forms.input class="form-control {{ $errors->has('comments') ? ' is-invalid' : '' }}" title="Comments" name="comments" id="comments" type="textarea" required="False"/>

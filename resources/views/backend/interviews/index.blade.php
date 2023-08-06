@@ -207,6 +207,16 @@
                 success:function(response){
                     console.log(response);
                     if(response.success==true){
+                        var atts=response.data.additional_attachments;
+                        var html2="";
+                        if(atts.length>0){
+                            $.each(atts, function( index, value ) {
+                                html2+="<tr>";
+                                html2+="<td>Additinal Attachment</td>";
+                                html2+="<td><a target='_blank' href='"+value.attachment_path+"'>View</a></td>";
+                                html2+="</tr>";
+                            });
+                        }
                         var html="<table class='table table-striped table-bordered'>";
                         html+="<tr>";
                         html+="<td>Interview Name</td>";
@@ -248,6 +258,7 @@
                         html+="<td>Assestement Name</td>";
                         html+="<td>"+response.data.assesment_name+"</td>";
                         html+="</tr>";
+                        html+=html2;
                         html+="</table>";
                         html=html+"</html>";
                         $('#view-modal-body').html(html);

@@ -59,6 +59,10 @@ class Interview extends Model
         return $this->hasOne(User::class, 'id', 'interview_owner_id');
     }
 
+    public function additionalAttachments(){
+        return $this->hasMany(AdditionalAttachment::class, 'reference_id', 'id')->where('reference_type', 'interview');
+    }
+
     public function getInterviewersNamesAttribute(){
         $ids=json_decode($this->attributes['interviewers_id']);
         $names=[];

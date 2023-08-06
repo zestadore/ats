@@ -6,6 +6,7 @@ use App\Models\Interview;
 use App\Models\Client;
 use App\Models\User;
 use App\Models\JobOpportunity;
+use App\Models\AdditionalAttachment;
 use Illuminate\Http\Request;
 use App\Http\Requests\ValidateInterview;
 use App\Models\Candidate;
@@ -70,7 +71,10 @@ class InterviewController extends Controller
 
     public function store(ValidateInterview $request)
     {
-        $res=Interview::create($request->except('_token'));
+        $res=Interview::create($request->except(['_token','attachments']));
+        if($request->file('attachments')){
+            $this->uploadAttachments($res->id,$request->file('attachments'));
+        }
         if($res){
             return redirect()->route('admin.interviews.index')->with('success', 'Successfully updated the data.');
         }else{
@@ -81,7 +85,7 @@ class InterviewController extends Controller
     public function show($id)
     {
         $id=Crypt::decrypt($id);
-        $data=Interview::with(['client','interviewOwners','candidate','jobOpportunity'])->findOrFail($id);
+        $data=Interview::with(['client','interviewOwners','candidate','jobOpportunity','additionalAttachments'])->findOrFail($id);
         if($data){
             return response()->json(['success'=>true,'data'=>$data]);
         }else{
@@ -104,7 +108,10 @@ class InterviewController extends Controller
     {
         $id=Crypt::decrypt($id);
         $data=Interview::findOrFail($id);
-        $res=$data->update($request->except('_token'));
+        $res=$data->update($request->except(['_token','attachments']));
+        if($request->file('attachments')){
+            $this->uploadAttachments($id,$request->file('attachments'));
+        }
         if($res){
             return redirect()->route('admin.interviews.index')->with('success', 'Successfully updated the data.');
         }else{
@@ -121,6 +128,31 @@ class InterviewController extends Controller
             return response()->json(['success'=>"Data deleted successfully!"]);
         }else{
             return response()->json(['error'=>"Failed to delete the data, kindly try again!"]);
+        }
+    }
+
+    private function uploadAttachments($id, $attachments)
+    {
+        $atts=AdditionalAttachment::where('reference_id',$id)->where('reference_type','interview')->get();
+        if(count($atts)>0){
+            $atts->each->delete();
+        }
+        $allowedfileExtension=['pdf','jpg','png','docx','PNG'];
+        $data=[];
+        foreach($attachments as $file){
+            $filename = $file->getClientOriginalName();
+            $extension = $file->getClientOriginalExtension();
+            $check=in_array($extension,$allowedfileExtension);
+            //dd($check);
+            if($check)
+            {
+                $filename= date('YmdHi'). mt_rand(10,100) .$file->getClientOriginalName();
+                $file-> move(public_path('uploads/attachments'), $filename);
+                $data[]=['reference_id'=>$id,'reference_type'=>'interview','attachment'=>$filename,'created_at'=>Now()];
+            }
+        }
+        if(count($data)>0){
+            AdditionalAttachment::insert($data);
         }
     }
 
