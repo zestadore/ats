@@ -58,39 +58,77 @@ use Spatie\Activitylog\Models\Activity;
     }
 
     function getUserActivityLogs(){
-        return Activity::causedBy(Auth::user())->latest()->take(10)->get();
+        if(Auth::user()->role=="super_admin"){
+            return Activity::latest()->take(10)->get();
+        }else{
+            return Activity::causedBy(Auth::user())->latest()->take(10)->get();
+        }
+        
     }
 
     function getInternalInterviewCounts(){
-        return Interview::where('created_by',Auth::user()->id)->where('interview_name','Internal_interview')->count();
+        if(Auth::user()->role=="super_admin"){
+            return Interview::where('interview_name','Internal_interview')->count();
+        }else{
+            return Interview::where('created_by',Auth::user()->id)->where('interview_name','internal_interview')->count();
+        }
+        
     }
 
     function getGeneralInterviewCounts(){
-        return Interview::where('created_by',Auth::user()->id)->where('interview_name','general_interview')->count();
+        if(Auth::user()->role=="super_admin"){
+            return Interview::where('interview_name','general_interview')->count();
+        }else{
+            return Interview::where('created_by',Auth::user()->id)->where('interview_name','general_interview')->count();
+        }
     }
 
     function getOnlineInterviewCounts(){
-        return Interview::where('created_by',Auth::user()->id)->where('interview_name','online_interview')->count();
+        if(Auth::user()->role=="super_admin"){
+            return Interview::where('interview_name','online_interview')->count();
+        }else{
+            return Interview::where('created_by',Auth::user()->id)->where('interview_name','online_interview')->count();
+        }
     }
 
     function getPhoneInterviewCounts(){
-        return Interview::where('created_by',Auth::user()->id)->where('interview_name','phone_interview')->count();
+        if(Auth::user()->role=="super_admin"){
+            return Interview::where('interview_name','phone_interview')->count();
+        }else{
+            return Interview::where('created_by',Auth::user()->id)->where('interview_name','phone_interview')->count();
+        }
     }
 
     function getLevel1InterviewCounts(){
-        return Interview::where('created_by',Auth::user()->id)->where('interview_name','level1_interview')->count();
+        if(Auth::user()->role=="super_admin"){
+            return Interview::where('interview_name','level1_interview')->count();
+        }else{
+            return Interview::where('created_by',Auth::user()->id)->where('interview_name','level1_interview')->count();
+        }
     }
 
     function getLevel2InterviewCounts(){
-        return Interview::where('created_by',Auth::user()->id)->where('interview_name','level2_interview')->count();
+        if(Auth::user()->role=="super_admin"){
+            return Interview::where('interview_name','level2_interview')->count();
+        }else{
+            return Interview::where('created_by',Auth::user()->id)->where('interview_name','level2_interview')->count();
+        }
     }
 
     function getLevel3InterviewCounts(){
-        return Interview::where('created_by',Auth::user()->id)->where('interview_name','level3_interview')->count();
+        if(Auth::user()->role=="super_admin"){
+            return Interview::where('interview_name','level3_interview')->count();
+        }else{
+            return Interview::where('created_by',Auth::user()->id)->where('interview_name','level3_interview')->count();
+        }
     }
 
     function getLevel4InterviewCounts(){
-        return Interview::where('created_by',Auth::user()->id)->where('interview_name','level4_interview')->count();
+        if(Auth::user()->role=="super_admin"){
+            return Interview::where('interview_name','level4_interview')->count();
+        }else{
+            return Interview::where('created_by',Auth::user()->id)->where('interview_name','level4_interview')->count();
+        }
     }
 
 ?>
