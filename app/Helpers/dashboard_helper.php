@@ -61,4 +61,36 @@ use Spatie\Activitylog\Models\Activity;
         return Activity::causedBy(Auth::user())->latest()->take(10)->get();
     }
 
+    function getInternalInterviewCounts(){
+        return Interview::where('created_by',Auth::user()->id)->where('interview_name','Internal_interview')->count();
+    }
+
+    function getGeneralInterviewCounts(){
+        return Interview::where('created_by',Auth::user()->id)->where('interview_name','general_interview')->count();
+    }
+
+    function getOnlineInterviewCounts(){
+        return Interview::where('created_by',Auth::user()->id)->where('interview_name','online_interview')->count();
+    }
+
+    function getPhoneInterviewCounts(){
+        return Interview::where('created_by',Auth::user()->id)->where('interview_name','phone_interview')->count();
+    }
+
+    function getLevel1InterviewCounts(){
+        return Interview::where('created_by',Auth::user()->id)->where('interview_name','level1_interview')->count();
+    }
+
+    function getLevel2InterviewCounts(){
+        return Interview::where('created_by',Auth::user()->id)->where('interview_name','level2_interview')->count();
+    }
+
+    function getLevel3InterviewCounts(){
+        return Interview::where('created_by',Auth::user()->id)->where('interview_name','level3_interview')->count();
+    }
+
+    function getLevel4InterviewCounts(){
+        return Interview::where('created_by',Auth::user()->id)->where('interview_name','level4_interview')->count();
+    }
+
 ?>

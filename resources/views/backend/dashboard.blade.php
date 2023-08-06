@@ -103,6 +103,15 @@
                 </div>
             </div>
             <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div id="chart4"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                     <div class="card">
                         <div class="card-header">
@@ -199,4 +208,100 @@
             </div>
         </div>
     </div>
+@endsection
+@section('javascripts')
+    <script src="{{asset('assets/plugins/apexcharts-bundle/js/apexcharts.min.js')}}"></script>
+    <script>
+        function drawChart() {
+            var internalInterviews='{{getInternalInterviewCounts()}}';
+            var generalInterviews='{{getGeneralInterviewCounts()}}';
+            var onlineInterviews='{{getOnlineInterviewCounts()}}';
+            var phoneInterviews='{{getPhoneInterviewCounts()}}';
+            var level1Interviews='{{getLevel1InterviewCounts()}}';
+            var level2Interviews='{{getLevel2InterviewCounts()}}';
+            var level3Interviews='{{getLevel3InterviewCounts()}}';
+            var level4Interviews='{{getLevel4InterviewCounts()}}';
+            // chart 4
+            var options = {
+                series: [{
+                    name: 'Interviews',
+                    data: [internalInterviews, generalInterviews, onlineInterviews, phoneInterviews, level1Interviews, level2Interviews, level3Interviews, level4Interviews]
+                }],
+                annotations: {
+                    points: [{
+                        x: 'Bananas',
+                        seriesIndex: 0,
+                        label: {
+                            borderColor: '#775DD0',
+                            offsetY: 0,
+                            style: {
+                                color: '#fff',
+                                background: '#775DD0',
+                            },
+                        }
+                    }]
+                },
+                chart: {
+                    height: 350,
+                    type: 'bar',
+                },
+                plotOptions: {
+                    bar: {
+                        borderRadius: 10,
+                        columnWidth: '30%',
+                        endingShape: 'rounded'
+                    }
+                },
+                dataLabels: {
+                    enabled: false
+                },
+                stroke: {
+                    width: 2
+                },
+                grid: {
+                    row: {
+                        colors: ['#fff', '#f2f2f2']
+                    }
+                },
+                title: {
+                    text: 'Interviews',
+                    align: 'left',
+                    style: {
+                        fontSize: '14px'
+                    }
+                },
+                xaxis: {
+                    labels: {
+                        rotate: -45
+                    },
+                    categories: ['Internal Interviews', 'General Interviews', 'Online Interviews', 'Phone Interviews', 'Level 1 Interviews', 'Level 2 Interviews',
+                        'Level 3 Interviews', 'Level 4 Interviews'
+                    ],
+                    tickPlacement: 'on'
+                },
+                yaxis: {
+                    title: {
+                        text: 'Interviews',
+                    },
+                },
+                fill: {
+                    type: 'gradient',
+                    gradient: {
+                        shade: 'light',
+                        type: "horizontal",
+                        shadeIntensity: 0.25,
+                        gradientToColors: undefined,
+                        inverseColors: true,
+                        opacityFrom: 0.85,
+                        opacityTo: 0.85,
+                        stops: [50, 0, 100]
+                    },
+                }
+            };
+
+            var chart = new ApexCharts(document.querySelector("#chart4"), options);
+            chart.render();
+        }
+        drawChart();
+    </script>
 @endsection
