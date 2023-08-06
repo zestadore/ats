@@ -5,12 +5,19 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 
 class JobOpportunity extends Model
 {
-    use HasFactory,SoftDeletes;
+    use HasFactory,SoftDeletes,LogsActivity;
     protected $table = 'job_opportunities';
     protected $guarded=[];
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()->logOnly(['*']);
+    }
 
     public static function boot()
     {

@@ -158,6 +158,45 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="d-flex align-items-center">
+                                <div>
+                                    <h6 class="mb-0">Activity Logs</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-striped">
+                                @foreach (getUserActivityLogs() as $item)
+                                    <tr>
+                                        <td>
+                                            {{strtoupper($item->event)}} 
+                                            @if ($item->subject_type == 'App\Models\Candidate')
+                                                a Candidate @ {{$item->created_at->diffForHumans()}}
+                                            @elseif ($item->subject_type == 'App\Models\User')
+                                                an User @ {{$item->created_at->diffForHumans()}}
+                                            @elseif ($item->subject_type == 'App\Models\Client')
+                                                a Client @ {{$item->created_at->diffForHumans()}}
+                                            @elseif ($item->subject_type == 'App\Models\Interview')
+                                                an Interview @ {{$item->created_at->diffForHumans()}}
+                                            @elseif ($item->subject_type == 'App\Models\JobOpportunity')
+                                                a Job Opportunity @ {{$item->created_at->diffForHumans()}}
+                                            @elseif ($item->subject_type == 'App\Models\Submission')
+                                                a Job Submission @ {{$item->created_at->diffForHumans()}}
+                                            @elseif ($item->subject_type == 'App\Models\EndClient')  
+                                                an End Client @ {{$item->created_at->diffForHumans()}}
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 @endsection

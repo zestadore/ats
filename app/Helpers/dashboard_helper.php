@@ -7,6 +7,7 @@ use App\Models\Submission;
 use App\Models\Interview;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Activitylog\Models\Activity;
 
     function getClientsCount(){
         return Client::count();
@@ -54,6 +55,10 @@ use Illuminate\Support\Facades\Auth;
         }else{
             return Interview::where('to_date','<', Carbon::now())->where('created_by',Auth::user()->id)->latest()->take(10)->get();
         }
+    }
+
+    function getUserActivityLogs(){
+        return Activity::causedBy(Auth::user())->latest()->take(10)->get();
     }
 
 ?>
