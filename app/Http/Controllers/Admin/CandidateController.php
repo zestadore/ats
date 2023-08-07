@@ -16,9 +16,21 @@ class CandidateController extends Controller
         if ($request->ajax()) {
             $data= Candidate::query();
             $search = $request->search;
+            $location = $request->location;
+            $skills=$request->skills;
             if ($search) {
                 $data->where(function ($query) use ($search) {
                     $query->where('candidate_name', 'like', '%' . $search . '%');
+                });
+            }
+            if ($location) {
+                $data->where(function ($query) use ($location) {
+                    $query->where('location', 'like', '%' . $location . '%');
+                });
+            }
+            if ($skills) {
+                $data->where(function ($query) use ($skills) {
+                    $query->where('skills', 'like', '%' . $skills . '%')->orWhere('key_skills', 'like', '%' . $skills . '%');
                 });
             }
             return DataTables::of($data)

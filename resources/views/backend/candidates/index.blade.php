@@ -41,7 +41,13 @@
                         <form id="filterfordatatable" class="form-horizontal" onsubmit="event.preventDefault();">
                             <div class="row ">
                                 <div class="col">
-                                    <input type="text" name="search" class="form-control" placeholder="Search with client name">
+                                    <input type="text" name="search" class="form-control" placeholder="Search with candidate name">
+                                </div>
+                                <div class="col">
+                                    <input type="text" name="location" class="form-control" placeholder="Search with location">
+                                </div>
+                                <div class="col">
+                                    <input type="text" name="skills" class="form-control" placeholder="Search with skills">
                                 </div>
                             </div>
                         </form><br>
