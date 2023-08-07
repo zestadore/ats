@@ -53,7 +53,7 @@
                                 <select name="interview_name" id="interview_name" class="form-select mb-3" required>
                                     <option value="">Select a role</option>
                                     <option value="internal_interview">Internal Interview</option>
-                                    <option value="general_iterview">General Interview</option>
+                                    <option value="general_interview">General Interview</option>
                                     <option value="online_interview">Online Interview</option>
                                     <option value="phone_interview">Phone Interview</option>
                                     <option value="level1_interview">Level 1 Interview</option>

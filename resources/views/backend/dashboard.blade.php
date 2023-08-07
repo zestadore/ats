@@ -182,7 +182,7 @@
                                 @foreach (getUserActivityLogs() as $item)
                                     <tr>
                                         <td>
-                                            {{strtoupper($item->event)}} 
+                                            {{getUserName($item->causer_id)}} {{$item->event}} 
                                             @if ($item->subject_type == 'App\Models\Candidate')
                                                 a Candidate @ {{$item->created_at->diffForHumans()}}
                                             @elseif ($item->subject_type == 'App\Models\User')
@@ -221,6 +221,7 @@
             var level2Interviews='{{getLevel2InterviewCounts()}}';
             var level3Interviews='{{getLevel3InterviewCounts()}}';
             var level4Interviews='{{getLevel4InterviewCounts()}}';
+            var totalInterviewCount='{{getTotalInterviewCounts()}}';
             // chart 4
             var options = {
                 series: [{
@@ -264,7 +265,7 @@
                     }
                 },
                 title: {
-                    text: 'Interviews',
+                    text: 'Pipelines',
                     align: 'left',
                     style: {
                         fontSize: '14px'
@@ -296,6 +297,18 @@
                         opacityTo: 0.85,
                         stops: [50, 0, 100]
                     },
+                },
+                tooltip: {
+                    y: {
+                    formatter: function(val) {
+                        return val + "/" + totalInterviewCount
+                    },
+                    title: {
+                        formatter: function (seriesName) {
+                            return seriesName
+                        }
+                    }
+                    }
                 }
             };
 

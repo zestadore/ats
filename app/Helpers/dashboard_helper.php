@@ -5,6 +5,7 @@ use App\Models\Candidate;
 use App\Models\JobOpportunity;
 use App\Models\Submission;
 use App\Models\Interview;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Activitylog\Models\Activity;
@@ -129,6 +130,19 @@ use Spatie\Activitylog\Models\Activity;
         }else{
             return Interview::where('created_by',Auth::user()->id)->where('interview_name','level4_interview')->count();
         }
+    }
+
+    function getTotalInterviewCounts(){
+        if(Auth::user()->role=="super_admin"){
+            return Interview::count();
+        }else{
+            return Interview::where('created_by',Auth::user()->id)->count();
+        }
+    }
+
+    function getUserName($id){
+        $user = User::find($id);
+        return $user->full_name;
     }
 
 ?>
