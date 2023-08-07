@@ -134,7 +134,7 @@
                                 <label class="form-label" for="interviewers_id">Interviewer(s) </label>
                                 <select name="interviewers_id[]" id="interviewers_id" class="form-select" data-placeholder="Select interviewer(s)" multiple>
                                     @foreach ($clients as $item)
-                                        @if (in_array($item->id, $data->interviewers_id))
+                                        @if (in_array($item->id, $data->interviewers_id?? []))
                                             <option value="{{$item->id}}" selected>{{$item->client_name}}</option>
                                         @else
                                             <option value="{{$item->id}}">{{$item->client_name}}</option>

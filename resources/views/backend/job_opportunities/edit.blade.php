@@ -4,6 +4,8 @@
     <!-- include summernote css/js -->
     <link href="http://netdna.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
 @endsection
 @section('title')
     ATS - Edit Job Opportunity
@@ -64,7 +66,21 @@
                                 <x-forms.input class="form-control {{ $errors->has('salary') ? ' is-invalid' : '' }}" title="Salary" name="salary" id="salary" type="number" required="False"/>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                <x-forms.input class="form-control {{ $errors->has('job_owner') ? ' is-invalid' : '' }}" title="Job owner" name="job_owner" id="job_owner" type="text" required="False"/>
+                                <label class="form-label" for="job_owner">Job owner(s) </label>
+                                <select name="job_owner[]" id="job_owner" class="form-select" data-placeholder="Select job owner(s)" multiple>
+                                    @foreach ($accountManagers as $item)
+                                        @if (in_array($item->id, $data->job_owner?? []))
+                                            <option value="{{$item->id}}" selected>{{$item->full_name}}</option>
+                                        @else
+                                            <option value="{{$item->id}}">{{$item->full_name}}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                                @error('job_owner')
+                                    <span class="error mt-2 text-danger" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                         </div><p> </p>
                         <div class="row g-3">
@@ -97,11 +113,32 @@
                                 @enderror
                             </div>
                         </div><p> </p>
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <label class="form-label" for="assign_recruiter">Assign recruiter(s) </label>
+                                <select name="assign_recruiter[]" id="assign_recruiter" class="form-select" data-placeholder="Assign recruiter(s)" multiple>
+                                    @foreach ($recruiters as $item)
+                                        @if (in_array($item->id, $data->assign_recruiter?? []))
+                                            <option value="{{$item->id}}" selected>{{$item->full_name}}</option>
+                                        @else
+                                            <option value="{{$item->id}}">{{$item->full_name}}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                                @error('assign_recruiter')
+                                    <span class="error mt-2 text-danger" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <x-forms.input class="form-control {{ $errors->has('key_skills') ? ' is-invalid' : '' }}" title="Key skills" name="key_skills" id="key_skills" type="text" required="False"/>
+                            </div>
+                        </div><p> </p>
                         <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" name="status" value=1 id="status" checked>
                             <label class="form-check-label" for="type">Job status</label>
                         </div>
-                        <x-forms.input class="form-control {{ $errors->has('key_skills') ? ' is-invalid' : '' }}" title="Key skills" name="key_skills" id="key_skills" type="text" required="False"/>
                         <div class="row g-3">
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <x-forms.input class="form-control {{ $errors->has('notes') ? ' is-invalid' : '' }}" title="Notes" name="notes" id="notes" type="textarea" required="False"/>
@@ -127,6 +164,7 @@
 @section('javascripts')
     <script src="{{asset('assets/plugins/validation/jquery.validate.min.js')}}"></script>
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     {{-- <script src="{{asset('assets/plugins/validation/validation-script.js')}}"></script> --}}
     <script>
         $( document ).ready( function () {
@@ -217,7 +255,6 @@
             $('#title').val('{{$data->title}}');
             $('#type').val('{{$data->type}}');
             $('#salary').val('{{$data->salary}}');
-            $('#job_owner').val('{{$data->job_owner}}');
             $('#client_id').val('{{$data->client_id}}');
             $('#end_client_id').val('{{$data->end_client_id}}');
             $('#notes').val('{{$data->notes}}');
@@ -232,6 +269,9 @@
         }
 
         prefillData();
+
+        $('#job_owner').select2();
+        $('#assign_recruiter').select2();
 
     </script>
 @endsection

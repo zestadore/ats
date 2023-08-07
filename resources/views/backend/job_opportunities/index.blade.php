@@ -139,8 +139,8 @@
                         }
                     },
                     {
-                        data: 'job_owner',
-                        name: 'job_owner'
+                        data: 'job_owner_names',
+                        name: 'job_owner_names'
                     },
                     {
                         data: 'status',
@@ -251,7 +251,11 @@
                         html+="</tr>";
                         html+="<tr>";
                         html+="<td>Job Owner</td>";
-                        html+="<td>"+response.data.job_owner+"</td>";
+                        html+="<td>"+response.data.job_owner_names+"</td>";
+                        html+="</tr>";
+                        html+="<tr>";
+                        html+="<td>Assign Recruiter</td>";
+                        html+="<td>"+response.data.assign_recruiter_names+"</td>";
                         html+="</tr>";
                         html+="<tr>";
                         html+="<td>Status</td>";

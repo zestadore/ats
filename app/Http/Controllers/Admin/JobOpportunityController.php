@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Client;
 use App\Models\EndClient;
 use App\Models\JobOpportunity;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\ValidateJobOpportunity;
 use Illuminate\Support\Facades\Crypt;
@@ -48,7 +49,9 @@ class JobOpportunityController extends Controller
     public function create()
     {
         $clients=Client::get();
-        return view('backend.job_opportunities.create',['clients'=>$clients]);
+        $accountManagers=User::where('role','account_manager')->get();
+        $recruiters=User::where('role','recruiter')->get();
+        return view('backend.job_opportunities.create',['clients'=>$clients,'accountManagers'=>$accountManagers,'recruiters'=>$recruiters]);
     }
 
     public function store(ValidateJobOpportunity $request)
@@ -80,7 +83,9 @@ class JobOpportunityController extends Controller
         $data=JobOpportunity::findOrFail($id);
         $clients=Client::get();
         $endClients=EndClient::where('client_id',$data->client_id)->get();
-        return view('backend.job_opportunities.edit',['data'=>$data,'clients'=>$clients,'endClients'=>$endClients]);
+        $accountManagers=User::where('role','account_manager')->get();
+        $recruiters=User::where('role','recruiter')->get();
+        return view('backend.job_opportunities.edit',['data'=>$data,'clients'=>$clients,'endClients'=>$endClients,'accountManagers'=>$accountManagers,'recruiters'=>$recruiters]);
     }
 
     public function update(Request $request, $id)
