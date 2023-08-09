@@ -47,7 +47,10 @@
                                     <input type="text" name="location" class="form-control" placeholder="Search with location">
                                 </div>
                                 <div class="col">
-                                    <input type="text" name="skills" class="form-control" placeholder="Search with skills">
+                                    <input type="text" name="title" class="form-control" placeholder="Search with title">
+                                </div>
+                                <div class="col">
+                                    <input type="text" name="contact" class="form-control" placeholder="Search with contact">
                                 </div>
                             </div>
                         </form><br>

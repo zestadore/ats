@@ -16,3 +16,12 @@ DB
 db : ats_amnext
 user : ats_amnext
 pass : d7CnMcksKP7zGjNE
+
+
+aaPanel Internet Address: http://13.234.185.93:7800/7e01ae1e
+aaPanel Internal Address: http://172.26.13.145:7800/7e01ae1e
+username: licrr8kr
+password: e8ab63ae
+Warning:
+If you cannot access the panel, 
+release the following port (7800|888|80|443|20|21) in the security group

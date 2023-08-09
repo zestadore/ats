@@ -17,7 +17,8 @@ class CandidateController extends Controller
             $data= Candidate::query();
             $search = $request->search;
             $location = $request->location;
-            $skills=$request->skills;
+            $title=$request->title;
+            $contact=$request->contact;
             if ($search) {
                 $data->where(function ($query) use ($search) {
                     $query->where('candidate_name', 'like', '%' . $search . '%');
@@ -28,9 +29,14 @@ class CandidateController extends Controller
                     $query->where('location', 'like', '%' . $location . '%');
                 });
             }
-            if ($skills) {
-                $data->where(function ($query) use ($skills) {
-                    $query->where('skills', 'like', '%' . $skills . '%')->orWhere('key_skills', 'like', '%' . $skills . '%');
+            if ($title) {
+                $data->where(function ($query) use ($title) {
+                    $query->where('job_title', 'like', '%' . $title . '%');
+                });
+            }
+            if ($contact) {
+                $data->where(function ($query) use ($contact) {
+                    $query->where('email', 'like', '%' . $contact . '%')->orWhere('contact', 'like', '%' . $contact . '%');
                 });
             }
             return DataTables::of($data)
