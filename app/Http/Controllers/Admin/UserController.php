@@ -47,9 +47,9 @@ class UserController extends Controller
 
     public function store(ValidateUser $request)
     {
-        $request->merge(['password', Hash::make($request->mobile)]);
-        $request->request->add(['password'=> Hash::make($request->mobile)]);
-        $res=User::create($request->except('_token'));
+        $request->merge(['password', Hash::make($request->password_string??$request->mobile)]);
+        $request->request->add(['password'=> Hash::make($request->password_string??$request->mobile)]);
+        $res=User::create($request->except(['_token','password_string']));
         if($res){
             return redirect()->route('admin.users.index')->with('success', 'Successfully updated the data.');
         }else{
@@ -80,7 +80,11 @@ class UserController extends Controller
     {
         $id=Crypt::decrypt($id);
         $data=User::findOrFail($id);
-        $res=$data->update($request->except('_token'));
+        if($request->password_string){
+            $request->merge(['password', Hash::make($request->password_string)]);
+            $request->request->add(['password'=> Hash::make($request->password_string)]);
+        }
+        $res=$data->update($request->except(['_token','password_string']));
         if($res){
             return redirect()->route('admin.users.index')->with('success', 'Successfully updated the data.');
         }else{

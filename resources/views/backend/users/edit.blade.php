@@ -70,6 +70,12 @@
                                     </span>
                                 @enderror
                             </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <label for="inputChoosePassword" class="form-label">Password</label>
+                                <div class="input-group" id="show_hide_passwords">
+                                    <input type="password" class="form-control border-end-0" name="password_string" id="inputChoosePassword" placeholder="Enter Password"> <a href="javascript:;" class="input-group-text bg-transparent"><i class="bx bx-hide"></i></a>
+                                </div>
+                            </div>
                         </div><p> </p>
                         <div class="btn-group" role="group" aria-label="Basic example" style="float: right;">
                             <a href="{{route('admin.users.index')}}" class="btn btn-secondary">Cancel</a>
@@ -146,4 +152,21 @@
 
         prefillData();
     </script>
+    <script>
+		$(document).ready(function () {
+			$("#show_hide_passwords a").on('click', function (event) {
+				event.preventDefault();
+				if ($('#show_hide_passwords input').attr("type") == "text") {
+					$('#show_hide_passwords input').attr('type', 'password');
+					$('#show_hide_passwords i').addClass("bx-hide");
+					$('#show_hide_passwords i').removeClass("bx-show");
+				} else if ($('#show_hide_passwords input').attr("type") == "password") {
+					$('#show_hide_passwords input').attr('type', 'text');
+					$('#show_hide_passwords i').removeClass("bx-hide");
+					$('#show_hide_passwords i').addClass("bx-show");
+				}
+			});
+            $('#inputChoosePassword').val('');
+		});
+	</script>
 @endsection
