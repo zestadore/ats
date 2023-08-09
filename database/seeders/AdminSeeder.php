@@ -22,6 +22,7 @@ class AdminSeeder extends Seeder
             'mobile' => '1234567890',
             'password' => Hash::make('12345678'),
             'role' => 'super_admin',
+            'created_by'=>1,
         ]);
         User::create([
             'first_name' => 'Nawaz',
@@ -30,6 +31,7 @@ class AdminSeeder extends Seeder
             'mobile' => '1234567891',
             'password' => Hash::make('12345678'),
             'role' => 'super_admin',
+            'created_by'=>1,
         ]);
         User::create([
             'first_name' => 'Naveed',
@@ -38,6 +40,7 @@ class AdminSeeder extends Seeder
             'mobile' => '1234567892',
             'password' => Hash::make('12345678'),
             'role' => 'super_admin',
+            'created_by'=>1,
         ]);
     }
 }

@@ -8,3 +8,11 @@ Sub Domain : ats.wergexapps.in
 Database Name : wergexap_ats
 Database User : wergexap_ats
 Database Password : fQo6GYl$]{Q_
+
+
+Live
+
+DB 
+db : ats_amnext
+user : ats_amnext
+pass : d7CnMcksKP7zGjNE

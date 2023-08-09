@@ -108,6 +108,7 @@
                 dom: 'B<"clear">lrtip',
                 ajax: {
                     "url": '{{route("admin.job-submissions.index")}}',
+                    "headers": {"X-Requested-With":'XMLHttpRequest'},
                     "data": function(d) {
                         var searchprams = $('#filterfordatatable').serializeArray();
                         var indexed_array = {};

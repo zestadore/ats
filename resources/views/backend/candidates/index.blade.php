@@ -55,7 +55,7 @@
                             <thead>
                                 <tr>
                                     <th class="nosort">#</th>
-                                    <th>{{ __('Candidate') }}</th>
+                                    <th>{{ __('Candidate Name') }}</th>
                                     <th>{{ __('Email') }}</th>
                                     <th>{{ __('Contact') }}</th>
                                     <th>{{ __('Location') }}</th>
@@ -111,6 +111,7 @@
                 dom: 'B<"clear">lrtip',
                 ajax: {
                     "url": '{{route("admin.candidates.index")}}',
+                    "headers": {"X-Requested-With":'XMLHttpRequest'},
                     "data": function(d) {
                         var searchprams = $('#filterfordatatable').serializeArray();
                         var indexed_array = {};

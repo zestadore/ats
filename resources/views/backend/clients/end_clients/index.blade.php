@@ -88,6 +88,7 @@
                 dom: 'B<"clear">lrtip',
                 ajax: {
                     "url": url,
+                    "headers": {"X-Requested-With":'XMLHttpRequest'},
                     "data": function(d) {
                         var searchprams = $('#filterfordatatable').serializeArray();
                         var indexed_array = {};

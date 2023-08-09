@@ -142,7 +142,7 @@ use Spatie\Activitylog\Models\Activity;
 
     function getUserName($id){
         $user = User::find($id);
-        return $user->full_name;
+        return $user?->full_name;
     }
 
 ?>
