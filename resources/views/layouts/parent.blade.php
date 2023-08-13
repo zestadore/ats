@@ -50,6 +50,37 @@
 			buttons=['excel','pdf','print','copy'];
 		}
     </script>
+	<script type="text/javascript">
+        var idleTime = 0;
+        $(document).ready(function () {
+            //Increment the idle time counter every minute.
+            idleInterval = setInterval(timerIncrement, 60000); // 1 minute
+    
+            //Zero the idle timer on mouse movement.
+            $('body').mousemove(function (e) {
+                //alert("mouse moved" + idleTime);
+                idleTime = 0;
+            });
+    
+            $('body').keypress(function (e) {
+                //alert("keypressed"  + idleTime);
+                idleTime = 0;
+            });
+    
+            $('body').click(function() {
+                //alert("mouse moved" + idleTime);
+                idleTime = 0;
+            });
+        });
+    
+        function timerIncrement() {
+            idleTime = idleTime + 1;
+			var userAuth='{{Auth::check()}}';
+            if (idleTime >= 15 && userAuth) { // 15 minutes
+                document.getElementById('logout-form').submit();
+            }
+        }
+    </script>
     @yield('javascripts')
 </body>
 
