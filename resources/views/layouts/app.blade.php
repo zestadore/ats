@@ -13,10 +13,10 @@
     <div class="sidebar-wrapper" data-simplebar="true">
         <div class="sidebar-header">
             <div>
-                <img src="{{asset('assets/images/logo.jpg')}}" class="logo-icon" alt="logo icon">
+                <img src="{{asset('uploads/site_logo/'.env('SITE_LOGO',''))}}" class="logo-icon" alt="logo icon">
             </div>
             <div>
-                <h4 class="logo-text">ATS</h4>
+                <h4 class="logo-text">{{env('APP_NAME','')}}</h4>
             </div>
             <div class="toggle-icon ms-auto"><i class='bx bx-arrow-back'></i>
             </div>
@@ -30,6 +30,19 @@
                     <div class="menu-title">Dashboard</div>
                 </a>
             </li>
+            @canany(['isAdmin'])
+                <li class="{{ (request()->is('admin/site-settings*'))? 'mm-active' : '' }}">
+                    <a href="javascript:;" class="has-arrow">
+                        <div class="parent-icon"><i class="bx bx-intersect"></i>
+                        </div>
+                        <div class="menu-title">SaaS</div>
+                    </a>
+                    <ul>
+                        <li> <a href="{{route('admin.get-site.details')}}"><i class='bx bx-radio-circle'></i>Site settings</a>
+                        </li>
+                    </ul>
+                </li>
+            @endcanany
             @canany(['isAdmin','isAccountManager','isTeamLead'])
                 <li class="{{ (request()->is('admin/users*'))? 'mm-active' : '' }}">
                     <a href="javascript:;" class="has-arrow">
@@ -753,7 +766,7 @@
     <!--Start Back To Top Button--> <a href="javaScript:;" class="back-to-top"><i class='bx bxs-up-arrow-alt'></i></a>
     <!--End Back To Top Button-->
     <footer class="page-footer">
-        <p class="mb-0">Copyright © 2023. All right reserved.</p>
+        <p class="mb-0">{{env('APP_FOOTER','')}}</p>
     </footer>
     
 @endsection

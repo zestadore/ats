@@ -17,5 +17,7 @@ Route::middleware(['auth'])->name('admin.')->namespace("App\Http\Controllers\Adm
     Route::resource('users', UserController::class);
     Route::resource('interviews', InterviewController::class);
     Route::post('/update-password-profile', [App\Http\Controllers\HomeController::class, 'updatePasswordProfile'])->name('profile.password.update');
+    Route::get('site-settings', [App\Http\Controllers\Admin\EnvController::class, 'getSiteDetails'])->name('get-site.details');
+    Route::post('site-settings', [App\Http\Controllers\Admin\EnvController::class, 'updateSiteSettings'])->name('update-site.details');
 });
 
