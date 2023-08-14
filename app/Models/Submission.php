@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
+use App\Jobs\JobSubmissionMailJob;
 
 class Submission extends Model
 {
@@ -26,6 +27,9 @@ class Submission extends Model
         static::creating(function($model)
         {
             $model->created_by = Auth::user()->id;
+        });
+        static::created(function (Submission $submission) {
+            dispatch(new JobSubmissionMailJob($submission));
         });
         static::updating(function($model)
         {
