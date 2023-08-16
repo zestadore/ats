@@ -40,6 +40,8 @@
                     <ul>
                         <li> <a href="{{route('admin.get-site.details')}}"><i class='bx bx-radio-circle'></i>Site settings</a>
                         </li>
+                        <li> <a href="{{route('admin.get-mail.details')}}"><i class='bx bx-radio-circle'></i>Mail settings</a>
+                        </li>
                     </ul>
                 </li>
             @endcanany

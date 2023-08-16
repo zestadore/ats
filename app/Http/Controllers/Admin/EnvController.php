@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\ValidateEmailSettings;
 
 class EnvController extends Controller
 {
@@ -37,6 +38,36 @@ class EnvController extends Controller
             'APP_NAME'   => '"'.$request->site_name.'"',
             'APP_FOOTER'   => '"'.$request->site_footer.'"',
             'SITE_LOGO'       => '"'.$logo.'"'
+        ]);
+        if($env_update){
+            return redirect()->back()->with('success', 'Successfully updated the data.');
+        } else {
+            return redirect()->back()->with('error', 'Failed to update the data. Please try again.');
+        }
+    }
+
+    public function getMailDetails()
+    {
+        $data =[
+            'mail_type' => env('MAIL_MAILER',''),
+            'mail_host'=>env('MAIL_HOST',''),
+            'mail_port'=>env('MAIL_PORT',''),
+            'mail_username'=>env('MAIL_USERNAME',''),
+            'mail_password'=>env('MAIL_PASSWORD',''),
+            'mail_encryption'=>env('MAIL_ENCRYPTION','')
+        ];
+        return view('saas.mail_settings',['data'=>$data]);
+    }
+
+    public function updateMailSettings(ValidateEmailSettings $request)
+    {
+        $env_update = $this->updateEnv([
+            'MAIL_MAILER'=> $request->mail_type,
+            'MAIL_HOST'=> $request->mail_host,
+            'MAIL_PORT'=> $request->mail_host,
+            'MAIL_USERNAME'=> $request->mail_username,
+            'MAIL_PASSWORD'=> $request->mail_password,
+            'MAIL_ENCRYPTION'=> $request->mail_encryption
         ]);
         if($env_update){
             return redirect()->back()->with('success', 'Successfully updated the data.');
