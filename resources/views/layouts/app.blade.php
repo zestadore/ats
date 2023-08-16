@@ -31,7 +31,7 @@
                 </a>
             </li>
             @canany(['isAdmin'])
-                <li class="{{ (request()->is('admin/site-settings*'))? 'mm-active' : '' }}">
+                <li class="{{ (request()->is('admin/site-settings*')?? request()->is('admin/mail-settings* ')?? request()->is('admin/pricing-plans/*'))? 'mm-active' : '' }}">
                     <a href="javascript:;" class="has-arrow">
                         <div class="parent-icon"><i class="bx bx-intersect"></i>
                         </div>
@@ -41,6 +41,8 @@
                         <li> <a href="{{route('admin.get-site.details')}}"><i class='bx bx-radio-circle'></i>Site settings</a>
                         </li>
                         <li> <a href="{{route('admin.get-mail.details')}}"><i class='bx bx-radio-circle'></i>Mail settings</a>
+                        </li>
+                        <li> <a href="{{route('admin.pricing-plans.index')}}"><i class='bx bx-radio-circle'></i>Pricing plans</a>
                         </li>
                     </ul>
                 </li>
