@@ -6,6 +6,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+	<META HTTP-EQUIV="REFRESH" CONTENT="csrf_timeout_in_seconds">
 	<!--favicon-->
 	<link rel="icon" href="{{asset('assets/images/favicon-32x32.png')}}" type="image/png" />
 	<!--plugins-->
