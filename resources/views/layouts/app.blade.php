@@ -44,6 +44,8 @@
                         </li>
                         <li> <a href="{{route('admin.pricing-plans.index')}}"><i class='bx bx-radio-circle'></i>Pricing plans</a>
                         </li>
+                        <li> <a href="{{route('admin.companies.index')}}"><i class='bx bx-radio-circle'></i>Companies</a>
+                        </li>
                     </ul>
                 </li>
             @endcanany
@@ -725,7 +727,7 @@
                 <div class="user-box dropdown px-3">
                     <a class="d-flex align-items-center nav-link dropdown-toggle gap-3 dropdown-toggle-nocaret" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         @if (Auth::user()->image==null)
-                            <img src="{{asset('assets/images/avatars/avatar-2.png')}}" class="user-img" alt="User Image">
+                            <img src="{{asset('uploads/site_logo/'.env('SITE_LOGO',''))}}" class="user-img" alt="User Image">
                         @else
                             <img src="{{Auth::user()->image_path}}" class="user-img" alt="user avatar">
                         @endif

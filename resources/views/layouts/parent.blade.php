@@ -79,7 +79,9 @@
 			var userAuth='{{Auth::check()}}';
             if (idleTime >= 15 && userAuth) { // 15 minutes
                 document.getElementById('logout-form').submit();
-            }
+            }else if(idleTime >= 10 && !userAuth){
+				location.reload();
+			}
         }
     </script>
     @yield('javascripts')

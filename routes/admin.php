@@ -22,5 +22,6 @@ Route::middleware(['auth'])->name('admin.')->namespace("App\Http\Controllers\Adm
     Route::get('mail-settings', [App\Http\Controllers\Admin\EnvController::class, 'getMailDetails'])->name('get-mail.details');
     Route::post('mail-settings', [App\Http\Controllers\Admin\EnvController::class, 'updateMailSettings'])->name('update-mail.details');
     Route::resource('pricing-plans', PricingPlanController::class);
+    Route::resource('companies', CompanyController::class);
 });
 

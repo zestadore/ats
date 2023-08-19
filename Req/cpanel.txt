@@ -25,3 +25,7 @@ password: e8ab63ae
 Warning:
 If you cannot access the panel, 
 release the following port (7800|888|80|443|20|21) in the security group
+
+
+Email : noreply@wergexapps.in
+Pass : ]{8)xAmO1uu1
