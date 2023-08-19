@@ -110,7 +110,7 @@
                             </div>
                         </div><p> </p>
                         <div class="row g-3">
-                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                                 <label class="form-label" for="from_date">From <span style="color:red;"> *</span></label>
                                 <input type="datetime-local" name="from_date" id="from_date" class="form-control mb-3" required>
                                 @error('from_date')
@@ -119,14 +119,28 @@
                                     </span>
                                 @enderror
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                                 <label class="form-label" for="to_date">To <span style="color:red;"> *</span></label>
                                 <input type="datetime-local" name="to_date" id="to_date" class="form-control mb-3" required>
                                 @error('to_date')
-                                <span class="error mt-2 text-danger" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
+                                    <span class="error mt-2 text-danger" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                <label class="form-label" for="time_zone">Time zone </label>
+                                <select name="time_zone" id="time_zone" class="form-select mb-3">
+                                    <option value="">Select time zone</option>
+                                    @foreach (timezone_identifiers_list() as $item)
+                                        <option value="{{$item}}">{{$item}}</option>
+                                    @endforeach
+                                </select>
+                                @error('time_zone')
+                                    <span class="error mt-2 text-danger" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                         </div><p> </p>
                         <div class="row g-3">
@@ -281,6 +295,7 @@
             $('#location').val('{{$data->location}}');
             $('#assesment_name').val('{{$data->assesment_name}}');
             $('#comments').val('{{$data->comments}}');
+            $('#time_zone').val('{{$data->time_zone}}');
         }
 
         prefillData();

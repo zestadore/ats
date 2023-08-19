@@ -252,6 +252,10 @@
                         html+="<td>"+response.data.location+"</td>";
                         html+="</tr>";
                         html+="<tr>";
+                        html+="<td>Time zone</td>";
+                        html+="<td>"+response.data.time_zone+"</td>";
+                        html+="</tr>";
+                        html+="<tr>";
                         html+="<td>Comments</td>";
                         html+="<td>"+response.data.comments+"</td>";
                         html+="</tr>";
