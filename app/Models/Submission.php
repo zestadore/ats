@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
 use App\Jobs\JobSubmissionMailJob;
+use App\Models\Scopes\SaasScope;
 
 class Submission extends Model
 {
@@ -26,6 +27,7 @@ class Submission extends Model
         parent::boot();
         static::creating(function($model)
         {
+            $model->company_id=Auth::user()->company_id;
             $model->created_by = Auth::user()->id;
         });
         static::created(function (Submission $submission) {
@@ -44,6 +46,11 @@ class Submission extends Model
             $model->deleted_by = Auth::user()->id;
             $model->save();
         });
+    }
+
+    protected static function booted()
+    {
+        static::addGlobalScope(new SaasScope);
     }
 
     public function candidate(){

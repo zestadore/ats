@@ -149,7 +149,7 @@
                         </div><p> </p>
                         <div class="btn-group" role="group" aria-label="Basic example" style="float: right;">
                             <a href="{{route('admin.job-opportunities.index')}}" class="btn btn-secondary">Cancel</a>
-                            @canany(['isAdmin','isAccountManager','isTeamLead'])
+                            @canany(['isAdmin','isAccountManager','isTeamLead','isCompanyAdmin'])
                                 <button type="submit" class="btn btn-primary" style="float:right;">Submit</button>
                             @endcanany
                         </div>

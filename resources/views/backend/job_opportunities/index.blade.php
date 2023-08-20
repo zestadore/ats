@@ -20,7 +20,7 @@
                     </nav>
                 </div>
                 <div class="ms-auto">
-                    @canany(['isAdmin','isAccountManager','isTeamLead'])
+                    @canany(['isAdmin','isAccountManager','isTeamLead','isCompanyAdmin'])
                         <a href="{{route('admin.job-opportunities.create')}}" class="btn btn-primary">Add New</a>
                     @endcanany
                 </div>

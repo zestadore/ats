@@ -49,7 +49,7 @@
                     </ul>
                 </li>
             @endcanany
-            @canany(['isAdmin','isAccountManager','isTeamLead'])
+            @canany(['isAdmin','isAccountManager','isTeamLead','isCompanyAdmin'])
                 <li class="{{ (request()->is('admin/users*'))? 'mm-active' : '' }}">
                     <a href="javascript:;" class="has-arrow">
                         <div class="parent-icon"><i class="bx bx-user-circle"></i>
@@ -64,7 +64,7 @@
                     </ul>
                 </li>
             @endcanany
-            @canany(['isAdmin','isAccountManager','isTeamLead'])
+            @canany(['isAdmin','isAccountManager','isTeamLead','isCompanyAdmin'])
                 <li class="{{ (request()->is('admin/clients*'))? 'mm-active' : '' }}">
                     <a href="javascript:;" class="has-arrow">
                         <div class="parent-icon"><i class="bx bx-user-plus"></i>
@@ -101,7 +101,7 @@
                 <ul>
                     <li> <a href="{{route('admin.job-opportunities.index')}}"><i class='bx bx-radio-circle'></i>View job opportunities</a>
                     </li>
-                    @canany(['isAdmin','isAccountManager','isTeamLead'])
+                    @canany(['isAdmin','isAccountManager','isTeamLead','isCompanyAdmin'])
                         <li> <a href="{{route('admin.job-opportunities.create')}}"><i class='bx bx-radio-circle'></i>Add job opportunity</a>
                         </li>
                     @endcanany

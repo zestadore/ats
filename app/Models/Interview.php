@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Client;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
+use App\Models\Scopes\SaasScope;
 
 class Interview extends Model
 {
@@ -30,6 +31,7 @@ class Interview extends Model
         parent::boot();
         static::creating(function($model)
         {
+            $model->company_id=Auth::user()->company_id;
             $model->created_by = Auth::user()->id;
         });
         static::updating(function($model)
@@ -41,6 +43,11 @@ class Interview extends Model
             $model->deleted_by = Auth::user()->id;
             $model->save();
         });
+    }
+
+    protected static function booted()
+    {
+        static::addGlobalScope(new SaasScope);
     }
 
     public function candidate(){
