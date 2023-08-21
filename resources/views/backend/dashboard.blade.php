@@ -199,6 +199,8 @@
                                                 an End Client @ {{$item->created_at->diffForHumans()}}
                                             @elseif ($item->subject_type == 'App\Models\PricingPlan')  
                                                 a Pricing Plan @ {{$item->created_at->diffForHumans()}}
+                                            @elseif ($item->subject_type == 'App\Models\Company')  
+                                                a Company @ {{$item->created_at->diffForHumans()}}
                                             @endif
                                         </td>
                                     </tr>
