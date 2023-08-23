@@ -133,6 +133,19 @@
                     </li>
                 </ul>
             </li>
+            <li class="{{ (request()->is('admin/invoices*'))? 'mm-active' : '' }}">
+                <a href="javascript:;" class="has-arrow">
+                    <div class="parent-icon"><i class="bx bx-comment-add"></i>
+                    </div>
+                    <div class="menu-title">Invoices</div>
+                </a>
+                <ul>
+                    <li> <a href="{{route('admin.invoices.index')}}"><i class='bx bx-radio-circle'></i>View invoices</a>
+                    </li>
+                    <li> <a href="{{route('admin.invoices.create')}}"><i class='bx bx-radio-circle'></i>Add invoice</a>
+                    </li>
+                </ul>
+            </li>
         </ul>
         <!--end navigation-->
     </div>
