@@ -209,13 +209,26 @@
             }
         });
 
-        $('#wrapperRows').on('change', '.hrs', function(e){
-            e.preventDefault();
-            var val = $(this).val();
-            var index = $(this).index();
+        addRow();
+
+
+        $(document).on("change",".hrs",function(e) { 
+            calculateTotalAmount();
         });
 
-        addRow();
+        $(document).on("change",".rate",function(e) { 
+            calculateTotalAmount();
+        });
+
+        function calculateTotalAmount(){
+            const inputFields = document.querySelectorAll('.hrs');
+            inputFields.forEach((inputField, index) => {
+                var hrs=parseInt($(inputField).val());
+                var rate=parseInt($(".rate").eq(index).val());
+                var amount=hrs*rate;
+                $(".amt").eq(index).val(amount);
+            });
+        }
 
     </script>
 @endsection
