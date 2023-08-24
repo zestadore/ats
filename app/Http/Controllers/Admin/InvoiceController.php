@@ -123,8 +123,14 @@ class InvoiceController extends Controller
         //
     }
 
-    public function destroy(Invoice $invoice)
+    public function destroy($id)
     {
-        //
+        $data=Invoice::find(Crypt::decrypt($id));
+        $res=$data->delete();
+        if($res){
+            return response()->json(['success'=>"Data deleted successfully!"]);
+        }else{
+            return response()->json(['error'=>"Failed to delete the data, kindly try again!"]);
+        }
     }
 }
