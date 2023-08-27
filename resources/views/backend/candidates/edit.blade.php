@@ -118,6 +118,38 @@
                                 <x-forms.input class="form-control {{ $errors->has('notes') ? ' is-invalid' : '' }}" title="Notes" name="notes" id="notes" type="textarea" required="False"/>
                             </div>
                         </div><p> </p>
+                        <h6>Additional attachments</h6>
+                        <hr>
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Attachment Name</th>
+                                    <th>Attach file</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($data->additionalAttachments as $item)
+                                    <tr>
+                                        <td>{{$item->description}}</td>
+                                        <td><a href="{{$item->attachment_path}}" target="_blank">View</a></td>
+                                        <td>
+                                            <a href="#" class="btn btn-danger btn-sm btn-del-attachment" data-id="{{Crypt::encrypt($item->id)}}"><i class="fadeIn animated bx bx-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table><p> </p>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>{{ __('Attachment Name') }}</th>
+                                    <th>{{ __('Attach file') }}</th>
+                                    <th>{{ __('Action') }}</th>
+                                </tr>
+                            </thead>
+                            <tbody id="wrapperRows"></tbody>
+                        </table>
                         <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" name="employer_details" value=1 id="employer_details">
                             <label class="form-check-label" for="employer_details">Employer details</label>
@@ -146,8 +178,9 @@
 @endsection
 @section('javascripts')
     <script src="{{asset('assets/plugins/validation/jquery.validate.min.js')}}"></script>
-    {{-- <script src="{{asset('assets/plugins/validation/validation-script.js')}}"></script> --}}
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script>
+        var rowCount=1;
         $( document ).ready( function () {
             $( "#jQueryValidationForm" ).validate( {
                 rules: {
@@ -231,5 +264,56 @@
             }
         }
         prefillForm();
+
+        $('#wrapperRows').on('click', '.addDetailsButton', function(e){
+            e.preventDefault();
+            rowCount++;
+            addRow();
+        });
+
+        function addRow(){
+            $('#wrapperRows').append('{!!$renderHtml!!}');
+        }
+
+        $('#wrapperRows').on('click', '.remove_button', function(e){
+            e.preventDefault();
+            if(rowCount>1){
+                $(this).parent('td').parent('tr').remove(); //Remove field html
+                rowCount--; //Decrement field counter
+            }
+        });
+
+        addRow();
+
+        $('.btn-del-attachment').on('click', function(e){
+            swal({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                buttons: true,
+                dangerMode: true,
+            }).then((result) => {
+                if (result) {
+                    var id=$(this).data('id');
+                    var url="{{route('admin.delete-additional-attachment','ID')}}";
+                    url=url.replace('ID',id);
+                    $.ajax({
+                        url: url,
+                        type:"delete",
+                        data:{
+                            "_token": "{{ csrf_token() }}",
+                        },
+                        success:function(response){
+                            if(response.success){
+                                swal("Good job!", response.success, "success");
+                                window.location.reload();
+                            }else{
+                                swal("Oops!", "Failed to delete the attachment", "error");
+                            }
+                        },
+                    });
+                }
+            })
+        });
     </script>
 @endsection

@@ -14,6 +14,7 @@ Route::middleware(['auth'])->name('admin.')->namespace("App\Http\Controllers\Adm
     Route::resource('job-submissions', SubmissionController::class);
     Route::get('/get-candidates-details/{id}', [App\Http\Controllers\Admin\CandidateController::class, 'getCandidatesDetails'])->name('get-candidates-details');
     Route::get('get-candidates-list', [App\Http\Controllers\Admin\CandidateController::class, 'getCandidatesSearch'])->name('get-candidates-list');
+    Route::delete('delete-additional-attachment/{id}', [App\Http\Controllers\Admin\CandidateController::class, 'deleteAttachment'])->name('delete-additional-attachment');
     Route::resource('users', UserController::class);
     Route::resource('interviews', InterviewController::class);
     Route::post('/update-password-profile', [App\Http\Controllers\HomeController::class, 'updatePasswordProfile'])->name('profile.password.update');

@@ -18,6 +18,17 @@ class AdditionalAttachment extends Model
         return LogOptions::defaults()->logOnly(['*']);
     }
 
+    public static function boot()
+    {
+        parent::boot();
+        static::deleting(function($model)
+        {
+            if($model->attachment!=null){
+                $d=unlink(public_path('uploads/attachments/'. $model->attachment));
+            }
+        });
+    }
+
     public function getAttachmentPathAttribute(){
         if($this->attributes['attachment']!=null){
             return url('/') .'/uploads/attachments/'.$this->attributes['attachment'];
