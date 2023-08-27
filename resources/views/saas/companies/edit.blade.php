@@ -52,7 +52,7 @@
                                 <x-forms.input class="form-control {{ $errors->has('address') ? ' is-invalid' : '' }}" title="Address" name="address" id="address" type="text" required="False"/>
                             </div>
                         </div><p> </p>
-                        <div class="row g-3">
+                        {{-- <div class="row g-3">
                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                 <label for="date_format">Date format <span style="color:red;">*</span></label>
                                 <select name="date_format" id="date_format" class="form-select" required>
@@ -81,8 +81,8 @@
                                     </span>
                                 @enderror
                             </div>
-                        </div><p> </p>
-                        <div class="row g-3">
+                        </div><p> </p> --}}
+                        {{-- <div class="row g-3">
                             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                                 <x-forms.input class="form-control {{ $errors->has('currency_symbol') ? ' is-invalid' : '' }}" title="Currency symbol" name="currency_symbol" id="currency_symbol" type="text" required="True"/>
                             </div>
@@ -110,11 +110,11 @@
                                     </span>
                                 @enderror
                             </div>
-                        </div><p> </p>
+                        </div><p> </p> --}}
                         <div class="row g-3">
-                            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                            {{-- <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
                                 <x-forms.input class="form-control {{ $errors->has('invoice_footer') ? ' is-invalid' : '' }}" title="Invoice footer" name="invoice_footer" id="invoice_footer" type="text" required="False"/>
-                            </div>
+                            </div> --}}
                             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                                 <label for="pricing_plan_id">Pricing plan <span style="color:red;">*</span></label>
                                 <select name="pricing_plan_id" id="pricing_plan_id" class="form-select" required>
@@ -237,13 +237,13 @@
         function prefilForm(){
             $('#company_name').val('{{$data->company_name}}');
             $('#address').val('{{$data->address}}');
-            $('#currency_symbol').val('{{$data->currency_symbol}}');
-            $('#currency_position').val('{{$data->currency_position}}');
-            $('#precision').val('{{$data->precision}}');
-            $('#invoice_footer').val('{{$data->invoice_footer}}');
+            // $('#currency_symbol').val('{{$data->currency_symbol}}');
+            // $('#currency_position').val('{{$data->currency_position}}');
+            // $('#precision').val('{{$data->precision}}');
+            // $('#invoice_footer').val('{{$data->invoice_footer}}');
             $('#pricing_plan_id').val('{{$data->pricing_plan_id}}');
-            $('#time_zone').val('{{$data->time_zone}}');
-            $('#date_format').val('{{$data->date_format}}');
+            // $('#time_zone').val('{{$data->time_zone}}');
+            // $('#date_format').val('{{$data->date_format}}');
             $('#first_name').val('{{$user->first_name}}');
             $('#last_name').val('{{$user->last_name}}');
             $('#email').val('{{$user->email}}');

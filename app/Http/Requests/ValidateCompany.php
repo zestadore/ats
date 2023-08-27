@@ -24,11 +24,11 @@ class ValidateCompany extends FormRequest
         }
         return [
             'company_name'=>'required',
-            'date_format'=>'required',
-            'time_zone'=>'required',
-            'currency_symbol'=>'required',
-            'currency_position'=>'required',
-            'precision'=>'required',
+            // 'date_format'=>'required',
+            // 'time_zone'=>'required',
+            // 'currency_symbol'=>'required',
+            // 'currency_position'=>'required',
+            // 'precision'=>'required',
             'pricing_plan_id'=>'required|numeric',
             'first_name'=>'required',
             'email' => 'required|email|unique:users,email,'. $userId,

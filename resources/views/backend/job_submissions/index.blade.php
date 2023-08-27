@@ -71,7 +71,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">View User</h5>
+                    <h5 class="modal-title">View Job Submission</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id="view-modal-body"></div>
@@ -213,63 +213,81 @@
                         var html="<table class='table table-striped table-bordered'>";
                         html+="<tr>";
                         html+="<td>Job title</td>";
-                        html+="<td>"+response.data.job_opportunity.title+"</td>";
+                        var title=response.data.job_opportunity.title?response.data.job_opportunity.title:"-";
+                        html+="<td>"+title+"</td>";
                         html+="</tr>";
                         html+="<tr>";
                         html+="<td>Candidate</td>";
-                        html+="<td>"+response.data.candidate.candidate_name+"</td>";
+                        var candidate=response.data.candidate.candidate_name?response.data.candidate.candidate_name:"-";
+                        html+="<td>"+candidate+"</td>";
                         html+="</tr>";
                         html+="<tr>";
                         html+="<td>Contact</td>";
-                        html+="<td>"+response.data.contact+"</td>";
+                        var contact=response.data.contact?response.data.contact:"-";
+                        html+="<td>"+contact+"</td>";
                         html+="</tr>";
                         html+="<tr>";
                         html+="<td>Email</td>";
-                        html+="<td>"+response.data.email_id+"</td>";
+                        var email_id=response.data.email_id?response.data.email_id:"-";
+                        html+="<td>"+email_id+"</td>";
                         html+="</tr>";
                         html+="<tr>";
                         html+="<td>Current location</td>";
-                        html+="<td>"+response.data.current_location+"</td>";
+                        var current_location=response.data.current_location?response.data.current_location:"-";
+                        html+="<td>"+current_location+"</td>";
                         html+="</tr>";
                         html+="<tr>";
                         html+="<td>Total experience</td>";
-                        html+="<td>"+response.data.total_experience+"</td>";
+                        var total_experience=response.data.total_experience?response.data.total_experience:"-";
+                        html+="<td>"+total_experience+"</td>";
                         html+="</tr>";
                         html+="<tr>";
                         html+="<td>Relevant experience</td>";
-                        html+="<td>"+response.data.relevant_experience+"</td>";
+                        var relevant_experience=response.data.relevant_experience?response.data.relevant_experience:"-";
+                        html+="<td>"+relevant_experience+"</td>";
                         html+="</tr>";
                         html+="<tr>";
                         html+="<td>Visa status</td>";
-                        html+="<td>"+response.data.visa_status+"</td>";
+                        var visa_status=response.data.visa_status?response.data.visa_status:"-";
+                        html+="<td>"+visa_status+"</td>";
                         html+="</tr>";
                         html+="<tr>";
                         html+="<td>Education</td>";
-                        html+="<td>"+response.data.education+"</td>";
+                        var education=response.data.education?response.data.education:"-";
+                        html+="<td>"+education+"</td>";
                         html+="</tr>";
                         html+="<tr>";
                         html+="<td>Rate</td>";
-                        html+="<td>"+response.data.rate+"</td>";
+                        var rate=response.data.rate?response.data.rate:"-";
+                        html+="<td>"+rate+"</td>";
                         html+="</tr>";
                         html+="<tr>";
                         html+="<td>Notice period</td>";
-                        html+="<td>"+response.data.notice_period+"</td>";
+                        var notice_period=response.data.notice_period?response.data.notice_period:"-";
+                        html+="<td>"+notice_period+"</td>";
                         html+="</tr>";
                         html+="<tr>";
                         html+="<td>Candidate type</td>";
-                        html+="<td>"+response.data.candidate_type+"</td>";
+                        var candidate_type=response.data.candidate_type?response.data.candidate_type:"-";
+                        html+="<td>"+candidate_type+"</td>";
                         html+="</tr>";
                         html+="<tr>";
                         html+="<td>Relocation</td>";
-                        html+="<td>"+response.data.relocation+"</td>";
+                        var relocation=response.data.relocation?response.data.relocation:"-";
+                        html+="<td>"+relocation+"</td>";
                         html+="</tr>";
                         html+="<tr>";
                         html+="<td>Interview availability</td>";
-                        html+="<td>"+response.data.interview_availability+"</td>";
+                        var interview_availability=response.data.interview_availability?response.data.interview_availability:"-";
+                        html+="<td>"+interview_availability+"</td>";
                         html+="</tr>";
                         html+="<tr>";
                         html+="<td>Resume</td>";
-                        html+="<td><a target='_blank' href='"+response.data.resume_path+"'>View</a></td>";
+                        if(response.data.resume_path!=null || response.data.resume_path!=""){
+                            html+="<td><a target='_blank' href='"+response.data.resume_path+"'>View</a></td>";
+                        }else{
+                            html+="<td style='color:red;'>Resume not uploaded</td>";
+                        }
                         html+="</tr>";
                         html+="</table>";
                         html=html+"</html>";
