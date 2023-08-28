@@ -111,7 +111,7 @@ class CandidateController extends Controller
 
     public function show($id)
     {
-        $res=Candidate::find(Crypt::decrypt($id));
+        $res=Candidate::with(['additionalAttachments'])->find(Crypt::decrypt($id));
         if($res){
             return response()->json(['success'=>true,'data'=>$res]);
         }else{
