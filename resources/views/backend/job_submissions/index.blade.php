@@ -1,6 +1,14 @@
 @extends('layouts.app')
 @section('styles')
     <link href="{{asset('assets/plugins/datatable/css/dataTables.bootstrap5.min.css')}}" rel="stylesheet" />
+    <style>
+        #viewLargeModal .modal-dialog {
+        height: 100%; /* = 90% of the .modal-backdrop block = %90 of the screen */
+        }
+        #viewLargeModal .modal-content {
+        height: 100%; /* = 100% of the .modal-dialog block */
+        }
+    </style>
 @endsection
 @section('title')
     ATS - Job Submissions
@@ -75,6 +83,21 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id="view-modal-body"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="viewLargeModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="height: 100%">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">View Attachment</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="view-attachment-body"></div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
@@ -283,8 +306,8 @@
                         html+="</tr>";
                         html+="<tr>";
                         html+="<td>Resume</td>";
-                        if(response.data.resume_path!=null || response.data.resume_path!=""){
-                            html+="<td><a target='_blank' href='"+response.data.resume_path+"'>View</a></td>";
+                        if(response.data.resume_path!==null && response.data.resume_path!="" && response.data.resume_path!="null"){
+                            html+="<td><a href='#'class='viewAttachment' data-url='"+response.data.resume_path+"'>View</a></td>";
                         }else{
                             html+="<td style='color:red;'>Resume not uploaded</td>";
                         }
@@ -299,6 +322,16 @@
                 },
             });
         }
+
+        $(document).on('click', '.viewAttachment', function(e){
+            e.preventDefault();
+            var url=$(this).data('url');
+            var html="";
+            html+='<iframe src="'+url+'" width="100%" height="100%"></iframe>';
+            $('#view-attachment-body').html(html);
+            // $('#exampleLargeModal').modal('hide');
+            $('#viewLargeModal').modal('show');
+        });
 
     </script>
 @endsection
