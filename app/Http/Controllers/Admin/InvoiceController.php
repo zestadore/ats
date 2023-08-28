@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Invoice;
 use App\Models\Client;
+use App\Models\Candidate;
 use App\Models\InvoiceDetails;
 use App\Models\Company;
 use Illuminate\Http\Request;
@@ -75,6 +76,7 @@ class InvoiceController extends Controller
             'due_date'=>Carbon::now()->addDays(5),
         ];
         $res=Invoice::create($data)->id;
+        $resId=Crypt::encrypt($res);
         if($res){
             $x=Count($request->hours);
             $data=[];
@@ -96,7 +98,7 @@ class InvoiceController extends Controller
             }
         }
         if($res){
-            return redirect()->route('admin.invoices.index')->with('success', 'Successfully updated the data.');
+            return redirect()->route('admin.invoices.show',$resId);
         }else{
             return redirect()->route('admin.invoices.index')->with('error', 'Failed to update the data. Please try again.');
         }
@@ -131,6 +133,32 @@ class InvoiceController extends Controller
             return response()->json(['success'=>"Data deleted successfully!"]);
         }else{
             return response()->json(['error'=>"Failed to delete the data, kindly try again!"]);
+        }
+    }
+
+    public function addClient(Request $request)
+    {
+        $data=[
+            'client_name'=>$request->client_name,
+            'email'=>$request->email,
+            'contact'=>"00000",
+            'region'=>" "
+        ];
+        $res=Client::create($data);
+        if($res){
+            return response()->json(['success'=>"Data added successfully!"]);
+        }else{
+            return response()->json(['error'=>"Failed to add the data, kindly try again!"]);
+        }
+    }
+
+    public function addCandidate(Request $request)
+    {
+        $res=Candidate::create($request->except('_token'));
+        if($res){
+            return response()->json(['success'=>"Data added successfully!"]);
+        }else{
+            return response()->json(['error'=>"Failed to add the data, kindly try again!"]);
         }
     }
 }

@@ -49,7 +49,7 @@
                         <form action="{{route('admin.invoices.store')}}" id="jQueryValidationForm" method="POST">@csrf
                             <div class="row g-3">
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-4">
-                                    <label class="form-label" for="client_id">Vendor name <span style="color:red;"> *</span></label>
+                                    <label class="form-label" for="client_id">Vendor name <span style="color:red;"> *</span></label><button type="button" class="btn btn-primary btn-sm" style="float:right;" data-bs-toggle="modal" data-bs-target="#addClientModal">+</button>
                                     <select name="client_id" id="client_id" class="form-select" data-placeholder="Select client" required>
                                         <option value="">Select a client</option>
                                         @foreach ($clients as $item)
@@ -63,7 +63,7 @@
                                     @enderror
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                    <label class="form-label" for="candidate_id">Candidate name <span style="color:red;"> *</span></label>
+                                    <label class="form-label" for="candidate_id">Candidate name <span style="color:red;"> *</span></label><button type="button" class="btn btn-primary btn-sm" style="float:right;" data-bs-toggle="modal" data-bs-target="#addCandidateModal">+</button>
                                     <select name="candidate_id" id="candidate_id" class="form-select mb-3" required>
                                         <option value="">Select candidate</option>
                                     </select>
@@ -79,18 +79,74 @@
                                     <span id="vendorAddress"></span>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                    <button type="button" id="addDetailsButton" class="btn btn-primary btn-sm" style="float: right;">Add details</button>
+                                    {{-- <button type="button" id="addDetailsButton" class="btn btn-primary btn-sm" style="float: right;">Add details</button> --}}
                                 </div>
                             </div>
-                            <div id="wrapperRows"></div><p> </p>
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>{{ __('Hours') }}</th>
+                                        <th>{{ __('From date') }}</th>
+                                        <th>{{ __('To date') }}</th>
+                                        <th>{{ __('Rate') }}</th>
+                                        <th>{{ __('Amount') }}</th>
+                                        <th>{{ __('Action') }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="wrapperRows"></tbody>
+                            </table><p> </p>
                             <div>
                                 <div class="btn-group" role="group" aria-label="Basic example" style="float: right;">
                                     <a href="{{route('admin.invoices.index')}}" class="btn btn-secondary">Cancel</a>
-                                    <button type="submit" class="btn btn-primary" style="float:right;">Submit</button>
+                                    <button type="submit" class="btn btn-primary" style="float:right;">Generate Invoice</button>
                                 </div>
                             </div>
                         </form>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="addClientModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-md" style="height: 100%">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Client</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="#" id="addClientForm">
+                        <x-forms.input class="form-control {{ $errors->has('client_name') ? ' is-invalid' : '' }}" title="Client name" name="client_name" id="client_name" type="text" required="True"/>
+                        <p> </p>
+                        <x-forms.input class="form-control {{ $errors->has('email') ? ' is-invalid' : '' }}" title="Email" name="email" id="email" type="email" required="True"/>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-info" id="addClientButton" data-bs-dismiss="modal">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="addCandidateModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-md" style="height: 100%">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Candidate</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="#" id="addCandidateForm">
+                        <x-forms.input class="form-control {{ $errors->has('candidate_name') ? ' is-invalid' : '' }}" title="Candidate name" name="candidate_name" id="candidate_name" type="text" required="True"/>
+                        <p> </p>
+                        <x-forms.input class="form-control {{ $errors->has('designation') ? ' is-invalid' : '' }}" title="Designation" name="designation" id="designation" type="text" required="True"/>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-info" id="addCandidateButton" data-bs-dismiss="modal">Save</button>
                 </div>
             </div>
         </div>
@@ -104,6 +160,102 @@
         var rowCount=1;
         $( document ).ready( function () {
             $( "#jQueryValidationForm" ).validate( {
+                rules: {
+                    yourname: "required",
+                    phone: "required",
+                    username: {
+                        required: true,
+                        minlength: 2
+                    },
+                    password: {
+                        required: true,
+                        minlength: 5
+                    },
+                    confirm_password: {
+                        required: true,
+                        minlength: 5,
+                        equalTo: "#input38"
+                    },
+                    email: {
+                        required: true,
+                        email: true
+                    },
+                    country: "required",
+                    address: "required",
+                    agree: "required"
+                },
+                messages: {
+                    yourname: "Please enter your your name",
+                    phone: "Please enter your phone number",
+                    username: {
+                        required: "Please enter a username",
+                        minlength: "Your username must consist of at least 2 characters"
+                    },
+                    password: {
+                        required: "Please provide a password",
+                        minlength: "Your password must be at least 5 characters long"
+                    },
+                    confirm_password: {
+                        required: "Please provide a password",
+                        minlength: "Your password must be at least 5 characters long",
+                        equalTo: "Please enter the same password as above"
+                    },
+                    email: "Please enter a valid email address",
+                    country: "Please select country",
+                    address: "Please type your message",
+                    agree: "Please accept our policy"
+                },
+            } );
+
+            $( "#addClientForm").validate( {
+                rules: {
+                    yourname: "required",
+                    phone: "required",
+                    username: {
+                        required: true,
+                        minlength: 2
+                    },
+                    password: {
+                        required: true,
+                        minlength: 5
+                    },
+                    confirm_password: {
+                        required: true,
+                        minlength: 5,
+                        equalTo: "#input38"
+                    },
+                    email: {
+                        required: true,
+                        email: true
+                    },
+                    country: "required",
+                    address: "required",
+                    agree: "required"
+                },
+                messages: {
+                    yourname: "Please enter your your name",
+                    phone: "Please enter your phone number",
+                    username: {
+                        required: "Please enter a username",
+                        minlength: "Your username must consist of at least 2 characters"
+                    },
+                    password: {
+                        required: "Please provide a password",
+                        minlength: "Your password must be at least 5 characters long"
+                    },
+                    confirm_password: {
+                        required: "Please provide a password",
+                        minlength: "Your password must be at least 5 characters long",
+                        equalTo: "Please enter the same password as above"
+                    },
+                    email: "Please enter a valid email address",
+                    country: "Please select country",
+                    address: "Please type your message",
+                    agree: "Please accept our policy"
+                },
+            } );
+
+            $( "#addCandidateForm").validate( {
                 rules: {
                     yourname: "required",
                     phone: "required",
@@ -171,14 +323,14 @@
                     if(response.success==true){
                         response = response.data;
                         html="";
-                        html+="Poc : "+ response.poc;
-                        html+="</br>";
+                        // html+="Poc : "+ response.poc;
+                        // html+="</br>";
                         html+="Email : "+ response.email;
                         html+="</br>";
                         html+="Contact : "+ response.contact;
                         html+="</br>";
-                        html+="Location : "+ response.region;
-                        html+="</br>";
+                        // html+="Location : "+ response.region;
+                        // html+="</br>";
                         $('#vendorAddress').html(html);
                     }
                 }
@@ -192,7 +344,8 @@
             return url;
         }
 
-        $('#addDetailsButton').click(function(){
+        $('#wrapperRows').on('click', '.addDetailsButton', function(e){
+            e.preventDefault();
             rowCount++;
             addRow();
         });
@@ -204,13 +357,12 @@
         $('#wrapperRows').on('click', '.remove_button', function(e){
             e.preventDefault();
             if(rowCount>1){
-                $(this).parent('div').remove(); //Remove field html
+                $(this).parent('td').parent('tr').remove(); //Remove field html
                 rowCount--; //Decrement field counter
             }
         });
 
         addRow();
-
 
         $(document).on("change",".hrs",function(e) { 
             calculateTotalAmount();
@@ -229,6 +381,48 @@
                 $(".amt").eq(index).val(amount);
             });
         }
+
+        $('#addClientButton').click(function(){
+            if($('#addClientForm').valid()){
+                var clientName=$('#client_name').val();
+                var email=$('#email').val();
+                $.ajax({
+                    url: "{{route('admin.add-client')}}",
+                    type:"POST",
+                    data:{
+                        _token: "{{csrf_token()}}",
+                        client_name:clientName,
+                        email:email
+                    },
+                    success:function(response){
+                        if(response.success){
+                            window.location.reload();
+                        }
+                    }
+                });
+            }
+        });
+
+        $('#addCandidateButton').click(function(){
+            if($('#addCandidateForm').valid()){
+                var candidateName=$('#candidate_name').val();
+                var title=$('#designation').val();
+                $.ajax({
+                    url: "{{route('admin.add-candidate')}}",
+                    type:"POST",
+                    data:{
+                        _token: "{{csrf_token()}}",
+                        candidate_name:candidateName,
+                        job_title:title
+                    },
+                    success:function(response){
+                        if(response.success){
+                            window.location.reload();
+                        }
+                    }
+                });
+            }
+        });
 
     </script>
 @endsection

@@ -25,5 +25,7 @@ Route::middleware(['auth'])->name('admin.')->namespace("App\Http\Controllers\Adm
     Route::resource('pricing-plans', PricingPlanController::class);
     Route::resource('companies', CompanyController::class);
     Route::resource('invoices', InvoiceController::class);
+    Route::post('add-client', [App\Http\Controllers\Admin\InvoiceController::class, 'addClient'])->name('add-client');
+    Route::post('add-candidate', [App\Http\Controllers\Admin\InvoiceController::class, 'addCandidate'])->name('add-candidate');
 });
 
