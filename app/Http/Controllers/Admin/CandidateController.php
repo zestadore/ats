@@ -153,7 +153,7 @@ class CandidateController extends Controller
         if ($res) {
             $x = count($request->attachment_name);
             $data = [];
-            $allowedfileExtension = ['pdf', 'jpg', 'png', 'docx', 'PNG'];
+            $allowedfileExtension = ['pdf', 'jpg', 'png', 'PNG'];
             for ($i = 0; $i < $x; $i++) {
                 if ($request->attachment_name[$i] != null && $request->file('attachment')[$i]) {
                     $file = $request->file('attachment')[$i];

@@ -123,7 +123,7 @@
                             <thead>
                                 <tr>
                                     <th>{{ __('Attachment Name') }}</th>
-                                    <th>{{ __('Attach file') }}</th>
+                                    <th>{{ __('Attach file(Supports .pdf/.jpg/.png)') }}</th>
                                     <th>{{ __('Action') }}</th>
                                 </tr>
                             </thead>

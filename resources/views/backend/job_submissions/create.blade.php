@@ -145,6 +145,18 @@
                                 <x-forms.input class="form-control {{ $errors->has('resume') ? ' is-invalid' : '' }}" title="Resume" name="resume" id="resume" type="file" required="False"/>
                             </div>
                         </div><p> </p>
+                        <h6>Additional attachments</h6>
+                        <hr>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>{{ __('Attachment Name') }}</th>
+                                    <th>{{ __('Attach file(Supports .pdf/.jpg/.png)') }}</th>
+                                    <th>{{ __('Action') }}</th>
+                                </tr>
+                            </thead>
+                            <tbody id="wrapperRows"></tbody>
+                        </table>
                         <div class="btn-group" role="group" aria-label="Basic example" style="float: right;">
                             <a href="{{route('admin.job-submissions.index')}}" class="btn btn-secondary">Cancel</a>
                             <button type="submit" class="btn btn-primary" style="float:right;">Submit</button>
@@ -264,12 +276,14 @@
             </div>
         </div>
     </div>
+
 @endsection
 @section('javascripts')
     <script src="{{asset('assets/plugins/validation/jquery.validate.min.js')}}"></script>
     {{-- <script src="{{asset('assets/plugins/validation/validation-script.js')}}"></script> --}}
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
+        var rowCount=1;
         $( document ).ready( function () {
             $( "#jQueryValidationForm" ).validate( {
                 rules: {
@@ -420,5 +434,26 @@
             url=url.replace('SEARCH',search);
             return url;
         }
+
+        $('#wrapperRows').on('click', '.addDetailsButton', function(e){
+            e.preventDefault();
+            rowCount++;
+            addRow();
+        });
+
+        function addRow(){
+            $('#wrapperRows').append('{!!$renderHtml!!}');
+        }
+
+        $('#wrapperRows').on('click', '.remove_button', function(e){
+            e.preventDefault();
+            if(rowCount>1){
+                $(this).parent('td').parent('tr').remove(); //Remove field html
+                rowCount--; //Decrement field counter
+            }
+        });
+
+        addRow();
+
     </script>
 @endsection

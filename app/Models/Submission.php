@@ -69,4 +69,8 @@ class Submission extends Model
         }
     }
 
+    public function additionalAttachments(){
+        return $this->hasMany(AdditionalAttachment::class, 'reference_id', 'id')->where('reference_type', 'submission');
+    }
+
 }

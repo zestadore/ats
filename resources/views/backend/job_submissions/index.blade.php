@@ -233,6 +233,19 @@
                 success:function(response){
                     console.log(response);
                     if(response.success==true){
+                        var atts=response.data.additional_attachments;
+                        var html2="";
+                        if(atts.length>0){
+                            html2+="<tr>";
+                            html2+="<td>Additional Attachments</td>";
+                            html2+="</tr>";
+                            $.each(atts, function( index, value ) {
+                                html2+="<tr>";
+                                html2+="<td>"+value.description+"</td>";
+                                html2+="<td><a href='#'class='viewAttachment' data-url='"+value.attachment_path+"'>View</a></td>";
+                                html2+="</tr>";
+                            });
+                        }
                         var html="<table class='table table-striped table-bordered'>";
                         html+="<tr>";
                         html+="<td>Job title</td>";
@@ -312,6 +325,7 @@
                             html+="<td style='color:red;'>Resume not uploaded</td>";
                         }
                         html+="</tr>";
+                        html+=html2;
                         html+="</table>";
                         html=html+"</html>";
                         $('#view-modal-body').html(html);
