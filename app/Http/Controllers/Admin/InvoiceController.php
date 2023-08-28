@@ -7,11 +7,15 @@ use App\Models\Client;
 use App\Models\Candidate;
 use App\Models\InvoiceDetails;
 use App\Models\Company;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use DataTables;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use PDF;
+use App\Mail\InvoiceMail;
+use Illuminate\Support\Facades\Mail;
 
 class InvoiceController extends Controller
 {
@@ -160,5 +164,32 @@ class InvoiceController extends Controller
         }else{
             return response()->json(['error'=>"Failed to add the data, kindly try again!"]);
         }
+    }
+
+    public function publicInvoice($id)
+    {
+        $data=Invoice::find(Crypt::decrypt($id));
+        $company=Company::find($data->company_id);
+        return view('backend.invoices.public_invoice',['data'=>$data,'company'=>$company]);
+    }
+
+    public function downloadInvoice($id)
+    {
+        $data=Invoice::find(Crypt::decrypt($id));
+        $company=Company::find($data->company_id);
+        // share data to view
+        view()->share('backend.invoices.public_invoice',$data);
+        $pdf = PDF::loadView('backend.invoices.download_invoice', compact(['data','company']));
+        // download PDF file with download method
+        return $pdf->download('pdf_file.pdf');
+    }
+
+    public function mailInvoice($id,$email)
+    {
+        $data=Invoice::find(Crypt::decrypt($id));
+        $company=Company::find($data->company_id);
+        $adminEmail=User::where('role','company_admin')->where('company_id',$data->company_id)->first();
+        Mail::to($email)->cc($adminEmail->email)->send(new InvoiceMail($data));
+        return response()->json(['success'=>"Mail forwarded successfully!"]);
     }
 }

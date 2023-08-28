@@ -27,5 +27,6 @@ Route::middleware(['auth'])->name('admin.')->namespace("App\Http\Controllers\Adm
     Route::resource('invoices', InvoiceController::class);
     Route::post('add-client', [App\Http\Controllers\Admin\InvoiceController::class, 'addClient'])->name('add-client');
     Route::post('add-candidate', [App\Http\Controllers\Admin\InvoiceController::class, 'addCandidate'])->name('add-candidate');
+    Route::get('mail-invoice/{id}/{emall}', [App\Http\Controllers\Admin\InvoiceController::class, 'mailInvoice'])->name('mail-invoice');
 });
 

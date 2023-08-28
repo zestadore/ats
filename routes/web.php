@@ -41,3 +41,5 @@ Route::get('/profile', [App\Http\Controllers\HomeController::class, 'authUserPro
 Route::post('/update-profile', [App\Http\Controllers\HomeController::class, 'updateProfile'])->name('profile.update')->middleware('auth');
 Route::get('/change-password', [App\Http\Controllers\HomeController::class, 'changePassword'])->name('change.password')->middleware('auth');
 Route::post('/change-password', [App\Http\Controllers\HomeController::class, 'updatePassword'])->name('update.password')->middleware('auth');
+Route::get('/view-invoice/{id}', [App\Http\Controllers\Admin\InvoiceController::class, 'publicInvoice'])->name('view-invoice');
+Route::get('/download-invoice/{id}', [App\Http\Controllers\Admin\InvoiceController::class, 'downloadInvoice'])->name('download-invoice');

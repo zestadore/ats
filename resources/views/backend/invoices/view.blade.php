@@ -61,7 +61,7 @@
                                     <div class="toolbar hidden-print">
                                         <div class="text-end">
                                             <button type="button" class="btn btn-dark" onclick="printDiv()"><i class="fa fa-print"></i> Print</button>
-                                            {{-- <button type="button" class="btn btn-danger"><i class="fa fa-file-pdf-o"></i> Export as PDF</button> --}}
+                                            <button type="button" class="btn btn-danger" id="mailModalButton"><i class="fa fa-file-pdf-o"></i> Mail Invoice</button>
                                         </div>
                                         <hr/>
                                     </div>
@@ -154,11 +154,30 @@
             </div>
         </div>
     </div>
+    <!-- Modal -->
+    <div class="modal fade" id="emailModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Mail Invoice</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <x-forms.input class="form-control {{ $errors->has('email') ? ' is-invalid' : '' }}" title="Email" name="email" id="email" type="email" required="True"/>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-info" id="mailInvoiceButton">Email</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 @section('javascripts')
     <script src="{{asset('assets/plugins/validation/jquery.validate.min.js')}}"></script>
     {{-- <script src="{{asset('assets/plugins/validation/validation-script.js')}}"></script> --}}
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script>
 
         function printDiv(){
@@ -172,5 +191,27 @@
             document.body.innerHTML = originalContents;
         }
 
+        $('#mailModalButton').click(function(){
+            $('#emailModal').modal('show');
+        });
+
+        $('#mailInvoiceButton').click(function(){
+            var email=$('#email').val();
+            var id='{{Crypt::encrypt($data->id)}}';
+            var url="{{route('admin.mail-invoice',['ID','EMAIL'])}}";
+            url=url.replace('ID',id);
+            url=url.replace('EMAIL',email);
+            $.ajax({
+                url: url,
+                type:"get",
+                success:function(response){
+                    if(response.success){
+                        swal("Good job!", "Mail forwarded successfully!", "success");
+                        $('#emailModal').modal('hide');
+                    }
+                }
+            });
+        });
+        
     </script>
 @endsection
