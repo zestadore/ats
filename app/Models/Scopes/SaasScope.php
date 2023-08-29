@@ -11,8 +11,10 @@ class SaasScope implements Scope
     
     public function apply(Builder $builder, Model $model): void
     {
-        if(Auth::user()->role!='super_admin'){
-            $builder->where('company_id', Auth::user()->company_id);
+        if(Auth::check()){
+            if(Auth::user()->role!='super_admin'){
+                $builder->where('company_id', Auth::user()->company_id);
+            }
         }
     }
 }

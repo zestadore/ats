@@ -99,5 +99,7 @@
     </div>
 @endsection
 @section('javascripts')
-    
+    <script>
+        document.body.style.backgroundColor = "white";
+    </script>
 @endsection
