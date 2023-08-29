@@ -6,6 +6,7 @@ use App\Models\Candidate;
 use Illuminate\Http\Request;
 use App\Http\Requests\ValidateCandidate;
 use Illuminate\Support\Facades\Crypt;
+use App\Models\AdditionalAttachment;
 use DataTables;
 
 class CandidateController extends Controller
@@ -49,7 +50,9 @@ class CandidateController extends Controller
 
     public function create()
     {
-        return view('backend.candidates.create');
+        $renderHtml=view('backend.candidates.add_more')->render();
+        $renderHtml = preg_replace("/[\r\n]*/","",$renderHtml);
+        return view('backend.candidates.create',['renderHtml'=>$renderHtml]);
     }
 
     public function store(ValidateCandidate $request)
@@ -59,7 +62,7 @@ class CandidateController extends Controller
                 'resume' => 'required|file|max:2048|mimes:docx,doc,pdf',
             ]);
         }
-        $res=Candidate::create($request->except(['_token','resume']))->id;
+        $res=Candidate::create($request->except(['_token','resume','attachment_name','attachment']))->id;
         if($request->file('resume')){
             $file= $request->file('resume');
             $filename= date('YmdHi').$file->getClientOriginalName();
@@ -67,6 +70,33 @@ class CandidateController extends Controller
             $resume= $filename;
             if($res){
                 Candidate::where('id',$res)->update(['resume'=>$resume]);
+            }
+        }
+        if ($res) {
+            $x = count($request->attachment_name);
+            $data = [];
+            $allowedfileExtension = ['pdf', 'jpg', 'png', 'PNG'];
+            for ($i = 0; $i < $x; $i++) {
+                if ($request->attachment_name[$i] != null && $request->file('attachment')[$i]) {
+                    $file = $request->file('attachment')[$i];
+                    $filename = $file->getClientOriginalName();
+                    $extension = $file->getClientOriginalExtension();
+                    $check = in_array($extension, $allowedfileExtension);
+                    if ($check) {
+                        $filename = date('YmdHi') . mt_rand(10, 100) . $file->getClientOriginalName();
+                        $file->move(public_path('uploads/attachments'), $filename);
+                        $data[] = [
+                            'reference_id' => $res,
+                            'reference_type' => 'candidate',
+                            'attachment' => $filename,
+                            'description' => $request->attachment_name[$i],
+                            'created_at' => now(),
+                        ];
+                    }
+                }
+            }
+            if (count($data) > 0) {
+                $res = AdditionalAttachment::insert($data);
             }
         }
         if($res){
@@ -81,7 +111,7 @@ class CandidateController extends Controller
 
     public function show($id)
     {
-        $res=Candidate::find(Crypt::decrypt($id));
+        $res=Candidate::with(['additionalAttachments'])->find(Crypt::decrypt($id));
         if($res){
             return response()->json(['success'=>true,'data'=>$res]);
         }else{
@@ -92,8 +122,10 @@ class CandidateController extends Controller
     public function edit($id)
     {
         $id=Crypt::decrypt($id);
-        $candidate=Candidate::findOrFail($id);
-        return view('backend.candidates.edit',['data'=>$candidate]);
+        $candidate=Candidate::with(['additionalAttachments'])->findOrFail($id);
+        $renderHtml=view('backend.candidates.add_more')->render();
+        $renderHtml = preg_replace("/[\r\n]*/","",$renderHtml);
+        return view('backend.candidates.edit',['data'=>$candidate,'renderHtml'=>$renderHtml]);
     }
 
     public function update(ValidateCandidate $request, $id)
@@ -105,7 +137,7 @@ class CandidateController extends Controller
         }
         $id=Crypt::decrypt($id);
         $candidate=Candidate::findOrFail($id);
-        $res=$candidate->update($request->except(['_token','resume']));
+        $res=$candidate->update($request->except(['_token','resume','attachment_name','attachment']));
         if($request->file('resume')){
             if($candidate->resume!=null){
                 $d=unlink(public_path('uploads/resumes/'. $candidate->resume));
@@ -116,6 +148,33 @@ class CandidateController extends Controller
             $resume= $filename;
             if($res){
                 $candidate->update(['resume'=>$resume]);
+            }
+        }
+        if ($res) {
+            $x = count($request->attachment_name);
+            $data = [];
+            $allowedfileExtension = ['pdf', 'jpg', 'png', 'PNG'];
+            for ($i = 0; $i < $x; $i++) {
+                if ($request->attachment_name[$i] != null && $request->file('attachment')[$i]) {
+                    $file = $request->file('attachment')[$i];
+                    $filename = $file->getClientOriginalName();
+                    $extension = $file->getClientOriginalExtension();
+                    $check = in_array($extension, $allowedfileExtension);
+                    if ($check) {
+                        $filename = date('YmdHi') . mt_rand(10, 100) . $file->getClientOriginalName();
+                        $file->move(public_path('uploads/attachments'), $filename);
+                        $data[] = [
+                            'reference_id' => $id,
+                            'reference_type' => 'candidate',
+                            'attachment' => $filename,
+                            'description' => $request->attachment_name[$i],
+                            'created_at' => now(),
+                        ];
+                    }
+                }
+            }
+            if (count($data) > 0) {
+                $res = AdditionalAttachment::insert($data);
             }
         }
         if($res){
@@ -148,4 +207,18 @@ class CandidateController extends Controller
         $candidates=Candidate::where('candidate_name', 'like', '%' . $request->term . '%')->get(['id', 'candidate_name as text']);
         return ['results' => $candidates];
     }
+
+    public function deleteAttachment($id)
+    {
+        $id=Crypt::decrypt($id);
+        $attachment=AdditionalAttachment::findOrFail($id);
+        $res=$attachment->delete();
+        if($res){
+            return response()->json(['success'=>"Data deleted successfully!"]);
+        }else{
+            return response()->json(['error'=>"Failed to delete the data, kindly try again!"]);
+        }
+    }
+
+    
 }

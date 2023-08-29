@@ -20,7 +20,7 @@
                     </nav>
                 </div>
                 <div class="ms-auto">
-                    @canany(['isAdmin','isAccountManager','isTeamLead'])
+                    @canany(['isAdmin','isAccountManager','isTeamLead','isCompanyAdmin'])
                         <a href="{{route('admin.job-opportunities.create')}}" class="btn btn-primary">Add New</a>
                     @endcanany
                 </div>
@@ -72,7 +72,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">View User</h5>
+                    <h5 class="modal-title">View Job Opportunity</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id="view-modal-body"></div>
@@ -244,7 +244,8 @@
                         var html="<table class='table table-striped table-bordered'>";
                         html+="<tr>";
                         html+="<td>Title</td>";
-                        html+="<td>"+response.data.title+"</td>";
+                        var title=response.data.title?response.data.title:"-";
+                        html+="<td>"+title+"</td>";
                         html+="</tr>";
                         html+="<tr>";
                         html+="<td>Type</td>";
@@ -252,11 +253,13 @@
                         html+="</tr>";
                         html+="<tr>";
                         html+="<td>Job Owner</td>";
-                        html+="<td>"+response.data.job_owner_names+"</td>";
+                        var job_owner=response.data.job_owner_names?response.data.job_owner_names:"-";
+                        html+="<td>"+job_owner+"</td>";
                         html+="</tr>";
                         html+="<tr>";
                         html+="<td>Assign Recruiter</td>";
-                        html+="<td>"+response.data.assign_recruiter_names+"</td>";
+                        var assign_recruiter=response.data.assign_recruiter_names?response.data.assign_recruiter_names:"-";
+                        html+="<td>"+assign_recruiter+"</td>";
                         html+="</tr>";
                         html+="<tr>";
                         html+="<td>Status</td>";
@@ -264,23 +267,28 @@
                         html+="</tr>";
                         html+="<tr>";
                         html+="<td>Client</td>";
-                        html+="<td>"+response.data.client.client_name+"</td>";
+                        var client=response.data.client.client_name?response.data.client.client_name:"-";
+                        html+="<td>"+client+"</td>";
                         html+="</tr>";
                         html+="<tr>";
                         html+="<td>End Client</td>";
-                        html+="<td>"+response.data.end_client.end_client+"</td>";
+                        var end_client=response.data.end_client.end_client?response.data.end_client.end_client:"-";
+                        html+="<td>"+end_client+"</td>";
                         html+="</tr>";
                         html+="<tr>";
                         html+="<td>Key Skills</td>";
-                        html+="<td>"+response.data.key_skills+"</td>";
+                        var key_skills=response.data.key_skills?response.data.key_skills:"-";
+                        html+="<td>"+key_skills+"</td>";
                         html+="</tr>";
                         html+="<tr>";
                         html+="<td>Notes</td>";
-                        html+="<td>"+response.data.notes+"</td>";
+                        var notes=response.data.notes?response.data.notes:"-";
+                        html+="<td>"+notes+"</td>";
                         html+="</tr>";
                         html+="<tr>";
                         html+="<td>Description</td>";
-                        html+="<td>"+response.data.description+"</td>";
+                        var description=response.data.description?response.data.description:"-";
+                        html+="<td>"+description+"</td>";
                         html+="</tr>";
                         html+="</table>";
                         html=html+"</html>";

@@ -6,6 +6,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+	<META HTTP-EQUIV="REFRESH" CONTENT="csrf_timeout_in_seconds">
 	<!--favicon-->
 	<link rel="icon" href="{{asset('assets/images/favicon-32x32.png')}}" type="image/png" />
 	<!--plugins-->
@@ -49,6 +50,39 @@
         }else{
 			buttons=['excel','pdf','print','copy'];
 		}
+    </script>
+	<script type="text/javascript">
+        var idleTime = 0;
+        $(document).ready(function () {
+            //Increment the idle time counter every minute.
+            idleInterval = setInterval(timerIncrement, 60000); // 1 minute
+    
+            //Zero the idle timer on mouse movement.
+            $('body').mousemove(function (e) {
+                //alert("mouse moved" + idleTime);
+                idleTime = 0;
+            });
+    
+            $('body').keypress(function (e) {
+                //alert("keypressed"  + idleTime);
+                idleTime = 0;
+            });
+    
+            $('body').click(function() {
+                //alert("mouse moved" + idleTime);
+                idleTime = 0;
+            });
+        });
+    
+        function timerIncrement() {
+            idleTime = idleTime + 1;
+			var userAuth='{{Auth::check()}}';
+            if (idleTime >= 15 && userAuth) { // 15 minutes
+                document.getElementById('logout-form').submit();
+            }else if(idleTime >= 10 && !userAuth){
+				location.reload();
+			}
+        }
     </script>
     @yield('javascripts')
 </body>

@@ -10,6 +10,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
+use App\Models\Scopes\SaasScope;
 
 class User extends Authenticatable
 {
@@ -22,7 +23,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'first_name','last_name','mobile','role','image','created_by','updated_by',
-        'email',
+        'email','company_id',
         'password',
     ];
 
@@ -58,6 +59,9 @@ class User extends Authenticatable
         parent::boot();
         static::creating(function($model)
         {
+            if(Auth::user()->role!='super_admin'){
+                $model->company_id=Auth::user()->company_id;
+            }
             $model->created_by = Auth::user()->id??0;
         });
         static::updating(function($model)
@@ -70,6 +74,11 @@ class User extends Authenticatable
                 $d=unlink(public_path('uploads/profiles/'. $model->image));
             }
         });
+    }
+
+    protected static function booted()
+    {
+        // static::addGlobalScope(new SaasScope);
     }
 
     public function getImagePathAttribute(){

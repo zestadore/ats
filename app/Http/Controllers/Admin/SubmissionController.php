@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Submission;
 use App\Models\JobOpportunity;
 use App\Models\Candidate;
+use App\Models\AdditionalAttachment;
 use Illuminate\Http\Request;
 use App\Http\Requests\ValidateSubmission;
 use Illuminate\Support\Facades\Crypt;
@@ -55,7 +56,9 @@ class SubmissionController extends Controller
     {
         $opportunities=JobOpportunity::get();
         $candidates=Candidate::take(100)->get();
-        return view('backend.job_submissions.create',['opportunities'=>$opportunities,'candidates'=>$candidates]);
+        $renderHtml=view('backend.candidates.add_more')->render();
+        $renderHtml = preg_replace("/[\r\n]*/","",$renderHtml);
+        return view('backend.job_submissions.create',['opportunities'=>$opportunities,'candidates'=>$candidates,'renderHtml'=>$renderHtml]);
     }
 
     public function store(ValidateSubmission $request)
@@ -65,7 +68,7 @@ class SubmissionController extends Controller
                 'resume' => 'required|file|max:2048|mimes:docx,doc,pdf',
             ]);
         }
-        $res=Submission::create($request->except(['_token','resume']))->id;
+        $res=Submission::create($request->except(['_token','resume','attachment_name','attachment']))->id;
         if($request->file('resume')){
             $file= $request->file('resume');
             $filename= date('YmdHi').$file->getClientOriginalName();
@@ -73,6 +76,33 @@ class SubmissionController extends Controller
             $resume= $filename;
             if($res){
                 Submission::where('id',$res)->update(['resume'=>$resume]);
+            }
+        }
+        if ($res) {
+            $x = count($request->attachment_name);
+            $data = [];
+            $allowedfileExtension = ['pdf', 'jpg', 'png', 'PNG'];
+            for ($i = 0; $i < $x; $i++) {
+                if ($request->attachment_name[$i] != null && $request->file('attachment')[$i]) {
+                    $file = $request->file('attachment')[$i];
+                    $filename = $file->getClientOriginalName();
+                    $extension = $file->getClientOriginalExtension();
+                    $check = in_array($extension, $allowedfileExtension);
+                    if ($check) {
+                        $filename = date('YmdHi') . mt_rand(10, 100) . $file->getClientOriginalName();
+                        $file->move(public_path('uploads/attachments'), $filename);
+                        $data[] = [
+                            'reference_id' => $res,
+                            'reference_type' => 'submission',
+                            'attachment' => $filename,
+                            'description' => $request->attachment_name[$i],
+                            'created_at' => now(),
+                        ];
+                    }
+                }
+            }
+            if (count($data) > 0) {
+                $res = AdditionalAttachment::insert($data);
             }
         }
         if($res){
@@ -84,7 +114,7 @@ class SubmissionController extends Controller
 
     public function show($id)
     {
-        $res=Submission::with(['jobOpportunity','candidate'])->find(Crypt::decrypt($id));
+        $res=Submission::with(['jobOpportunity','candidate','additionalAttachments'])->find(Crypt::decrypt($id));
         if($res){
             return response()->json(['success'=>true,'data'=>$res]);
         }else{
@@ -95,10 +125,12 @@ class SubmissionController extends Controller
     public function edit($id)
     {
         $id=Crypt::decrypt($id);
-        $data=Submission::findOrFail($id);
+        $data=Submission::with(['additionalAttachments'])->findOrFail($id);
         $opportunities=JobOpportunity::get();
         $candidates=Candidate::where('id',$data->candidate_id)->first();
-        return view('backend.job_submissions.edit',['data'=>$data,'opportunities'=>$opportunities,'candidates'=>$candidates]);
+        $renderHtml=view('backend.candidates.add_more')->render();
+        $renderHtml = preg_replace("/[\r\n]*/","",$renderHtml);
+        return view('backend.job_submissions.edit',['data'=>$data,'opportunities'=>$opportunities,'candidates'=>$candidates,'renderHtml'=>$renderHtml]);
     }
 
     public function update(ValidateSubmission $request, $id)
@@ -110,7 +142,7 @@ class SubmissionController extends Controller
         }
         $id=Crypt::decrypt($id);
         $data=Submission::findOrFail($id);
-        $res=$data->update($request->except(['_token','resume']));
+        $res=$data->update($request->except(['_token','resume','attachment_name','attachment']));
         if($request->file('resume')){
             if($data->resume!=null){
                 $d=unlink(public_path('uploads/resumes/'. $data->resume));
@@ -121,6 +153,33 @@ class SubmissionController extends Controller
             $resume= $filename;
             if($res){
                 $data->update(['resume'=>$resume]);
+            }
+        }
+        if ($res) {
+            $x = count($request->attachment_name);
+            $data = [];
+            $allowedfileExtension = ['pdf', 'jpg', 'png', 'PNG'];
+            for ($i = 0; $i < $x; $i++) {
+                if ($request->attachment_name[$i] != null && $request->file('attachment')[$i]) {
+                    $file = $request->file('attachment')[$i];
+                    $filename = $file->getClientOriginalName();
+                    $extension = $file->getClientOriginalExtension();
+                    $check = in_array($extension, $allowedfileExtension);
+                    if ($check) {
+                        $filename = date('YmdHi') . mt_rand(10, 100) . $file->getClientOriginalName();
+                        $file->move(public_path('uploads/attachments'), $filename);
+                        $data[] = [
+                            'reference_id' => $id,
+                            'reference_type' => 'submission',
+                            'attachment' => $filename,
+                            'description' => $request->attachment_name[$i],
+                            'created_at' => now(),
+                        ];
+                    }
+                }
+            }
+            if (count($data) > 0) {
+                $res = AdditionalAttachment::insert($data);
             }
         }
         if($res){

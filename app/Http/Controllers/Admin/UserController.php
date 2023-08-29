@@ -20,9 +20,11 @@ class UserController extends Controller
             if(Auth::user()->role=="super_admin"){
                 $data= User::query();
             }elseif(Auth::user()->role=="account_manager"){
-                $data= User::query()->where('role','recruiter')->where('created_by',Auth::user()->id);
+                $data= User::query()->where('role','recruiter')->where('created_by',Auth::user()->id)->where('company_id',Auth::user()->company_id);
             }elseif(Auth::user()->role=="team_lead"){
-                $data= User::query()->whereIn('role',['recruiter','account_manager'])->where('created_by',Auth::user()->id);
+                $data= User::query()->whereIn('role',['recruiter','account_manager'])->where('created_by',Auth::user()->id)->where('company_id',Auth::user()->company_id);
+            }elseif(Auth::user()->role=="company_admin"){
+                $data= User::query()->where('company_id',Auth::user()->company_id);
             }
             $search = $request->search;
             if ($search) {

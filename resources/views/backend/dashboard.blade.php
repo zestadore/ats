@@ -28,7 +28,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif
-            @canany(['isAdmin','isAccountManager','isTeamLead'])
+            @canany(['isAdmin','isAccountManager','isTeamLead','isCompanyAdmin'])
                 @php
                     $class="col-lg-3 col-md-3 col-sm-6 col-xs-12";
                 @endphp
@@ -39,7 +39,7 @@
                 @endphp
             @endcan
             <div class="row">
-                @canany(['isAdmin','isAccountManager','isTeamLead'])
+                @canany(['isAdmin','isAccountManager','isTeamLead','isCompanyAdmin'])
                     <div class="{{$class}}">
                         <div class="card radius-10 border-start border-0 border-4 border-info">
                             <div class="card-body">
@@ -197,6 +197,12 @@
                                                 a Job Submission @ {{$item->created_at->diffForHumans()}}
                                             @elseif ($item->subject_type == 'App\Models\EndClient')  
                                                 an End Client @ {{$item->created_at->diffForHumans()}}
+                                            @elseif ($item->subject_type == 'App\Models\PricingPlan')  
+                                                a Pricing Plan @ {{$item->created_at->diffForHumans()}}
+                                            @elseif ($item->subject_type == 'App\Models\Company')  
+                                                a Company @ {{$item->created_at->diffForHumans()}}
+                                            @elseif ($item->subject_type == 'App\Models\Invoice')  
+                                                an Invoice @ {{$item->created_at->diffForHumans()}}
                                             @endif
                                         </td>
                                     </tr>

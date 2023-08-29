@@ -117,6 +117,18 @@
                                 <x-forms.input class="form-control {{ $errors->has('notes') ? ' is-invalid' : '' }}" title="Notes" name="notes" id="notes" type="textarea" required="False"/>
                             </div>
                         </div><p> </p>
+                        <h6>Additional attachments</h6>
+                        <hr>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>{{ __('Attachment Name') }}</th>
+                                    <th>{{ __('Attach file(Supports .pdf/.jpg/.png)') }}</th>
+                                    <th>{{ __('Action') }}</th>
+                                </tr>
+                            </thead>
+                            <tbody id="wrapperRows"></tbody>
+                        </table>
                         <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" name="employer_details" value=1 id="employer_details">
                             <label class="form-check-label" for="employer_details">Employer details</label>
@@ -147,6 +159,7 @@
     <script src="{{asset('assets/plugins/validation/jquery.validate.min.js')}}"></script>
     {{-- <script src="{{asset('assets/plugins/validation/validation-script.js')}}"></script> --}}
     <script>
+        var rowCount=1;
         $( document ).ready( function () {
             $( "#jQueryValidationForm" ).validate( {
                 rules: {
@@ -205,5 +218,27 @@
             }
         });
         $('#employerSection').hide();
+
+        $('#wrapperRows').on('click', '.addDetailsButton', function(e){
+            e.preventDefault();
+            rowCount++;
+            addRow();
+        });
+
+        function addRow(){
+            $('#wrapperRows').append('{!!$renderHtml!!}');
+        }
+
+        $('#wrapperRows').on('click', '.remove_button', function(e){
+            e.preventDefault();
+            if(rowCount>1){
+                $(this).parent('td').parent('tr').remove(); //Remove field html
+                rowCount--; //Decrement field counter
+            }
+        });
+
+        addRow();
+
+        
     </script>
 @endsection

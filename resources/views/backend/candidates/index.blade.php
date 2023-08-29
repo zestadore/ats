@@ -1,6 +1,14 @@
 @extends('layouts.app')
 @section('styles')
     <link href="{{asset('assets/plugins/datatable/css/dataTables.bootstrap5.min.css')}}" rel="stylesheet" />
+    <style>
+        #viewLargeModal .modal-dialog {
+        height: 100%; /* = 90% of the .modal-backdrop block = %90 of the screen */
+        }
+        #viewLargeModal .modal-content {
+        height: 100%; /* = 100% of the .modal-dialog block */
+        }
+    </style>
 @endsection
 @section('title')
     ATS - Candidates
@@ -77,10 +85,25 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">View User</h5>
+                    <h5 class="modal-title">View Candidate</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id="view-modal-body"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="viewLargeModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="height: 100%">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">View Attachment</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="view-attachment-body"></div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
@@ -216,55 +239,84 @@
                     success:function(response){
                         console.log(response);
                         if(response.success==true){
+                            var atts=response.data.additional_attachments;
+                            var html2="";
+                            if(atts.length>0){
+                                html2+="<tr>";
+                                html2+="<td>Additional Attachments</td>";
+                                html2+="</tr>";
+                                $.each(atts, function( index, value ) {
+                                    html2+="<tr>";
+                                    html2+="<td>"+value.description+"</td>";
+                                    html2+="<td><a href='#'class='viewAttachment' data-url='"+value.attachment_path+"'>View</a></td>";
+                                    html2+="</tr>";
+                                });
+                            }
                             var html="<table class='table table-striped table-bordered'>";
                             html+="<tr>";
                             html+="<td>Candidate Name</td>";
-                            html+="<td>"+response.data.candidate_name+"</td>";
+                            var candidate_name=response.data.candidate_name?response.data.candidate_name:"-";
+                            html+="<td>"+candidate_name+"</td>";
                             html+="</tr>";
                             html+="<tr>";
                             html+="<td>Email</td>";
-                            html+="<td>"+response.data.email+"</td>";
+                            var email=response.data.email?response.data.email:"-";
+                            html+="<td>"+email+"</td>";
                             html+="</tr>";
                             html+="<tr>";
                             html+="<td>Contact</td>";
-                            html+="<td>"+response.data.contact+"</td>";
+                            var contact=response.data.contact?response.data.contact:"-";
+                            html+="<td>"+contact+"</td>";
                             html+="</tr>";
                             html+="<tr>";
                             html+="<td>Key skills</td>";
-                            html+="<td>"+response.data.key_skills+"</td>";
+                            var key_skills=response.data.key_skills?response.data.key_skills:"-";
+                            html+="<td>"+key_skills+"</td>";
                             html+="</tr>";
                             html+="<tr>";
                             html+="<td>Location</td>";
-                            html+="<td>"+response.data.location+"</td>";
+                            var location=response.data.location?response.data.location:"-";
+                            html+="<td>"+location+"</td>";
                             html+="</tr>";
                             html+="<tr>";
                             html+="<td>LinkedIn</td>";
-                            html+="<td>"+response.data.linked_in+"</td>";
+                            var linked_in=response.data.linked_in?response.data.linked_in:"-";
+                            html+="<td>"+linked_in+"</td>";
                             html+="</tr>";
                             html+="<tr>";
                             html+="<td>Visa status</td>";
-                            html+="<td>"+response.data.visa_status+"</td>";
+                            var visa_status=response.data.visa_status?response.data.visa_status:"-";
+                            html+="<td>"+visa_status+"</td>";
                             html+="</tr>";
                             html+="<tr>";
                             html+="<td>Candidate type</td>";
-                            html+="<td>"+response.data.candidate_type+"</td>";
+                            var candidate_type=response.data.candidate_type?response.data.candidate_type:"-";
+                            html+="<td>"+candidate_type+"</td>";
                             html+="</tr>";
                             html+="<tr>";
                             html+="<td>Job tag</td>";
-                            html+="<td>"+response.data.job_tag+"</td>";
+                            var job_tag=response.data.job_tag?response.data.job_tag:"-";
+                            html+="<td>"+job_tag+"</td>";
                             html+="</tr>";
                             html+="<tr>";
                             html+="<td>Job Title</td>";
-                            html+="<td>"+response.data.job_title+"</td>";
+                            var job_title=response.data.job_title?response.data.job_title:"-";
+                            html+="<td>"+job_title+"</td>";
                             html+="</tr>";
                             html+="<tr>";
                             html+="<td>Notes</td>";
-                            html+="<td>"+response.data.notes+"</td>";
+                            var notes=response.data.notes?response.data.notes:"-";
+                            html+="<td>"+notes+"</td>";
                             html+="</tr>";
                             html+="<tr>";
                             html+="<td>Resume</td>";
-                            html+="<td><a target='_blank' href='"+response.data.resume_path+"'>View</a></td>";
+                            if(response.data.resume_path==null || response.data.resume_path==""){
+                                html+="<td style='color:red;'>Resume not uploaded</td>";
+                            }else{
+                                html+="<td><a href='#'class='viewAttachment' data-url='"+response.data.resume_path+"'>View</a></td>";
+                            }
                             html+="</tr>";
+                            html+=html2;
                             html+="</table>";
                             html=html+"</html>";
                             $('#view-modal-body').html(html);
@@ -275,6 +327,16 @@
                     },
                 });
             }
+
+            $(document).on('click', '.viewAttachment', function(e){
+                e.preventDefault();
+                var url=$(this).data('url');
+                var html="";
+                html+='<iframe src="'+url+'" width="100%" height="100%"></iframe>';
+                $('#view-attachment-body').html(html);
+                // $('#exampleLargeModal').modal('hide');
+                $('#viewLargeModal').modal('show');
+            });
 
     </script>
 @endsection

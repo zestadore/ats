@@ -67,7 +67,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">View User</h5>
+                    <h5 class="modal-title">View Client</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id="view-modal-body"></div>
@@ -211,27 +211,33 @@
                             var html="<table class='table table-striped table-bordered'>";
                             html+="<tr>";
                             html+="<td>Client Name</td>";
-                            html+="<td>"+response.data.client_name+"</td>";
+                            var client_name=response.data.client_name?response.data.client_name:"-";
+                            html+="<td>"+client_name+"</td>";
                             html+="</tr>";
                             html+="<tr>";
                             html+="<td>Poc</td>";
-                            html+="<td>"+response.data.poc+"</td>";
+                            var poc=response.data.poc?response.data.poc:"-";
+                            html+="<td>"+poc+"</td>";
                             html+="</tr>";
                             html+="<tr>";
                             html+="<td>Designation</td>";
-                            html+="<td>"+response.data.designation+"</td>";
+                            var designation=response.data.designation?response.data.designation:"-";
+                            html+="<td>"+designation+"</td>";
                             html+="</tr>";
                             html+="<tr>";
                             html+="<td>Email</td>";
-                            html+="<td>"+response.data.email+"</td>";
+                            var email=response.data.email?response.data.email:"-";
+                            html+="<td>"+email+"</td>";
                             html+="</tr>";
                             html+="<tr>";
                             html+="<td>Contact</td>";
-                            html+="<td>"+response.data.contact+"</td>";
+                            var contact=response.data.contact?response.data.contact:"-";
+                            html+="<td>"+contact+"</td>";
                             html+="</tr>";
                             html+="<tr>";
                             html+="<td>Region</td>";
-                            html+="<td>"+response.data.region+"</td>";
+                            var region=response.data.region?response.data.region:"-";
+                            html+="<td>"+region+"</td>";
                             html+="</tr>";
                             html+="</table>";
                             html=html+"</html>";

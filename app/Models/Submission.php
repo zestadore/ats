@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
+use App\Jobs\JobSubmissionMailJob;
+use App\Models\Scopes\SaasScope;
 
 class Submission extends Model
 {
@@ -25,7 +27,11 @@ class Submission extends Model
         parent::boot();
         static::creating(function($model)
         {
+            $model->company_id=Auth::user()->company_id;
             $model->created_by = Auth::user()->id;
+        });
+        static::created(function (Submission $submission) {
+            dispatch(new JobSubmissionMailJob($submission));
         });
         static::updating(function($model)
         {
@@ -42,6 +48,11 @@ class Submission extends Model
         });
     }
 
+    protected static function booted()
+    {
+        static::addGlobalScope(new SaasScope);
+    }
+
     public function candidate(){
         return $this->hasOne(Candidate::class, 'id', 'candidate_id');
     }
@@ -56,6 +67,10 @@ class Submission extends Model
         }else{
             return null;
         }
+    }
+
+    public function additionalAttachments(){
+        return $this->hasMany(AdditionalAttachment::class, 'reference_id', 'id')->where('reference_type', 'submission');
     }
 
 }

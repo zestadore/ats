@@ -1,6 +1,14 @@
 @extends('layouts.app')
 @section('styles')
     <link href="{{asset('assets/plugins/datatable/css/dataTables.bootstrap5.min.css')}}" rel="stylesheet" />
+    <style>
+        #viewLargeModal .modal-dialog {
+        height: 100%; /* = 90% of the .modal-backdrop block = %90 of the screen */
+        }
+        #viewLargeModal .modal-content {
+        height: 100%; /* = 100% of the .modal-dialog block */
+        }
+    </style>
 @endsection
 @section('title')
     ATS - Job Submissions
@@ -71,10 +79,25 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">View User</h5>
+                    <h5 class="modal-title">View Job Submission</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id="view-modal-body"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="viewLargeModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="height: 100%">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">View Attachment</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="view-attachment-body"></div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
@@ -210,67 +233,99 @@
                 success:function(response){
                     console.log(response);
                     if(response.success==true){
+                        var atts=response.data.additional_attachments;
+                        var html2="";
+                        if(atts.length>0){
+                            html2+="<tr>";
+                            html2+="<td>Additional Attachments</td>";
+                            html2+="</tr>";
+                            $.each(atts, function( index, value ) {
+                                html2+="<tr>";
+                                html2+="<td>"+value.description+"</td>";
+                                html2+="<td><a href='#'class='viewAttachment' data-url='"+value.attachment_path+"'>View</a></td>";
+                                html2+="</tr>";
+                            });
+                        }
                         var html="<table class='table table-striped table-bordered'>";
                         html+="<tr>";
                         html+="<td>Job title</td>";
-                        html+="<td>"+response.data.job_opportunity.title+"</td>";
+                        var title=response.data.job_opportunity.title?response.data.job_opportunity.title:"-";
+                        html+="<td>"+title+"</td>";
                         html+="</tr>";
                         html+="<tr>";
                         html+="<td>Candidate</td>";
-                        html+="<td>"+response.data.candidate.candidate_name+"</td>";
+                        var candidate=response.data.candidate.candidate_name?response.data.candidate.candidate_name:"-";
+                        html+="<td>"+candidate+"</td>";
                         html+="</tr>";
                         html+="<tr>";
                         html+="<td>Contact</td>";
-                        html+="<td>"+response.data.contact+"</td>";
+                        var contact=response.data.contact?response.data.contact:"-";
+                        html+="<td>"+contact+"</td>";
                         html+="</tr>";
                         html+="<tr>";
                         html+="<td>Email</td>";
-                        html+="<td>"+response.data.email_id+"</td>";
+                        var email_id=response.data.email_id?response.data.email_id:"-";
+                        html+="<td>"+email_id+"</td>";
                         html+="</tr>";
                         html+="<tr>";
                         html+="<td>Current location</td>";
-                        html+="<td>"+response.data.current_location+"</td>";
+                        var current_location=response.data.current_location?response.data.current_location:"-";
+                        html+="<td>"+current_location+"</td>";
                         html+="</tr>";
                         html+="<tr>";
                         html+="<td>Total experience</td>";
-                        html+="<td>"+response.data.total_experience+"</td>";
+                        var total_experience=response.data.total_experience?response.data.total_experience:"-";
+                        html+="<td>"+total_experience+"</td>";
                         html+="</tr>";
                         html+="<tr>";
                         html+="<td>Relevant experience</td>";
-                        html+="<td>"+response.data.relevant_experience+"</td>";
+                        var relevant_experience=response.data.relevant_experience?response.data.relevant_experience:"-";
+                        html+="<td>"+relevant_experience+"</td>";
                         html+="</tr>";
                         html+="<tr>";
                         html+="<td>Visa status</td>";
-                        html+="<td>"+response.data.visa_status+"</td>";
+                        var visa_status=response.data.visa_status?response.data.visa_status:"-";
+                        html+="<td>"+visa_status+"</td>";
                         html+="</tr>";
                         html+="<tr>";
                         html+="<td>Education</td>";
-                        html+="<td>"+response.data.education+"</td>";
+                        var education=response.data.education?response.data.education:"-";
+                        html+="<td>"+education+"</td>";
                         html+="</tr>";
                         html+="<tr>";
                         html+="<td>Rate</td>";
-                        html+="<td>"+response.data.rate+"</td>";
+                        var rate=response.data.rate?response.data.rate:"-";
+                        html+="<td>"+rate+"</td>";
                         html+="</tr>";
                         html+="<tr>";
                         html+="<td>Notice period</td>";
-                        html+="<td>"+response.data.notice_period+"</td>";
+                        var notice_period=response.data.notice_period?response.data.notice_period:"-";
+                        html+="<td>"+notice_period+"</td>";
                         html+="</tr>";
                         html+="<tr>";
                         html+="<td>Candidate type</td>";
-                        html+="<td>"+response.data.candidate_type+"</td>";
+                        var candidate_type=response.data.candidate_type?response.data.candidate_type:"-";
+                        html+="<td>"+candidate_type+"</td>";
                         html+="</tr>";
                         html+="<tr>";
                         html+="<td>Relocation</td>";
-                        html+="<td>"+response.data.relocation+"</td>";
+                        var relocation=response.data.relocation?response.data.relocation:"-";
+                        html+="<td>"+relocation+"</td>";
                         html+="</tr>";
                         html+="<tr>";
                         html+="<td>Interview availability</td>";
-                        html+="<td>"+response.data.interview_availability+"</td>";
+                        var interview_availability=response.data.interview_availability?response.data.interview_availability:"-";
+                        html+="<td>"+interview_availability+"</td>";
                         html+="</tr>";
                         html+="<tr>";
                         html+="<td>Resume</td>";
-                        html+="<td><a target='_blank' href='"+response.data.resume_path+"'>View</a></td>";
+                        if(response.data.resume_path!==null && response.data.resume_path!="" && response.data.resume_path!="null"){
+                            html+="<td><a href='#'class='viewAttachment' data-url='"+response.data.resume_path+"'>View</a></td>";
+                        }else{
+                            html+="<td style='color:red;'>Resume not uploaded</td>";
+                        }
                         html+="</tr>";
+                        html+=html2;
                         html+="</table>";
                         html=html+"</html>";
                         $('#view-modal-body').html(html);
@@ -281,6 +336,16 @@
                 },
             });
         }
+
+        $(document).on('click', '.viewAttachment', function(e){
+            e.preventDefault();
+            var url=$(this).data('url');
+            var html="";
+            html+='<iframe src="'+url+'" width="100%" height="100%"></iframe>';
+            $('#view-attachment-body').html(html);
+            // $('#exampleLargeModal').modal('hide');
+            $('#viewLargeModal').modal('show');
+        });
 
     </script>
 @endsection

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
+use App\Models\Scopes\SaasScope;
 
 class Client extends Model
 {
@@ -24,6 +25,7 @@ class Client extends Model
         parent::boot();
         static::creating(function($model)
         {
+            $model->company_id=Auth::user()->company_id??1;
             $model->created_by = Auth::user()->id;
         });
         static::updating(function($model)
@@ -35,5 +37,10 @@ class Client extends Model
             $model->deleted_by = Auth::user()->id;
             $model->save();
         });
+    }
+
+    protected static function booted()
+    {
+        static::addGlobalScope(new SaasScope);
     }
 }
