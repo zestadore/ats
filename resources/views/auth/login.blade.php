@@ -3,38 +3,30 @@
     Login
 @endsection
 @section('content')
-    <div class="page-holder align-items-center py-4 bg-gray-100 vh-100">
+    <div class="page-holder align-items-center py-4 bg-gray-100 vh-100" style="background:#d9eefd !important;">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-6 px-lg-4">
                     <div class="card">
                         <div class="card-header px-lg-5">
-                            <div class="card-heading text-primary">Bubbly Dashboard</div>
+                            <div class="card-heading text-primary">Amnext - ATS</div>
                         </div>
                         <div class="card-body p-lg-5">
                             <h3 class="mb-4">Hi, welcome back! 👋👋</h3>
-                            <p class="text-muted text-sm mb-5">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.</p>
-                            <form id="loginForm" action="index.html">
-                                <div class="form-floating mb-3">
-                                <input class="form-control" id="floatingInput" type="email" placeholder="name@example.com">
-                                <label for="floatingInput">Email address</label>
-                                </div>
-                                <div class="form-floating mb-3">
-                                <input class="form-control" id="floatingPassword" type="password" placeholder="Password">
-                                <label for="floatingPassword">Password</label>
-                                </div>
-                                <div class="form-check mb-3">
-                                <input class="form-check-input" type="checkbox" name="remember" id="remember">
-                                <label class="form-check-label" for="remember">Remember me</label>
-                                </div>
-                                <button class="btn btn-primary btn-lg" type="submit">Submit</button>
+                            <div style="text-align: center;"><img class="img-fluid mb-4" width="20%" src="{{asset('uploads/site_logo/'.env('SITE_LOGO',''))}}" alt=""></div>
+                            <p class="text-muted text-sm mb-5">Welcome to Amnext's Application Tracking System (ATS). Please enter your login credentials below to access your account.</p>
+                            <form id="loginForm" action="{{ route('login') }}" method="post">@csrf
+                                <x-forms.input class="form-control {{ $errors->has('email') ? ' is-invalid' : '' }}" title="Username [Email Addrerss] : " name="email" id="email" type="email" required="True"/>
+                                <x-forms.input class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}" title="Password : " name="password" id="password" type="password" required="True"/>
+                                <button class="btn btn-primary btn-lg" type="submit" style="float:right;">Submit</button>
                             </form>
                         </div>
                         <div class="card-footer px-lg-5 py-lg-4">
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6 col-xl-5 ms-xl-auto px-lg-4 text-center text-primary"><img class="img-fluid mb-4" width="300" src="img/drawkit-illustration.svg" alt="" style="transform: rotate(10deg)">
+                <div class="col-lg-6 col-xl-5 ms-xl-auto px-lg-4 text-center text-primary">
+                    <img class="img-fluid mb-4" width="100%" src="{{asset('assets/img/ats_login.png')}}" alt="">
                 </div>
             </div>
         </div>
@@ -57,11 +49,10 @@
             });
         });
     </script>
-    <script src="{{asset('assets/plugins/validation/jquery.validate.min.js')}}"></script>
-	{{-- <script src="{{asset('assets/plugins/validation/validation-script.js')}}"></script> --}}
+    <script src="{{asset('assets/js/jquery.validate.min.js')}}"></script>
     <script>
         $( document ).ready( function () {
-            $( "#jQueryValidationForm" ).validate( {
+            $( "#loginForm" ).validate( {
                 rules: {
                     yourname: "required",
                     phone: "required",
@@ -107,6 +98,17 @@
                     address: "Please type your message",
                     agree: "Please accept our policy"
                 },
+                errorElement: "div",
+                    errorPlacement: function ( error, element ) {
+                        error.addClass( "invalid-feedback" );
+                        error.insertAfter( element );
+                    },
+                highlight: function(element) {
+                    $(element).removeClass('is-valid').addClass('is-invalid');
+                },
+                unhighlight: function(element) {
+                    $(element).removeClass('is-invalid').addClass('is-valid');
+                }
             } );
         } );
     </script>

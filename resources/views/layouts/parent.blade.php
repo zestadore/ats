@@ -24,11 +24,11 @@
 	<title>@yield('title_head')</title>
 </head>
 <body>
-	@yield('menus')
 	@yield('content')
 	<!-- JavaScript files-->
     <script src="{{asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+    <script src="{{asset('assets/js/jquery.js')}}"></script>
     <!-- Main Theme JS File-->
     <script src="{{asset('assets/js/theme.js')}}"></script>
     <!-- Prism for syntax highlighting-->

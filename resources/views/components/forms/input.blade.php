@@ -1,11 +1,14 @@
 @if ($type=='password')
-    <label class="form-label" for="{{$name}}">{{$title}} @if($required=="True")<span style="color:red;"> *</span>@endif</label>
-    <input id="{{$id}}" type="{{$type}}" class="{{$class}}" name="{{$name}}" value="{{ old($name) }}" placeholder="{{$title}}" @if($required=="True") required @endif autocomplete="{{$name}}" autofocus>
+    <div class="form-floating mb-3">
+        <input id="{{$id}}" type="{{$type}}" class="{{$class}}" name="{{$name}}" value="{{ old($name) }}" placeholder="{{$title}}" @if($required=="True") required @endif autocomplete="{{$name}}" autofocus>
+        <label for="{{$name}}">{{$title}} @if($required=="True")<span style="color:red;"> *</span>@endif</label>
+        
+    </div>
     @error($name)
-        <span class="error mt-2 text-danger" role="alert">
-            <strong>{{ $message }}</strong>
-        </span>
-    @enderror
+            <span class="error mt-2 text-danger" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+        @enderror
 @elseif($type=='textarea')
     <div class="form-group">
         <label class="form-label" for="{{$name}}">{{$title}} @if($required=="True")<span style="color:red;"> *</span>@endif</label>
@@ -17,13 +20,15 @@
         @enderror
     </div>
 @elseif($type=='number')
-    <label class="form-label" for="{{$name}}">{{$title}} @if($required=="True")<span style="color:red;"> *</span>@endif</label>
-    <input id="{{$id}}" type="{{$type}}" class="{{$class}}" name="{{$name}}" value="{{ old($name) }}" placeholder="{{$title}}" @if($required=="True") required @endif autocomplete="{{$name}}" autofocus>
-    @error($name)
-        <span class="error mt-2 text-danger" role="alert">
-            <strong>{{ $message }}</strong>
-        </span>
-    @enderror
+    <div class="form-floating mb-3">
+        <input id="{{$id}}" type="{{$type}}" class="{{$class}}" name="{{$name}}" value="{{ old($name) }}" placeholder="{{$title}}" @if($required=="True") required @endif autocomplete="{{$name}}" autofocus>
+        <label for="{{$name}}">{{$title}} @if($required=="True")<span style="color:red;"> *</span>@endif</label>
+        @error($name)
+            <span class="error mt-2 text-danger" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+        @enderror
+    </div>
 @elseif($type=='file')
     <label class="form-label" for="{{$name}}">{{$title}} @if($required=="True")<span style="color:red;"> *</span>@endif</label>
     <div class="input-group">
@@ -37,21 +42,23 @@
         </span>
     @enderror
 @elseif($type=='date')
-    <label class="form-label" for="{{$name}}">{{$title}} @if($required=="True")<span style="color:red;"> *</span>@endif</label>
-    <div class="input-group date" id="{{$id}}" data-target-input="nearest">
-        <input type="date" class="datetimepicker-input {{$class}}" data-target="#{{$id}}" name="{{$name}}"  @if($required=="True") required @endif>
+    <div class="form-floating mb-3">
+        <input id="{{$id}}" type="{{$type}}" class="{{$class}}" name="{{$name}}" value="{{ old($name) }}" placeholder="{{$title}}" @if($required=="True") required @endif autocomplete="{{$name}}" autofocus>
+        <label for="{{$name}}">{{$title}} @if($required=="True")<span style="color:red;"> *</span>@endif</label>
+        @error($name)
+            <span class="error mt-2 text-danger" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+        @enderror
     </div>
-    @error($name)
-        <span class="error mt-2 text-danger" role="alert">
-            <strong>{{ $message }}</strong>
-        </span>
-    @enderror
 @else
-    <label class="form-label" for="{{$name}}">{{$title}} @if($required=="True")<span style="color:red;"> *</span>@endif</label>
-    <input id="{{$id}}" type="{{$type}}" class="{{$class}}" name="{{$name}}" value="{{ old($name) }}" placeholder="{{$title}}" @if($required=="True") required @endif autocomplete="{{$name}}" autofocus>
-    @error($name)
-        <span class="error mt-2 text-danger" role="alert">
-            <strong>{{ $message }}</strong>
-        </span>
-    @enderror
+    <div class="form-floating mb-3">
+        <input id="{{$id}}" type="{{$type}}" class="{{$class}}" name="{{$name}}" value="{{ old($name) }}" placeholder="{{$title}}" @if($required=="True") required @endif autocomplete="{{$name}}" autofocus>
+        <label for="{{$name}}">{{$title}} @if($required=="True")<span style="color:red;"> *</span>@endif</label>
+        @error($name)
+            <span class="error mt-2 text-danger" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+        @enderror
+    </div>
 @endif
