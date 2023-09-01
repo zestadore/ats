@@ -3,14 +3,14 @@
     ATS - Dashboard
 @endsection
 @section('contents')
-    <div class="page-wrapper">
+    <div class="container-fluid px-lg-4 px-xl-5">
         <div class="page-content">
             <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
                 <div class="breadcrumb-title pe-3">Dashboard</div>
                 <div class="ps-3">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb mb-0 p-0">
-                            <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}"><i class="bx bx-home-alt"></i></a>
+                            <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}"><i class="fa fas fa-home"></i></a>
                             </li>
                         </ol>
                     </nav>
@@ -41,67 +41,59 @@
             <div class="row">
                 @canany(['isAdmin','isAccountManager','isTeamLead','isCompanyAdmin'])
                     <div class="{{$class}}">
-                        <div class="card radius-10 border-start border-0 border-4 border-info">
-                            <div class="card-body">
-                                <div class="d-flex align-items-center">
-                                    <div>
-                                        <p class="mb-0 text-secondary">Total Clients</p>
-                                        <h4 class="my-1 text-info">{{getClientsCount()}}</h4>
-                                        <p class="mb-0 font-13">+{{getLastWeekClientsCount()}} from last week</p>
-                                    </div>
-                                    <div class="widgets-icons-2 rounded-circle bg-gradient-blues text-white ms-auto"><i class="bx bx-user-plus"></i>
-                                    </div>
+                        <div class="card-widget h-100">
+                            <div class="card-widget-body">
+                                <div class="dot me-3 bg-indigo"></div>
+                                <div class="text">
+                                    <h6 class="mb-0">Total Clients</h6>
+                                    <span class="text-gray-500">{{getClientsCount()}}</span> / 
+                                    <span class="text-gray-500">+{{getLastWeekClientsCount()}} from last week</span>
                                 </div>
+                                <div class="icon text-white bg-indigo"><i class="fas fa-user-plus"></i></div>
                             </div>
                         </div>
                     </div>
                 @endcanany
                 <div class="{{$class}}">
-                    <div class="card radius-10 border-start border-0 border-4 border-warning">
-                        <div class="card-body">
-                            <div class="d-flex align-items-center">
-                                <div>
-                                    <p class="mb-0 text-secondary">Total Candidates</p>
-                                    <h4 class="my-1 text-info">{{getCandidatesCount()}}</h4>
-                                    <p class="mb-0 font-13">+{{getLastWeekCandidatesCount()}} from last week</p>
-                                </div>
-                                <div class="widgets-icons-2 rounded-circle bg-gradient-blues text-white ms-auto"><i class="bx bx-user-check"></i>
-                                </div>
+                    <div class="card-widget h-100">
+                        <div class="card-widget-body">
+                            <div class="dot me-3 bg-indigo"></div>
+                            <div class="text">
+                                <h6 class="mb-0">Total Candidates</h6>
+                                <span class="text-gray-500">{{getCandidatesCount()}}</span> / 
+                                <span class="text-gray-500">+{{getLastWeekCandidatesCount()}} from last week</span>
                             </div>
+                            <div class="icon text-white bg-indigo"><i class="fas fa-user-check"></i></div>
                         </div>
                     </div>
                 </div>
                 <div class="{{$class}}">
-                    <div class="card radius-10 border-start border-0 border-4 border-danger">
-                        <div class="card-body">
-                            <div class="d-flex align-items-center">
-                                <div>
-                                    <p class="mb-0 text-secondary">Total Job Opportunities</p>
-                                    <h4 class="my-1 text-info">{{getJobOpportunitiesCount()}}</h4>
-                                    <p class="mb-0 font-13">+{{getLastWeekJobOpportunitiesCount()}} from last week</p>
-                                </div>
-                                <div class="widgets-icons-2 rounded-circle bg-gradient-blues text-white ms-auto"><i class="bx bx-book-add"></i>
-                                </div>
+                    <div class="card-widget h-100">
+                        <div class="card-widget-body">
+                            <div class="dot me-3 bg-indigo"></div>
+                            <div class="text">
+                                <h6 class="mb-0">Total Job Opportunities</h6>
+                                <span class="text-gray-500">{{getJobOpportunitiesCount()}}</span> / 
+                                <span class="text-gray-500">+{{getLastWeekJobOpportunitiesCount()}} from last week</span>
                             </div>
+                            <div class="icon text-white bg-indigo"><i class="fas fas fa-plus-circle"></i></div>
                         </div>
                     </div>
                 </div>
                 <div class="{{$class}}">
-                    <div class="card radius-10 border-start border-0 border-4 border-success">
-                        <div class="card-body">
-                            <div class="d-flex align-items-center">
-                                <div>
-                                    <p class="mb-0 text-secondary">Total Job Submissions</p>
-                                    <h4 class="my-1 text-info">{{getSubmissionsCount()}}</h4>
-                                    <p class="mb-0 font-13">+{{getLastWeekSubmissionsCount()}} from last week</p>
-                                </div>
-                                <div class="widgets-icons-2 rounded-circle bg-gradient-blues text-white ms-auto"><i class="bx bx-comment-check"></i>
-                                </div>
+                    <div class="card-widget h-100">
+                        <div class="card-widget-body">
+                            <div class="dot me-3 bg-indigo"></div>
+                            <div class="text">
+                                <h6 class="mb-0">Total Job Submissions</h6>
+                                <span class="text-gray-500">{{getSubmissionsCount()}}</span> / 
+                                <span class="text-gray-500">+{{getLastWeekSubmissionsCount()}} from last week</span>
                             </div>
+                            <div class="icon text-white bg-indigo"><i class="fas fas fas fa-rss"></i></div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </div><p> </p>
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="card">
@@ -110,7 +102,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div><p> </p>
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                     <div class="card">
@@ -166,7 +158,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div><p> </p>
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="card">
@@ -203,6 +195,8 @@
                                                 a Company @ {{$item->created_at->diffForHumans()}}
                                             @elseif ($item->subject_type == 'App\Models\Invoice')  
                                                 an Invoice @ {{$item->created_at->diffForHumans()}}
+                                            @elseif($item->subject_type == 'App\Models\AdditionalAttachment')
+                                                an Attachment @ {{$item->created_at->diffForHumans()}}
                                             @endif
                                         </td>
                                     </tr>
@@ -211,12 +205,12 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div><p> </p>
         </div>
     </div>
 @endsection
 @section('javascripts')
-    <script src="{{asset('assets/plugins/apexcharts-bundle/js/apexcharts.min.js')}}"></script>
+    <script src="{{asset('assets/css/apexcharts-bundle/js/apexcharts.min.js')}}"></script>
     <script>
         function drawChart() {
             var internalInterviews='{{getInternalInterviewCounts()}}';

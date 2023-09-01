@@ -1,19 +1,19 @@
 @extends('layouts.app')
 @section('styles')
-    <link href="{{asset('assets/plugins/datatable/css/dataTables.bootstrap5.min.css')}}" rel="stylesheet" />
+    <link href="{{asset('assets/css/datatable/css/dataTables.bootstrap5.min.css')}}" rel="stylesheet" />
 @endsection
 @section('title')
     ATS - Edit Company
 @endsection
 @section('contents')
-    <div class="page-wrapper">
+    <div class="container-fluid px-lg-4 px-xl-5">
         <div class="page-content">
             <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
                 <div class="breadcrumb-title pe-3">Company</div>
                 <div class="ps-3">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb mb-0 p-0">
-                            <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}"><i class="bx bx-home-alt"></i></a>
+                            <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}"><i class="fa fas fa-home"></i></a>
                             </li>
                             <li class="breadcrumb-item"><a href="{{route('admin.companies.index')}}">Company</a>
                             </li>
@@ -165,7 +165,7 @@
     
 @endsection
 @section('javascripts')
-    <script src="{{asset('assets/plugins/validation/jquery.validate.min.js')}}"></script>
+    <script src="{{asset('assets/js/jquery.validate.min.js')}}"></script>
     {{-- <script src="{{asset('assets/plugins/validation/validation-script.js')}}"></script> --}}
     <script>
         $( document ).ready( function () {
@@ -214,7 +214,17 @@
                     country: "Please select country",
                     address: "Please type your message",
                     agree: "Please accept our policy"
+                },errorElement: "div",
+                    errorPlacement: function ( error, element ) {
+                        error.addClass( "invalid-feedback" );
+                        error.insertAfter( element );
+                    },
+                highlight: function(element) {
+                    $(element).removeClass('is-valid').addClass('is-invalid');
                 },
+                unhighlight: function(element) {
+                    $(element).removeClass('is-invalid').addClass('is-valid');
+                }
             } );
         } );
 

@@ -7,41 +7,47 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 	<META HTTP-EQUIV="REFRESH" CONTENT="csrf_timeout_in_seconds">
-	<!--favicon-->
-	<link rel="icon" href="{{asset('assets/images/favicon-32x32.png')}}" type="image/png" />
-	<!--plugins-->
-	<link href="{{asset('assets/plugins/simplebar/css/simplebar.css')}}" rel="stylesheet" />
-	<link href="{{asset('assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css')}}" rel="stylesheet" />
-	<link href="{{asset('assets/plugins/metismenu/css/metisMenu.min.css')}}" rel="stylesheet" />
-	<!-- loader-->
-	<link href="{{asset('assets/css/pace.min.css')}}" rel="stylesheet" />
-	<script src="{{asset('assets/js/pace.min.js')}}"></script>
-	<!-- Bootstrap CSS -->
-	<link href="{{asset('assets/css/bootstrap.min.css')}}" rel="stylesheet">
-	<link href="{{asset('assets/css/bootstrap-extended.css')}}" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-	<link href="{{asset('assets/css/app.css')}}" rel="stylesheet">
-	<link href="{{asset('assets/css/icons.css')}}" rel="stylesheet">
+	<meta name="robots" content="all,follow">
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&amp;display=swap" rel="stylesheet">
+    <!-- Prism Syntax Highlighting-->
+    <link rel="stylesheet" href="{{asset('assets/vendor/prismjs/plugins/toolbar/prism-toolbar.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/vendor/prismjs/themes/prism-okaidia.css')}}">
+    <!-- The Main Theme stylesheet (Contains also Bootstrap CSS)-->
+    <link rel="stylesheet" href="{{asset('assets/css/style.default.css')}}" id="theme-stylesheet">
+    <!-- Custom stylesheet - for your changes-->
+    <link rel="stylesheet" href="{{asset('assets/css/custom.css')}}">
+    <!-- Favicon-->
+    <link rel="shortcut icon" href="{{asset('assets/img/favicon.png')}}">
+	
     @yield('style')
 	<title>@yield('title_head')</title>
 </head>
-
-<body class="">
-	<!--wrapper-->
-	<div class="wrapper">
-        @yield('menus')
-        @yield('content')
-    </div>
-	<!--end wrapper-->
-	<!-- Bootstrap JS -->
-	<script src="{{asset('assets/js/bootstrap.bundle.min.js')}}"></script>
-	<!--plugins-->
-	<script src="{{asset('assets/js/jquery.min.js')}}"></script>
-	<script src="{{asset('assets/plugins/simplebar/js/simplebar.min.js')}}"></script>
-	<script src="{{asset('assets/plugins/metismenu/js/metisMenu.min.js')}}"></script>
-	<script src="{{asset('assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js')}}"></script>
-	<!--app JS-->
-	<script src="{{asset('assets/js/app.js')}}"></script>
+<body>
+	@yield('content')
+	<!-- JavaScript files-->
+    <script src="{{asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+    <script src="{{asset('assets/js/jquery.js')}}"></script>
+    <!-- Main Theme JS File-->
+    <script src="{{asset('assets/js/theme.js')}}"></script>
+    <!-- Prism for syntax highlighting-->
+    <script src="{{asset('assets/vendor/prismjs/prism.js')}}"></script>
+    <script src="{{asset('assets/vendor/prismjs/plugins/normalize-whitespace/prism-normalize-whitespace.min.js')}}"></script>
+    <script src="{{asset('assets/vendor/prismjs/plugins/toolbar/prism-toolbar.min.js')}}"></script>
+    <script src="{{asset('assets/vendor/prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js')}}"></script>
+    <script type="text/javascript">
+      // Optional
+      Prism.plugins.NormalizeWhitespace.setDefaults({
+      'remove-trailing': true,
+      'remove-indent': true,
+      'left-trim': true,
+      'right-trim': true,
+      });
+          
+    </script>
+    <!-- FontAwesome CSS - loading as last, so it doesn't block rendering-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 	<script>
         var role="{{Auth::user()?->role}}";
         var buttons=[];
