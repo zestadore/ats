@@ -67,6 +67,7 @@
                                 <tr>
                                     <th class="nosort">#</th>
                                     <th>{{ __('Candidate Name') }}</th>
+                                    <th>{{ __('Matches') }}</th>
                                     <th>{{ __('Email') }}</th>
                                     <th>{{ __('Contact') }}</th>
                                     <th>{{ __('Location') }}</th>
@@ -155,6 +156,10 @@
                     {
                         data: 'candidate_name',
                         name: 'candidate_name'
+                    },
+                    {
+                        data: 'matches',
+                        name: 'matches'
                     },
                     {
                         data: 'email',

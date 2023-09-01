@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Candidate;
+use App\Models\JobOpportunity;
 use Illuminate\Http\Request;
 use App\Http\Requests\ValidateCandidate;
 use Illuminate\Support\Facades\Crypt;
 use App\Models\AdditionalAttachment;
+use App\Models\Submission;
 use DataTables;
 
 class CandidateController extends Controller
@@ -43,6 +45,25 @@ class CandidateController extends Controller
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', 'backend.candidates.action')
+                ->addColumn('matches', function ($data) {
+                    $skillArray=[];
+                    $keySkillArray=[];
+                    $keyWords=$data->skills;
+                    $skillArray=explode(",",$keyWords);
+                    $keyWords=$data->key_skills;
+                    $keySkillArray=explode(",",$keyWords);
+                    $skillArray=array_merge($skillArray,$keySkillArray);
+                    $idArray=[];
+                    foreach($skillArray as $skill){
+                        if($skill!=Null and $skill!="" and $skill!=" "){
+                            $ids=JobOpportunity::where('key_skills', 'like', '%' . $skill . '%')->orWhere('notes', 'like', '%' . $skill . '%')->orWhere('description', 'like', '%' . $skill . '%')->pluck('id')->toArray();
+                            $idArray=array_merge($idArray,$ids);
+                        }
+                    }
+                    $idArray=array_unique($idArray);
+                    return "<label class='badge badge-primary-light'>".count($idArray)." Matches Found</label>";
+                })
+                ->escapeColumns('aaData')
                 ->make(true);
         }
         return view('backend.candidates.index');

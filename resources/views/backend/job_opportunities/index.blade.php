@@ -53,6 +53,7 @@
                                     <th class="nosort">#</th>
                                     <th>{{ __('Title') }}</th>
                                     <th>{{ __('Type') }}</th>
+                                    <th>{{ __('Matches') }}</th>
                                     <th>{{ __('Job Owner') }}</th>
                                     <th>{{ __('Job Status') }}</th>
                                     <th>{{ __('Client') }}</th>
@@ -138,6 +139,10 @@
                                 return "Fulltime";
                             }
                         }
+                    },
+                    {
+                        data: 'matches',
+                        name: 'matches'
                     },
                     {
                         data: 'job_owner_names',

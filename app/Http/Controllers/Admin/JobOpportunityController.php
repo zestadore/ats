@@ -6,6 +6,7 @@ use App\Models\Client;
 use App\Models\EndClient;
 use App\Models\JobOpportunity;
 use App\Models\User;
+use App\Models\Candidate;
 use Illuminate\Http\Request;
 use App\Http\Requests\ValidateJobOpportunity;
 use Illuminate\Support\Facades\Crypt;
@@ -34,6 +35,24 @@ class JobOpportunityController extends Controller
                         return Null;
                     }
                 })
+                ->addColumn('matches', function ($data) {
+                    $skillArray=[];
+                    $notesSkillArray=[];
+                    $keyWords=$data->key_skills;
+                    $skillArray=explode(",",$keyWords);
+                    $keyWords=$data->notes;
+                    $notesSkillArray=explode(" ",$keyWords);
+                    $skillArray=array_merge($skillArray,$notesSkillArray);
+                    $idArray=[];
+                    foreach($skillArray as $skill){
+                        if($skill!=Null and $skill!="" and $skill!=" "){
+                            $ids=Candidate::where('key_skills', 'like', '%' . $skill . '%')->orWhere('skills', 'like', '%' . $skill . '%')->pluck('id')->toArray();
+                            $idArray=array_merge($idArray,$ids);
+                        }
+                    }
+                    $idArray=array_unique($idArray);
+                    return "<label class='badge badge-primary-light'>".count($idArray)." Matches Found</label>";
+                })
                 ->addColumn('end_client', function($data) {
                     if($data->end_client_id){
                         return $data?->endClient?->end_client??Null;
@@ -41,6 +60,7 @@ class JobOpportunityController extends Controller
                         return Null;
                     }
                 })
+                ->escapeColumns('aaData')
                 ->make(true);
         }
         return view('backend.job_opportunities.index');
