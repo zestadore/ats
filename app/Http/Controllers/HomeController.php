@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Candidate;
+use App\Models\JobOpportunity;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Auth;
 
@@ -97,5 +99,29 @@ class HomeController extends Controller
         }else{
             return response()->json(['error'=>"Failed to insert the data, kindly try again!"]);
         }
+    }
+
+    public function updateCandidatesAI()
+    {
+        $data=JobOpportunity::get();
+        foreach($data as $item){
+            $skillArray=[];
+                $notesSkillArray=[];
+                $keyWords=$item->key_skills;
+                $skillArray=explode(",",$keyWords);
+                $keyWords=$item->notes;
+                $notesSkillArray=explode(" ",$keyWords);
+                $skillArray=array_merge($skillArray,$notesSkillArray);
+                $idArray=[];
+                foreach($skillArray as $skill){
+                    if($skill!=Null and $skill!="" and $skill!=" "){
+                        $ids=Candidate::where('key_skills', 'like', '%' . $skill . '%')->orWhere('skills', 'like', '%' . $skill . '%')->pluck('id')->toArray();
+                        $idArray=array_merge($idArray,$ids);
+                    }
+                }
+                $idArray=array_unique($idArray);
+            $item->candidates()->attach($idArray);
+        }
+        dd($data);
     }
 }

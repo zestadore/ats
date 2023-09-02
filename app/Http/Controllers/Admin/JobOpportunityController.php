@@ -36,22 +36,12 @@ class JobOpportunityController extends Controller
                     }
                 })
                 ->addColumn('matches', function ($data) {
-                    $skillArray=[];
-                    $notesSkillArray=[];
-                    $keyWords=$data->key_skills;
-                    $skillArray=explode(",",$keyWords);
-                    $keyWords=$data->notes;
-                    $notesSkillArray=explode(" ",$keyWords);
-                    $skillArray=array_merge($skillArray,$notesSkillArray);
-                    $idArray=[];
-                    foreach($skillArray as $skill){
-                        if($skill!=Null and $skill!="" and $skill!=" "){
-                            $ids=Candidate::where('key_skills', 'like', '%' . $skill . '%')->orWhere('skills', 'like', '%' . $skill . '%')->pluck('id')->toArray();
-                            $idArray=array_merge($idArray,$ids);
-                        }
+                    if($data->candidates){
+                        $count=count($data->candidates);
+                        return "<label class='badge badge-primary-light'>".$count." Matches Found</label>";
+                    }else{
+                        return "<label class='badge badge-primary-light'>0 Matches Found</label>";
                     }
-                    $idArray=array_unique($idArray);
-                    return "<label class='badge badge-primary-light'>".count($idArray)." Matches Found</label>";
                 })
                 ->addColumn('end_client', function($data) {
                     if($data->end_client_id){

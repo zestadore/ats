@@ -103,5 +103,10 @@ class JobOpportunity extends Model
         }
         return implode(", ",$names);
     }
+
+    public function candidates()
+    {
+        return $this->belongsToMany(Candidate::class);
+    }
     
 }

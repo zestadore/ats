@@ -46,22 +46,12 @@ class CandidateController extends Controller
                 ->addIndexColumn()
                 ->addColumn('action', 'backend.candidates.action')
                 ->addColumn('matches', function ($data) {
-                    $skillArray=[];
-                    $keySkillArray=[];
-                    $keyWords=$data->skills;
-                    $skillArray=explode(",",$keyWords);
-                    $keyWords=$data->key_skills;
-                    $keySkillArray=explode(",",$keyWords);
-                    $skillArray=array_merge($skillArray,$keySkillArray);
-                    $idArray=[];
-                    foreach($skillArray as $skill){
-                        if($skill!=Null and $skill!="" and $skill!=" "){
-                            $ids=JobOpportunity::where('key_skills', 'like', '%' . $skill . '%')->orWhere('notes', 'like', '%' . $skill . '%')->orWhere('description', 'like', '%' . $skill . '%')->pluck('id')->toArray();
-                            $idArray=array_merge($idArray,$ids);
-                        }
+                    if($data->opportunities){
+                        $count=count($data->opportunities);
+                        return "<label class='badge badge-primary-light'>".$count." Matches Found</label>";
+                    }else{
+                        return "<label class='badge badge-primary-light'>0 Matches Found</label>";
                     }
-                    $idArray=array_unique($idArray);
-                    return "<label class='badge badge-primary-light'>".count($idArray)." Matches Found</label>";
                 })
                 ->escapeColumns('aaData')
                 ->make(true);

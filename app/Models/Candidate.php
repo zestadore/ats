@@ -60,4 +60,9 @@ class Candidate extends Model
     public function additionalAttachments(){
         return $this->hasMany(AdditionalAttachment::class, 'reference_id', 'id')->where('reference_type', 'candidate');
     }
+
+    public function opportunities()
+    {
+        return $this->belongsToMany(JobOpportunity::class);
+    }
 }
