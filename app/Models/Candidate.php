@@ -28,10 +28,44 @@ class Candidate extends Model
         {
             $model->company_id=Auth::user()->company_id??1;
             $model->created_by = Auth::user()->id;
+            //attaching pivots
+            $skillArray=[];
+            $keySkillArray=[];
+            $keyWords=$model->skills;
+            $skillArray=explode(",",$keyWords);
+            $keyWords=$model->key_skills;
+            $keySkillArray=explode(",",$keyWords);
+            $skillArray=array_merge($skillArray,$keySkillArray);
+            $idArray=[];
+            foreach($skillArray as $skill){
+                if($skill!=Null and $skill!="" and $skill!=" "){
+                    $ids=JobOpportunity::where('key_skills', 'like', '%' . $skill . '%')->orWhere('notes', 'like', '%' . $skill . '%')->orWhere('description', 'like', '%' . $skill . '%')->pluck('id')->toArray();
+                    $idArray=array_merge($idArray,$ids);
+                }
+            }
+            $idArray=array_unique($idArray);
+            $model->opportunities()->attach($idArray);
         });
         static::updating(function($model)
         {
             $model->updated_by = Auth::user()->id;
+            //attaching pivots
+            $skillArray=[];
+            $keySkillArray=[];
+            $keyWords=$model->skills;
+            $skillArray=explode(",",$keyWords);
+            $keyWords=$model->key_skills;
+            $keySkillArray=explode(",",$keyWords);
+            $skillArray=array_merge($skillArray,$keySkillArray);
+            $idArray=[];
+            foreach($skillArray as $skill){
+                if($skill!=Null and $skill!="" and $skill!=" "){
+                    $ids=JobOpportunity::where('key_skills', 'like', '%' . $skill . '%')->orWhere('notes', 'like', '%' . $skill . '%')->orWhere('description', 'like', '%' . $skill . '%')->pluck('id')->toArray();
+                    $idArray=array_merge($idArray,$ids);
+                }
+            }
+            $idArray=array_unique($idArray);
+            $model->opportunities()->sync($idArray);
         });
         static::deleting(function($model)
         {

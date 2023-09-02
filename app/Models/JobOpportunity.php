@@ -33,10 +33,44 @@ class JobOpportunity extends Model
         {
             $model->company_id=Auth::user()->company_id;
             $model->created_by = Auth::user()->id;
+            //attaching pivots
+            $skillArray=[];
+            $notesSkillArray=[];
+            $keyWords=$model->key_skills;
+            $skillArray=explode(",",$keyWords);
+            $keyWords=$model->notes;
+            $notesSkillArray=explode(" ",$keyWords);
+            $skillArray=array_merge($skillArray,$notesSkillArray);
+            $idArray=[];
+            foreach($skillArray as $skill){
+                if($skill!=Null and $skill!="" and $skill!=" "){
+                    $ids=Candidate::where('key_skills', 'like', '%' . $skill . '%')->orWhere('skills', 'like', '%' . $skill . '%')->pluck('id')->toArray();
+                    $idArray=array_merge($idArray,$ids);
+                }
+            }
+            $idArray=array_unique($idArray);
+            $model->candidates()->attach($idArray);
         });
         static::updating(function($model)
         {
             $model->updated_by = Auth::user()->id;
+            //attaching pivots
+            $skillArray=[];
+            $notesSkillArray=[];
+            $keyWords=$model->key_skills;
+            $skillArray=explode(",",$keyWords);
+            $keyWords=$model->notes;
+            $notesSkillArray=explode(" ",$keyWords);
+            $skillArray=array_merge($skillArray,$notesSkillArray);
+            $idArray=[];
+            foreach($skillArray as $skill){
+                if($skill!=Null and $skill!="" and $skill!=" "){
+                    $ids=Candidate::where('key_skills', 'like', '%' . $skill . '%')->orWhere('skills', 'like', '%' . $skill . '%')->pluck('id')->toArray();
+                    $idArray=array_merge($idArray,$ids);
+                }
+            }
+            $idArray=array_unique($idArray);
+            $model->candidates()->sync($idArray);
         });
         static::deleting(function($model)
         {
