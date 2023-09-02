@@ -38,7 +38,7 @@ class JobOpportunityController extends Controller
                 ->addColumn('matches', function ($data) {
                     if($data->candidates){
                         $count=count($data->candidates);
-                        return "<label class='badge badge-primary-light'>".$count." Matches Found</label>";
+                        return "<a style='cursor: pointer;' href='".route('admin.get-opportunity-matches',Crypt::encrypt($data->id))."'><label class='badge badge-primary-light'>".$count." Matches Found</label></a>";
                     }else{
                         return "<label class='badge badge-primary-light'>0 Matches Found</label>";
                     }
@@ -129,6 +129,13 @@ class JobOpportunityController extends Controller
     {
         $data=JobOpportunity::where('client_id',$clientId)->get();
         return response()->json($data);
+    }
+
+    public function getMatches($id)
+    {
+        $opportunity=JobOpportunity::find(Crypt::decrypt($id));
+        $matches=$opportunity->candidates()->paginate(25);
+        return view('backend.job_opportunities.matches',['opportunity'=>$opportunity,'matches'=>$matches]);
     }
 
 }

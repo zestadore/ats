@@ -48,7 +48,7 @@ class CandidateController extends Controller
                 ->addColumn('matches', function ($data) {
                     if($data->opportunities){
                         $count=count($data->opportunities);
-                        return "<label class='badge badge-primary-light'>".$count." Matches Found</label>";
+                        return "<a style='cursor: pointer;' href='".route('admin.get-candidate-matches',Crypt::encrypt($data->id))."'><label class='badge badge-primary-light'>".$count." Matches Found</label></a>";
                     }else{
                         return "<label class='badge badge-primary-light'>0 Matches Found</label>";
                     }
@@ -231,5 +231,10 @@ class CandidateController extends Controller
         }
     }
 
-    
+    public function getMatches($id)
+    {
+        $candidate=Candidate::find(Crypt::decrypt($id));
+        $matches=$candidate->opportunities()->paginate(25);
+        return view('backend.candidates.matches',['candidate'=>$candidate,'matches'=>$matches]);
+    }
 }
