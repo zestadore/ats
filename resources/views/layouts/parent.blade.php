@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="{{asset('assets/css/style.default.css')}}" id="theme-stylesheet">
     <!-- Custom stylesheet - for your changes-->
     <link rel="stylesheet" href="{{asset('assets/css/custom.css')}}">
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
     <!-- Favicon-->
     <link rel="shortcut icon" href="{{asset('assets/img/favicon.png')}}">
 	
@@ -36,6 +37,8 @@
     <script src="{{asset('assets/vendor/prismjs/plugins/normalize-whitespace/prism-normalize-whitespace.min.js')}}"></script>
     <script src="{{asset('assets/vendor/prismjs/plugins/toolbar/prism-toolbar.min.js')}}"></script>
     <script src="{{asset('assets/vendor/prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js')}}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script type="text/javascript">
       // Optional
       Prism.plugins.NormalizeWhitespace.setDefaults({
@@ -88,6 +91,87 @@
             }else if(idleTime >= 10 && !userAuth){
 				location.reload();
 			}
+        }
+        
+        function openNotes(){
+            $.ajax({
+                url: "{{route('admin.notes.index')}}",
+                type:"get",
+                success:function(response){
+                    $('#view-notes-modal-body').html(response.html);
+                    $('#notesModal').modal('show');
+                },
+            });
+        }
+
+        $('#note_description').summernote({
+            placeholder: 'Notes Description',
+            tabsize: 2,
+            height: 150,
+            toolbar: [
+                ['style', ['style']],
+                ['font', ['bold', 'underline', 'clear']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['table', ['table']],
+                ['insert', ['link']],
+            ]
+        });
+        $('#hiddenDiv').hide();
+        $('#toggleDiv').click(function(){
+            $('#hiddenDiv').toggle();
+        });
+
+        $('#saveNotes').click(function(){
+            $.ajax({
+                url: "{{route('admin.notes.store')}}",
+                type:"post",
+                data:{
+                    "_token": "{{ csrf_token() }}",
+                    "title": $('#note_title').val(),
+                    "type": $('#note_choice').val(),
+                    "color_code": $('#note_color').val(),
+                    "description": $('#note_description').summernote('code'),
+                },
+                success:function(response){
+                    if(response.success){
+                        $('#hiddenDiv').toggle();
+                        $('#view-notes-modal-body').html(response.html);
+                    }   
+                },
+            });
+        })
+
+        function deleteNote(id)
+        {
+            swal({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                buttons: true,
+                dangerMode: true,
+            }).then((result) => {
+                if (result) {
+                    var url="{{route('admin.notes.destroy','ID')}}";
+                    url=url.replace('ID',id);
+                    $.ajax({
+                        url: url,
+                        type:"delete",
+                        data:{
+                            "_token": "{{ csrf_token() }}",
+                        },
+                        success:function(response){
+                            console.log(response);
+                            if(response.success){
+                                swal("Good job!", "You deleted the data!", "success");
+                                $('#view-notes-modal-body').html(response.html);
+                            }else{
+                                swal("Oops!", "Failed to deleted the data!", "danger");
+                            }
+                        },
+                    });
+                }
+            });
         }
     </script>
     @yield('javascripts')

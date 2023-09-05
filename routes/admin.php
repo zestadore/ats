@@ -30,5 +30,6 @@ Route::middleware(['auth'])->name('admin.')->namespace("App\Http\Controllers\Adm
     Route::get('mail-invoice/{id}/{emall}', [App\Http\Controllers\Admin\InvoiceController::class, 'mailInvoice'])->name('mail-invoice');
     Route::get('get-opportunity-matches/{id}', [App\Http\Controllers\Admin\JobOpportunityController::class, 'getMatches'])->name('get-opportunity-matches');
     Route::get('get-candidate-matches/{id}', [App\Http\Controllers\Admin\CandidateController::class, 'getMatches'])->name('get-candidate-matches');
+    Route::resource('notes', NoteController::class);
 });
 

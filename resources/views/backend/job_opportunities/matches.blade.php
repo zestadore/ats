@@ -6,6 +6,14 @@
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
+    <style>
+        #viewLargeModal .modal-dialog {
+        height: 100%; /* = 90% of the .modal-backdrop block = %90 of the screen */
+        }
+        #viewLargeModal .modal-content {
+        height: 100%; /* = 100% of the .modal-dialog block */
+        }
+    </style>
 @endsection
 @section('title')
     ATS - Job Opportunity Matches
@@ -42,6 +50,7 @@
             <div class="card">
                 <div class="card-body p-4">
                     <h5 class="mb-4">Candidates Matches</h5>
+                    <h6>Job opportunity : {{$opportunity->title}} <button class="btn btn-primary btn-sm" onclick="viewOpportunityModal('{{Crypt::encrypt($opportunity->id)}}')">View</h6>
                     <table class="table table-striped">
                         <tr>
                             <th class="nosort">#</th>
@@ -190,6 +199,84 @@
                         }
                         html+="</tr>";
                         html+=html2;
+                        html+="</table>";
+                        html=html+"</html>";
+                        $('#view-modal-body').html(html);
+                        $('#exampleLargeModal').modal('show');
+                    }else{
+                        swal("Oops!", "Failed to fetch the data!", "error");
+                    }
+                },
+            });
+        }
+
+        function viewOpportunityModal(id){
+            var url="{{route('admin.job-opportunities.show','ID')}}";
+            url=url.replace('ID',id);
+            $.ajax({
+                url: url,
+                type:"get",
+                success:function(response){
+                    console.log(response);
+                    if(response.success==true){
+                        var type="Contract";
+                        $('#modalTitle').text("View Job Opportunity");
+                        if(response.data.type==1){
+                            type="Fulltime";
+                        }
+                        var status="Active";
+                        if(response.data.status==0){
+                            status="Inactive";
+                        }
+                        var html="<table class='table table-striped table-bordered'>";
+                        html+="<tr>";
+                        html+="<td>Title</td>";
+                        var title=response.data.title?response.data.title:"-";
+                        html+="<td>"+title+"</td>";
+                        html+="</tr>";
+                        html+="<tr>";
+                        html+="<td>Type</td>";
+                        html+="<td>"+type+"</td>";
+                        html+="</tr>";
+                        html+="<tr>";
+                        html+="<td>Job Owner</td>";
+                        var job_owner=response.data.job_owner_names?response.data.job_owner_names:"-";
+                        html+="<td>"+job_owner+"</td>";
+                        html+="</tr>";
+                        html+="<tr>";
+                        html+="<td>Assign Recruiter</td>";
+                        var assign_recruiter=response.data.assign_recruiter_names?response.data.assign_recruiter_names:"-";
+                        html+="<td>"+assign_recruiter+"</td>";
+                        html+="</tr>";
+                        html+="<tr>";
+                        html+="<td>Status</td>";
+                        html+="<td>"+status+"</td>";
+                        html+="</tr>";
+                        html+="<tr>";
+                        html+="<td>Client</td>";
+                        var client=response.data.client.client_name?response.data.client.client_name:"-";
+                        html+="<td>"+client+"</td>";
+                        html+="</tr>";
+                        html+="<tr>";
+                        html+="<td>End Client</td>";
+                        var end_client=response.data.end_client.end_client?response.data.end_client.end_client:"-";
+                        html+="<td>"+end_client+"</td>";
+                        html+="</tr>";
+                        html+="<tr>";
+                        html+="<td>Key Skills</td>";
+                        var key_skills=response.data.key_skills?response.data.key_skills:"-";
+                        html+="<td>"+key_skills+"</td>";
+                        html+="</tr>";
+                        html+="<tr>";
+                        html+="<td>Notes</td>";
+                        var notes=response.data.notes?response.data.notes:"-";
+                        html+="<td>"+notes+"</td>";
+                        html+="</tr>";
+                        html+="<tr>";
+                        html+="<td>Description</td>";
+                        var description=response.data.description?response.data.description:"-";
+                        html+="<td>"+description+"</td>";
+                        html+="</tr>";
                         html+="</table>";
                         html=html+"</html>";
                         $('#view-modal-body').html(html);
