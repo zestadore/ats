@@ -13,15 +13,20 @@
                         </div>
                         <div class="card-body p-lg-5">
                             <h3 class="mb-4">Hi, welcome back! 👋👋</h3>
-                            <div style="text-align: center;"><img class="img-fluid mb-4" width="20%" src="{{asset('uploads/site_logo/'.env('SITE_LOGO',''))}}" alt=""></div>
+                            {{-- <div style="text-align: center;"><img class="img-fluid mb-4" width="20%" src="{{asset('uploads/site_logo/'.env('SITE_LOGO',''))}}" alt=""></div> --}}
                             <p class="text-muted text-sm mb-5">Welcome to Amnext's Application Tracking System (ATS). Please enter your login credentials below to access your account.</p>
                             <form id="loginForm" action="{{ route('login') }}" method="post">@csrf
                                 <x-forms.input class="form-control {{ $errors->has('email') ? ' is-invalid' : '' }}" title="Username [Email Addrerss] : " name="email" id="email" type="email" required="True"/>
                                 <x-forms.input class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}" title="Password : " name="password" id="password" type="password" required="True"/>
-                                <button class="btn btn-primary btn-lg" type="submit" style="float:right;">Submit</button>
+                                <div class="form-check mb-3">
+                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="remember">Remember me</label>
+                                </div>
+                                <button class="btn btn-primary btn-lg" type="submit">Submit</button>
                             </form>
                         </div>
                         <div class="card-footer px-lg-5 py-lg-4">
+                            <div class="text-sm text-muted">Don't have an account? <a href="Javascript::void(0)">Register</a>.</div>
                         </div>
                     </div>
                 </div>

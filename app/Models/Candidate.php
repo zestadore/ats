@@ -39,7 +39,8 @@ class Candidate extends Model
             $idArray=[];
             foreach($skillArray as $skill){
                 if($skill!=Null and $skill!="" and $skill!=" "){
-                    $ids=JobOpportunity::where('key_skills', 'like', '%' . $skill . '%')->orWhere('notes', 'like', '%' . $skill . '%')->orWhere('description', 'like', '%' . $skill . '%')->pluck('id')->toArray();
+                    $ids=JobOpportunity::where('key_skills', 'like', '%' . $skill . '%')->orWhere('notes', 'like', '%' . $skill . '%')
+                    ->orWhere('description', 'like', '%' . $skill . '%')->orWhere('title', 'like', '%' . $skill . '%')->pluck('id')->toArray();
                     $idArray=array_merge($idArray,$ids);
                 }
             }
@@ -60,7 +61,8 @@ class Candidate extends Model
             $idArray=[];
             foreach($skillArray as $skill){
                 if($skill!=Null and $skill!="" and $skill!=" "){
-                    $ids=JobOpportunity::where('key_skills', 'like', '%' . $skill . '%')->orWhere('notes', 'like', '%' . $skill . '%')->orWhere('description', 'like', '%' . $skill . '%')->pluck('id')->toArray();
+                    $ids=JobOpportunity::where('key_skills', 'like', '%' . $skill . '%')->orWhere('notes', 'like', '%' . $skill . '%')
+                    ->orWhere('description', 'like', '%' . $skill . '%')->orWhere('title', 'like', '%' . $skill . '%')->pluck('id')->toArray();
                     $idArray=array_merge($idArray,$ids);
                 }
             }
