@@ -10,9 +10,9 @@
             </span>
         @enderror
 @elseif($type=='textarea')
-    <div class="form-group">
-        <label class="form-label" for="{{$name}}">{{$title}} @if($required=="True")<span style="color:red;"> *</span>@endif</label>
+    <div class="form-floating mb-3">
         <textarea id="{{$id}}" cols="30" rows="5" class="{{$class}}" name="{{$name}}" value="{{ old($name) }}" placeholder="{{$title}}" @if($required=="True") required @endif autocomplete="{{$name}}" autofocus></textarea>
+        <label for="{{$name}}">{{$title}} @if($required=="True")<span style="color:red;"> *</span>@endif</label>
         @error($name)
             <span class="error mt-2 text-danger" role="alert">
                 <strong>{{ $message }}</strong>
