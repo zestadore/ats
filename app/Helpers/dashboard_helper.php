@@ -58,6 +58,14 @@ use Spatie\Activitylog\Models\Activity;
         }
     }
 
+    function getRecentSubmissions(){
+        if(Auth::user()->role=="super_admin"){
+            return Submission::latest()->take(10)->get();
+        }else{
+            return Submission::latest()->where('created_by',Auth::user()->id)->latest()->take(10)->get();
+        }
+    }
+
     function getUserActivityLogs(){
         if(Auth::user()->role=="super_admin"){
             return Activity::latest()->take(10)->get();

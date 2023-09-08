@@ -5,6 +5,17 @@
 @section('contents')
     <div class="container-fluid px-lg-4 px-xl-5">
         <div class="page-content">
+            <div style="padding:5px;">
+                <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="float:right !important;"><i class="fas fa-bars"></i></button>
+                <div class="dropdown-menu" style="">
+                    <a class="dropdown-item" id="countsToggle" href="Javascript::void(0)">Counts</a>
+                    <a class="dropdown-item" id="pipelineToggle" href="Javascript::void(0)">Pipeline Summary</a>
+                    <a class="dropdown-item" id="interviewsToggle" href="Javascript::void(0)">Upcomming Interviews</a>
+                    <a class="dropdown-item" id="completedInterviewsToggle" href="Javascript::void(0)">Completed Interviews</a>
+                    <a class="dropdown-item" id="submissionsToggle" href="Javascript::void(0)">Recent Submissions</a>
+                    <a class="dropdown-item" id="activityLogsToggle" href="Javascript::void(0)">Activity Logs</a>
+                </div>
+            </div>
             <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
                 <div class="breadcrumb-title pe-3">Dashboard</div>
                 <div class="ps-3">
@@ -15,6 +26,7 @@
                         </ol>
                     </nav>
                 </div>
+                
             </div>
             @if (session('error'))
                 <div class="alert alert-danger border-0 bg-danger alert-dismissible fade show">
@@ -39,7 +51,7 @@
                         $class="col-lg-4 col-md-4 col-sm-6 col-xs-12";
                     @endphp
                 @endcan
-                <div class="row">
+                <div class="row" id="countsSection">
                     @canany(['isAdmin','isAccountManager','isTeamLead','isCompanyAdmin'])
                         <div class="{{$class}}">
                             <div class="card-widget h-100">
@@ -96,7 +108,7 @@
                     </div>
                 </div><p> </p>
             </section>
-            <section class="mb-4 mb-lg-5">
+            <section class="mb-4 mb-lg-5" id="pipelineSection">
                 <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Pipeline Summary</h2>
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -135,106 +147,119 @@
             </section>
             <p> </p>
             <div class="row">
-                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="d-flex align-items-center">
-                                <div>
-                                    <h6 class="mb-0">Upcoming Interviews</h6>
-                                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" id="interviewsSection">
+                    <section class="mb-4 mb-lg-5">
+                        <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Upcoming Interviews</h2>
+                        <div class="card">
+                            <div class="card-body">
+                                <table class="table table-striped">
+                                    <tr>
+                                        <th>Candidate</th>
+                                        <th>Client</th>
+                                        <th>Date</th>
+                                    </tr>
+                                    @foreach (getUpComingInterviews() as $item)
+                                        <tr>
+                                            <td>{{$item->candidate?->candidate_name}}</td>
+                                            <td>{{$item->client?->client_name}}</td>
+                                            <td>{{$item->from_date}}</td>
+                                        </tr>
+                                    @endforeach
+                                </table>
                             </div>
                         </div>
-                        <div class="card-body">
-                            <table class="table table-striped">
-                                <tr>
-                                    <th>Candidate</th>
-                                    <th>Client</th>
-                                    <th>Date</th>
-                                </tr>
-                                @foreach (getUpComingInterviews() as $item)
-                                    <tr>
-                                        <td>{{$item->candidate?->candidate_name}}</td>
-                                        <td>{{$item->client?->client_name}}</td>
-                                        <td>{{$item->from_date}}</td>
-                                    </tr>
-                                @endforeach
-                            </table>
-                        </div>
-                    </div>
+                    </section>
                 </div>
-                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="d-flex align-items-center">
-                                <div>
-                                    <h6 class="mb-0">Completed Interviews</h6>
-                                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" id="completedInterviewsSection">
+                    <section class="mb-4 mb-lg-5">
+                        <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Completed Interviews</h2>
+                        <div class="card">
+                            <div class="card-body">
+                                <table class="table table-striped">
+                                    <tr>
+                                        <th>Candidate</th>
+                                        <th>Client</th>
+                                        <th>Date</th>
+                                    </tr>
+                                    @foreach (getCompletedInterviews() as $item)
+                                        <tr>
+                                            <td>{{$item->candidate?->candidate_name}}</td>
+                                            <td>{{$item->client?->client_name}}</td>
+                                            <td>{{$item->from_date}}</td>
+                                        </tr>
+                                    @endforeach
+                                </table>
                             </div>
                         </div>
-                        <div class="card-body">
-                            <table class="table table-striped">
-                                <tr>
-                                    <th>Candidate</th>
-                                    <th>Client</th>
-                                    <th>Date</th>
-                                </tr>
-                                @foreach (getCompletedInterviews() as $item)
-                                    <tr>
-                                        <td>{{$item->candidate?->candidate_name}}</td>
-                                        <td>{{$item->client?->client_name}}</td>
-                                        <td>{{$item->from_date}}</td>
-                                    </tr>
-                                @endforeach
-                            </table>
-                        </div>
-                    </div>
+                    </section>
                 </div>
             </div><p> </p>
             <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" id="recentSubmissionsSection">
+                    <section class="mb-4 mb-lg-5">
+                        <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Recent Submissions</h2>
+                    </section>
                     <div class="card">
-                        <div class="card-header">
-                            <div class="d-flex align-items-center">
-                                <div>
-                                    <h6 class="mb-0">Activity Logs</h6>
-                                </div>
-                            </div>
-                        </div>
                         <div class="card-body">
                             <table class="table table-striped">
-                                @foreach (getUserActivityLogs() as $item)
+                                <tr>
+                                    <th>Job Title</th>
+                                    <th>Contact</th>
+                                    <th>Email</th>
+                                </tr>
+                                @foreach (getRecentSubmissions() as $item)
                                     <tr>
-                                        <td>
-                                            {{getUserName($item->causer_id)}} {{$item->event}} 
-                                            @if ($item->subject_type == 'App\Models\Candidate')
-                                                a Candidate @ {{$item->created_at->diffForHumans()}}
-                                            @elseif ($item->subject_type == 'App\Models\User')
-                                                an User @ {{$item->created_at->diffForHumans()}}
-                                            @elseif ($item->subject_type == 'App\Models\Client')
-                                                a Client @ {{$item->created_at->diffForHumans()}}
-                                            @elseif ($item->subject_type == 'App\Models\Interview')
-                                                an Interview @ {{$item->created_at->diffForHumans()}}
-                                            @elseif ($item->subject_type == 'App\Models\JobOpportunity')
-                                                a Job Opportunity @ {{$item->created_at->diffForHumans()}}
-                                            @elseif ($item->subject_type == 'App\Models\Submission')
-                                                a Job Submission @ {{$item->created_at->diffForHumans()}}
-                                            @elseif ($item->subject_type == 'App\Models\EndClient')  
-                                                an End Client @ {{$item->created_at->diffForHumans()}}
-                                            @elseif ($item->subject_type == 'App\Models\PricingPlan')  
-                                                a Pricing Plan @ {{$item->created_at->diffForHumans()}}
-                                            @elseif ($item->subject_type == 'App\Models\Company')  
-                                                a Company @ {{$item->created_at->diffForHumans()}}
-                                            @elseif ($item->subject_type == 'App\Models\Invoice')  
-                                                an Invoice @ {{$item->created_at->diffForHumans()}}
-                                            @elseif($item->subject_type == 'App\Models\AdditionalAttachment')
-                                                an Attachment @ {{$item->created_at->diffForHumans()}}
-                                            @endif
-                                        </td>
+                                        <td>{{$item->jobOpportunity?->title}}</td>
+                                        <td>{{$item->contact}}</td>
+                                        <td>{{$item->email_id}}</td>
                                     </tr>
                                 @endforeach
                             </table>
                         </div>
                     </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" id="activityLogsSection">
+                    <section class="mb-4 mb-lg-5">
+                        <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Activity Logs</h2>
+                        <div class="card">
+                            <div class="card-body">
+                                <table class="table table-striped">
+                                    @foreach (getUserActivityLogs() as $item)
+                                        <tr>
+                                            <td>
+                                                {{getUserName($item->causer_id)}} {{$item->event}} 
+                                                @if ($item->subject_type == 'App\Models\Candidate')
+                                                    a Candidate @ {{$item->created_at->diffForHumans()}}
+                                                @elseif ($item->subject_type == 'App\Models\User')
+                                                    an User @ {{$item->created_at->diffForHumans()}}
+                                                @elseif ($item->subject_type == 'App\Models\Client')
+                                                    a Client @ {{$item->created_at->diffForHumans()}}
+                                                @elseif ($item->subject_type == 'App\Models\Interview')
+                                                    an Interview @ {{$item->created_at->diffForHumans()}}
+                                                @elseif ($item->subject_type == 'App\Models\JobOpportunity')
+                                                    a Job Opportunity @ {{$item->created_at->diffForHumans()}}
+                                                @elseif ($item->subject_type == 'App\Models\Submission')
+                                                    a Job Submission @ {{$item->created_at->diffForHumans()}}
+                                                @elseif ($item->subject_type == 'App\Models\EndClient')  
+                                                    an End Client @ {{$item->created_at->diffForHumans()}}
+                                                @elseif ($item->subject_type == 'App\Models\PricingPlan')  
+                                                    a Pricing Plan @ {{$item->created_at->diffForHumans()}}
+                                                @elseif ($item->subject_type == 'App\Models\Company')  
+                                                    a Company @ {{$item->created_at->diffForHumans()}}
+                                                @elseif ($item->subject_type == 'App\Models\Invoice')  
+                                                    an Invoice @ {{$item->created_at->diffForHumans()}}
+                                                @elseif($item->subject_type == 'App\Models\AdditionalAttachment')
+                                                    an Attachment @ {{$item->created_at->diffForHumans()}}
+                                                @elseif($item->subject_type == 'App\Models\Note')
+                                                    a Note @ {{$item->created_at->diffForHumans()}}
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </table>
+                            </div>
+                        </div>
+                    </section>
                 </div>
             </div><p> </p>
         </div>
@@ -418,5 +443,29 @@
             
         }
         drawChart();
+
+        $('#countsToggle').click(function(){
+            $('#countsSection').toggle();
+        });
+
+        $('#pipelineToggle').click(function(){
+            $('#pipelineSection').toggle();
+        });
+
+        $('#interviewsToggle').click(function(){
+            $('#interviewsSection').toggle();
+        });
+
+        $('#completedInterviewsToggle').click(function(){
+            $('#completedInterviewsSection').toggle();
+        });
+
+        $('#submissionsToggle').click(function(){
+            $('#recentSubmissionsSection').toggle();
+        });
+
+        $('#activityLogsToggle').click(function(){
+            $('#activityLogsSection').toggle();
+        });
     </script>
 @endsection
