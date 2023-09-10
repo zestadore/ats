@@ -23,36 +23,43 @@
                                 <header>
                                     <div class="row">
                                         <div class="col">
-                                            <a href="javascript:;">
-                                                <img src="{{asset('uploads/logos/'.$company->logo)}}" width="80" alt="" />
-                                            </a>
+                                            <div class="text-gray-light">INVOICE FROM:</div>
+                                            <h5 class="name">
+                                                <a target="_blank" href="javascript:;">
+                                                    American Nexus Trading Inc.
+                                                </a>
+                                            </h5>
+                                            <div>6400 N Cicero Avenue, </div>
+                                            <div>Lincolnwood, IL – 60712</div>
                                         </div>
-                                        <div class="col company-details">
+                                        <div class="col company-details" style="text-align: right;">
                                             <div class="text-gray-light">INVOICE TO:</div>
-                                            <h2 class="name">
+                                            <h5 class="name">
                                                 <a target="_blank" href="javascript:;">
                                                     {{$data->client?->client_name}}
                                                 </a>
-                                            </h2>
+                                            </h5>
                                             <div>{{$data->client?->poc}}, {{$data->client?->region}}</div>
                                             <div>{{$data->client?->contact}}</div>
                                             <div>{{$data->client?->email}}</div>
                                         </div>
                                     </div>
                                 </header>
+                                <br><hr>
                                 <main>
                                     <div class="row contacts">
                                         <div class="col invoice-to">
                                             <div class="text-gray-light">FOR CANDIDATE:</div>
-                                            <h2 class="to">{{$data->candidate?->candidate_name}}</h2>
+                                            <h4 class="to"><a target="_blank" href="javascript:;">{{$data->candidate?->candidate_name}}</a></h4>
                                         </div>
-                                        <div class="col invoice-details">
-                                            <h1 class="invoice-id">INVOICE #INV{{$data->invoice_no}}</h1>
+                                        <div class="col invoice-details" style="text-align: right;">
+                                            <h4 class="invoice-id"><a target="_blank" href="javascript:;">INVOICE #INV{{$data->invoice_no}}</a></h4>
                                             <div class="date">Date of Invoice: {{Carbon::parse($data->invoice_date)->format('d/m/Y')}}</div>
                                             <div class="date">Due Date: {{Carbon::parse($data->due_date)->format('d/m/Y')}}</div>
                                         </div>
-                                    </div>
-                                    <table style="width: 100%;">
+                                    </div><br><hr>
+                                    <img src="{{asset('uploads/site_logo/'.env('SITE_LOGO',''))}}" class="watermark" alt="User Image">
+                                    <table style="width: 100%;" class="table table-striped table-bordered">
                                         <thead>
                                             <tr>
                                                 <th>Hours</th>
@@ -73,8 +80,8 @@
                                                             {{Carbon::parse($item->date)->format('d-M-Y')}} till {{Carbon::parse($item->to_date)->format('d-M-Y')}}
                                                         </a>
                                                     </td>
-                                                    <td class="unit">{{$item->amount}}</td>
-                                                    <td class="total">{{$item->total_amount}}</td>
+                                                    <td class="unit">$ {{$item->amount}}</td>
+                                                    <td class="total">$ {{$item->total_amount}}</td>
                                                 </tr>
                                                 @php
                                                     $gTotal += $item->total_amount;
@@ -85,7 +92,7 @@
                                             <tr>
                                                 <td colspan="2"></td>
                                                 <td colspan="1">GRAND TOTAL</td>
-                                                <td>{{$gTotal}}</td>
+                                                <td>$ {{$gTotal}}</td>
                                             </tr>
                                         </tfoot>
                                     </table>

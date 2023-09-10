@@ -31,5 +31,6 @@ Route::middleware(['auth'])->name('admin.')->namespace("App\Http\Controllers\Adm
     Route::get('get-opportunity-matches/{id}', [App\Http\Controllers\Admin\JobOpportunityController::class, 'getMatches'])->name('get-opportunity-matches');
     Route::get('get-candidate-matches/{id}', [App\Http\Controllers\Admin\CandidateController::class, 'getMatches'])->name('get-candidate-matches');
     Route::resource('notes', NoteController::class);
+    Route::post('upload-auto-resume', [App\Http\Controllers\Admin\CandidateController::class, 'uploadAutoResume'])->name('upload-auto-resume');
 });
 

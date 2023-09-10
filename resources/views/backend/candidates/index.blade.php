@@ -28,7 +28,17 @@
                     </nav>
                 </div>
                 <div class="ms-auto">
-                    <a href="{{route('admin.candidates.create')}}" class="btn btn-primary">Add New</a>
+                    <div class="row">
+                        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                            <form action="{{route('admin.upload-auto-resume')}}" method="POST" enctype="multipart/form-data" id="uploadResumeForm">@csrf
+                                <x-forms.input class="form-control {{ $errors->has('resume') ? ' is-invalid' : '' }}" title="Resume(.pdf)" name="resume" id="resume" type="file" required="False"/>
+                            </form>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" style="text-align: right;">
+                            <a href="{{route('admin.candidates.create')}}" class="btn btn-primary">Add New</a>
+                        </div>
+                    </div>
+                    
                 </div>
             </div>
             @if (session('error'))
@@ -341,6 +351,10 @@
                 $('#view-attachment-body').html(html);
                 // $('#exampleLargeModal').modal('hide');
                 $('#viewLargeModal').modal('show');
+            });
+
+            $('#resume').change(function() {
+                $('#uploadResumeForm').submit();
             });
 
     </script>

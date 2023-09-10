@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Crypt;
 use App\Models\AdditionalAttachment;
 use App\Models\Submission;
 use DataTables;
+use Spatie\PdfToText\Pdf;
 
 class CandidateController extends Controller
 {
@@ -236,5 +237,45 @@ class CandidateController extends Controller
         $candidate=Candidate::find(Crypt::decrypt($id));
         $matches=$candidate->opportunities()->paginate(25);
         return view('backend.candidates.matches',['candidate'=>$candidate,'matches'=>$matches]);
+    }
+
+    public function uploadAutoResume(Request $request)
+    {
+        $request->validate([
+            'resume' => 'required|file|max:2048|mimes:pdf',
+        ]);
+        if($request->file('resume')){
+            $file= $request->file('resume');
+            $original=$file->getClientOriginalName();
+            $filename= date('YmdHi').$original;
+            $originalName= pathinfo($original, PATHINFO_FILENAME);
+            $file-> move(public_path('uploads/resumes'), $filename);
+            $text = (new Pdf('c:/Program Files/Git/mingw64/bin/pdftotext'))
+                ->setPdf(public_path('uploads/resumes/'.$filename))
+                ->text();
+            $emailId=$this->extractEmailId($text);
+            $mobile=$this->extractContact($text);
+            $data=['candidate_name'=>$originalName,'email'=>$emailId,'contact'=>$mobile,'resume'=>$filename];
+            $res=Candidate::create($data)->id;
+            if($res){
+                return redirect()->route('admin.candidates.edit',Crypt::encrypt($res))->with('success', 'Successfully updated the data.');
+            }else{
+                return redirect()->back()->with('error', 'Failed to update the data. Please try again.');
+            }
+        }
+    }
+
+    private function extractEmailId($text)
+    {
+        $pattern = '/[a-z0-9_\-\+\.]+@[a-z0-9\-]+\.([a-z]{2,4})(?:\.[a-z]{2})?/i';
+        preg_match_all($pattern, $text, $matches);
+        return $matches[0][0]??null;
+    }
+
+    private function extractContact($text)
+    {
+        $pattern = '/\b[0-9]{3}\s*[-]?\s*[0-9]{3}\s*[-]?\s*[0-9]{4}\b/';
+        preg_match_all($pattern, $text, $matches);
+        return $matches[0][0]??null;
     }
 }
