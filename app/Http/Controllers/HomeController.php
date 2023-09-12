@@ -101,6 +101,11 @@ class HomeController extends Controller
         }
     }
 
+    public function companySignup()
+    {
+        return view('application.signup');
+    }
+
     public function updateCandidatesAI()
     {
         $data=JobOpportunity::get();

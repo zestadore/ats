@@ -5,34 +5,70 @@
 @section('content')
     <div class="page-holder align-items-center py-4 bg-gray-100 vh-100" style="background:#d9eefd !important;">
         <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6 px-lg-4">
-                    <div class="card">
+            <div class="align-items-center">
+                <div class="h-100 d-flex align-items-center justify-content-center">
+                    <div class="card ">
                         <div class="card-header px-lg-5">
-                            <div class="card-heading text-primary">Amnext - ATS</div>
+                            <div class="card-heading text-primary" style="text-align:center;">Amnext - ATS</div>
                         </div>
                         <div class="card-body p-lg-5">
-                            <h3 class="mb-4">Hi, welcome back! 👋👋</h3>
-                            {{-- <div style="text-align: center;"><img class="img-fluid mb-4" width="20%" src="{{asset('uploads/site_logo/'.env('SITE_LOGO',''))}}" alt=""></div> --}}
-                            <p class="text-muted text-sm mb-5">Welcome to Amnext's Application Tracking System (ATS). Please enter your login credentials below to access your account.</p>
-                            <form id="loginForm" action="{{ route('login') }}" method="post">@csrf
-                                <x-forms.input class="form-control {{ $errors->has('email') ? ' is-invalid' : '' }}" title="Username [Email Addrerss] : " name="email" id="email" type="email" required="True"/>
-                                <x-forms.input class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}" title="Password : " name="password" id="password" type="password" required="True"/>
-                                <div class="form-check mb-3">
-                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-                                    <label class="form-check-label" for="remember">Remember me</label>
+                            <div class="row gx-5">
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    <h3 class="mb-4">Hi, welcome back! 👋👋</h3>
+                                    {{-- <div style="text-align: center;"><img class="img-fluid mb-4" width="20%" src="{{asset('uploads/site_logo/'.env('SITE_LOGO',''))}}" alt=""></div> --}}
+                                    <p class="text-muted text-sm mb-5">Welcome to Amnext's Application Tracking System (ATS). Please enter your login credentials below to access your account.</p>
+                                    <form id="loginForm" action="{{ route('login') }}" method="post">@csrf
+                                        <x-forms.input class="form-control {{ $errors->has('email') ? ' is-invalid' : '' }}" title="Username [Email Addrerss] : " name="email" id="email" type="email" required="True"/>
+                                        <x-forms.input class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}" title="Password : " name="password" id="password" type="password" required="True"/>
+                                        <div class="form-check mb-3">
+                                            <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+                                            <label class="form-check-label" for="remember">Remember me</label>
+                                        </div>
+                                        <button class="btn btn-primary btn-lg" type="submit">Submit</button>
+                                    </form><br>
                                 </div>
-                                <button class="btn btn-primary btn-lg" type="submit">Submit</button>
-                            </form>
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    <!-- Carousel -->
+                                    <div id="demo" class="carousel slide" data-bs-ride="carousel">
+                                        <!-- Indicators/dots -->
+                                        <div class="carousel-indicators">
+                                        <button type="button" data-bs-target="#demo" data-bs-slide-to="0" class="active"></button>
+                                        <button type="button" data-bs-target="#demo" data-bs-slide-to="1"></button>
+                                        <button type="button" data-bs-target="#demo" data-bs-slide-to="2"></button>
+                                        </div>
+                                    
+                                        <!-- The slideshow/carousel -->
+                                        <div class="carousel-inner">
+                                        <div class="carousel-item active">
+                                            <img src="{{asset('assets/img/photos/aron-visuals-3jBU9TbKW7o-unsplash.jpg')}}" alt="Los Angeles" class="d-block w-100">
+                                        </div>
+                                        <div class="carousel-item">
+                                            <img src="{{asset('assets/img/photos/henrique-ferreira-RKsLQoSnuTc-unsplash.jpg')}}" alt="Chicago" class="d-block w-100">
+                                        </div>
+                                        <div class="carousel-item">
+                                            <img src="{{asset('assets/img/photos/luca-bravo-O453M2Liufs-unsplash.jpg')}}" alt="New York" class="d-block w-100">
+                                        </div>
+                                        </div>
+                                    
+                                        <!-- Left and right controls/icons -->
+                                        {{-- <button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev">
+                                        <span class="carousel-control-prev-icon"></span>
+                                        </button>
+                                        <button class="carousel-control-next" type="button" data-bs-target="#demo" data-bs-slide="next">
+                                        <span class="carousel-control-next-icon"></span>
+                                        </button> --}}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="card-footer px-lg-5 py-lg-4">
-                            <div class="text-sm text-muted">Don't have an account? <a href="Javascript::void(0)">Register</a>.</div>
+                        <div class="card-footer px-lg-5 py-lg-4" style="text-align:center;">
+                            <div class="text-sm text-muted">Don't have an account? <a href="{{route('company-signup')}}">Register</a>.</div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6 col-xl-5 ms-xl-auto px-lg-4 text-center text-primary">
+                {{-- <div class="col-lg-6 col-xl-5 ms-xl-auto px-lg-4 text-center text-primary">
                     <img class="img-fluid mb-4" width="100%" src="{{asset('assets/img/ats_login.png')}}" alt="">
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>

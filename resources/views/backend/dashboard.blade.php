@@ -5,15 +5,51 @@
 @section('contents')
     <div class="container-fluid px-lg-4 px-xl-5">
         <div class="page-content">
-            <div style="padding:5px;">
-                <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="float:right !important;"><i class="fas fa-bars"></i></button>
+            <div style="padding:5px;"><span style="float:right !important;font-weight:bold;">Hi, {{Auth::user()->first_name}} {{Auth::user()->last_name}}, Welcome to Ezizaas - ATS !<span>&nbsp;
+                <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="float:right !important;">Dashboard options&nbsp;<i class="fas fa-cog"></i></button>
                 <div class="dropdown-menu" style="">
-                    <a class="dropdown-item" id="countsToggle" href="Javascript::void(0)">Counts</a>
-                    <a class="dropdown-item" id="pipelineToggle" href="Javascript::void(0)">Pipeline Summary</a>
-                    <a class="dropdown-item" id="interviewsToggle" href="Javascript::void(0)">Upcomming Interviews</a>
-                    <a class="dropdown-item" id="completedInterviewsToggle" href="Javascript::void(0)">Completed Interviews</a>
-                    <a class="dropdown-item" id="submissionsToggle" href="Javascript::void(0)">Recent Submissions</a>
-                    <a class="dropdown-item" id="activityLogsToggle" href="Javascript::void(0)">Activity Logs</a>
+                    <a class="dropdown-item" href="Javascript::void(0)">
+                        <label class="switch">
+                            <input type="checkbox" id="countsToggle" checked>
+                            <span class="slider round"></span>
+                        </label>
+                        Counts
+                    </a>
+                    <a class="dropdown-item" href="Javascript::void(0)">
+                        <label class="switch">
+                            <input type="checkbox" id="pipelineToggle" checked>
+                            <span class="slider round"></span>
+                        </label>
+                        Pipeline Summary
+                    </a>
+                    <a class="dropdown-item" href="Javascript::void(0)">
+                        <label class="switch">
+                            <input type="checkbox" id="interviewsToggle" checked>
+                            <span class="slider round"></span>
+                        </label>
+                        Upcomming Interviews
+                    </a>
+                    <a class="dropdown-item" href="Javascript::void(0)">
+                        <label class="switch">
+                            <input type="checkbox" id="completedInterviewsToggle" checked>
+                            <span class="slider round"></span>
+                        </label>
+                        Completed Interviews
+                    </a>
+                    <a class="dropdown-item" href="Javascript::void(0)">
+                        <label class="switch">
+                            <input type="checkbox" id="submissionsToggle" checked>
+                            <span class="slider round"></span>
+                        </label>
+                        Recent Submissions
+                    </a>
+                    <a class="dropdown-item" href="Javascript::void(0)">
+                        <label class="switch">
+                            <input type="checkbox" id="activityLogsToggle" checked>
+                            <span class="slider round"></span>
+                        </label>
+                        Activity Logs
+                    </a>
                 </div>
             </div>
             <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
@@ -40,7 +76,9 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif
-            <section class="mb-4 mb-lg-5">
+            <p> </p>
+            <section class="mb-4 mb-lg-5" id="countsSection">
+                <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Counts</h2>
                 @canany(['isAdmin','isAccountManager','isTeamLead','isCompanyAdmin'])
                     @php
                         $class="col-lg-3 col-md-3 col-sm-6 col-xs-12";
@@ -51,7 +89,7 @@
                         $class="col-lg-4 col-md-4 col-sm-6 col-xs-12";
                     @endphp
                 @endcan
-                <div class="row" id="countsSection">
+                <div class="row">
                     @canany(['isAdmin','isAccountManager','isTeamLead','isCompanyAdmin'])
                         <div class="{{$class}}">
                             <div class="card-widget h-100">
@@ -147,7 +185,7 @@
             </section>
             <p> </p>
             <div class="row">
-                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" id="interviewsSection">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="interviewsSection">
                     <section class="mb-4 mb-lg-5">
                         <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Upcoming Interviews</h2>
                         <div class="card">
@@ -170,7 +208,7 @@
                         </div>
                     </section>
                 </div>
-                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" id="completedInterviewsSection">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="completedInterviewsSection">
                     <section class="mb-4 mb-lg-5">
                         <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Completed Interviews</h2>
                         <div class="card">
@@ -195,30 +233,30 @@
                 </div>
             </div><p> </p>
             <div class="row">
-                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" id="recentSubmissionsSection">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="recentSubmissionsSection">
                     <section class="mb-4 mb-lg-5">
                         <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Recent Submissions</h2>
-                    </section>
-                    <div class="card">
-                        <div class="card-body">
-                            <table class="table table-striped">
-                                <tr>
-                                    <th>Job Title</th>
-                                    <th>Contact</th>
-                                    <th>Email</th>
-                                </tr>
-                                @foreach (getRecentSubmissions() as $item)
+                        <div class="card">
+                            <div class="card-body">
+                                <table class="table table-striped">
                                     <tr>
-                                        <td>{{$item->jobOpportunity?->title}}</td>
-                                        <td>{{$item->contact}}</td>
-                                        <td>{{$item->email_id}}</td>
+                                        <th>Job Title</th>
+                                        <th>Contact</th>
+                                        <th>Email</th>
                                     </tr>
-                                @endforeach
-                            </table>
+                                    @foreach (getRecentSubmissions() as $item)
+                                        <tr>
+                                            <td>{{$item->jobOpportunity?->title}}</td>
+                                            <td>{{$item->contact}}</td>
+                                            <td>{{$item->email_id}}</td>
+                                        </tr>
+                                    @endforeach
+                                </table>
+                            </div>
                         </div>
-                    </div>
+                    </section>
                 </div>
-                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" id="activityLogsSection">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="activityLogsSection">
                     <section class="mb-4 mb-lg-5">
                         <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Activity Logs</h2>
                         <div class="card">
@@ -445,27 +483,51 @@
         drawChart();
 
         $('#countsToggle').click(function(){
-            $('#countsSection').toggle();
+            if($(this).is(':checked')){
+                $('#countsSection').show();
+            }else{
+                $('#countsSection').hide();
+            }
         });
 
         $('#pipelineToggle').click(function(){
-            $('#pipelineSection').toggle();
+            if($(this).is(':checked')){
+                $('#pipelineSection').show();
+            }else{
+                $('#pipelineSection').hide();
+            }
         });
 
         $('#interviewsToggle').click(function(){
-            $('#interviewsSection').toggle();
+            if($(this).is(':checked')){
+                $('#interviewsSection').show();
+            }else{
+                $('#interviewsSection').hide();
+            }
         });
 
         $('#completedInterviewsToggle').click(function(){
-            $('#completedInterviewsSection').toggle();
+            if($(this).is(':checked')){
+                $('#completedInterviewsSection').show();
+            }else{
+                $('#completedInterviewsSection').hide();
+            }
         });
 
         $('#submissionsToggle').click(function(){
-            $('#recentSubmissionsSection').toggle();
+            if($(this).is(':checked')){
+                $('#recentSubmissionsSection').show();
+            }else{
+                $('#recentSubmissionsSection').hide();
+            }
         });
 
         $('#activityLogsToggle').click(function(){
-            $('#activityLogsSection').toggle();
+            if($(this).is(':checked')){
+                $('#activityLogsSection').show();
+            }else{
+                $('#activityLogsSection').hide();
+            }
         });
     </script>
 @endsection
