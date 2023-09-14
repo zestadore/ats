@@ -9,8 +9,11 @@ use App\Http\Requests\ValidateCandidate;
 use Illuminate\Support\Facades\Crypt;
 use App\Models\AdditionalAttachment;
 use App\Models\Submission;
+use App\Models\SkillSet;
 use DataTables;
 use Spatie\PdfToText\Pdf;
+use Nnjeim\World\World;
+use Skills;
 
 class CandidateController extends Controller
 {
@@ -256,7 +259,10 @@ class CandidateController extends Controller
             $emailId=$this->extractEmailId($text);
             $mobile=$this->extractContact($text);
             $linkedIn=$this->extractLinkedIn($text);
-            $data=['candidate_name'=>$originalName,'email'=>$emailId,'contact'=>$mobile,'resume'=>$filename,'linked_in'=>$linkedIn];
+            $location=$this->extractLocation($text);
+            $skills=$this->extractSkills($text);
+            $title=substr($skills,0,250);
+            $data=['candidate_name'=>$originalName,'email'=>$emailId,'contact'=>$mobile,'resume'=>$filename,'linked_in'=>$linkedIn,'location'=>$location,'skills'=>$skills,'job_title'=>$title];
             $res=Candidate::create($data)->id;
             if($res){
                 return redirect()->route('admin.candidates.edit',Crypt::encrypt($res))->with('success', 'Successfully updated the data.');
@@ -275,7 +281,7 @@ class CandidateController extends Controller
 
     private function extractContact($text)
     {
-        $pattern = '\(?([0-9]{3})\s*\)?\s*-?\s*([0-9]{3})\s*-?\s*([0-9]{4})';
+        $pattern = '/(\+\d{1,3}[-. ]?)?\(?\d{3}\)?[-. ]?\d{3}[-. ]?\d{4}/';
         preg_match_all($pattern, $text, $matches);
         return $matches[0][0]??null;
     }
@@ -286,4 +292,47 @@ class CandidateController extends Controller
         preg_match_all($pattern, $text, $matches);
         return $matches[0][0]??null;
     }
+
+    private function extractLocation($text)
+    {
+        $cities=World::countries();
+        $cityNamez=$cities->data;
+        $cityNames=[];
+        foreach($cityNamez as $city){
+            $cityNames[]=$city['name'];
+        }
+        $textArray=explode(" ", $text);
+        $names=[];
+        foreach($textArray as $item){
+            if(in_array($item,$cityNames)){
+                $names[]=$item;
+            }
+        }
+        $names=array_unique($names);
+        return implode(", ",$names);
+    }
+
+    private function extractSkills($text)
+    {
+        $skills=json_decode(Skills::getList('json'),true);
+        $skills2=SkillSet::pluck('skill')->toArray();
+        $textArray=explode(" ", $text);
+        $names=[];
+        foreach($textArray as $item){
+            if(in_array($item,$skills)){
+                if(!is_numeric($item)){
+                    $names[]=$item;
+                }
+            }
+            if(in_array($item,$skills2)){
+                if(!is_numeric($item)){
+                    $names[]=$item;
+                }
+            }
+        }
+        $names=array_unique($names);
+        return implode(", ",$names);
+    }
+
+
 }

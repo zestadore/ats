@@ -28,6 +28,9 @@ class Candidate extends Model
         {
             $model->company_id=Auth::user()->company_id??1;
             $model->created_by = Auth::user()->id;
+        });
+        static::created(function($model)
+        {
             //attaching pivots
             $skillArray=[];
             $keySkillArray=[];
@@ -46,6 +49,18 @@ class Candidate extends Model
             }
             $idArray=array_unique($idArray);
             $model->opportunities()->attach($idArray);
+            $skills=$model->skills;
+            $skills=explode(",",$skills);
+            $data=[];
+            foreach($skills as $skill){
+                $test=SkillSet::where('skill',$skill)->first();
+                if(!$test){
+                    $data[]=['skill'=>$skill,'title'=>$model->job_title];
+                }
+            }
+            if(count($data)>0){
+                SkillSet::insert($data);
+            }
         });
         static::updating(function($model)
         {
@@ -68,11 +83,23 @@ class Candidate extends Model
             }
             $idArray=array_unique($idArray);
             $model->opportunities()->sync($idArray);
+            $skills=$model->skills;
+            $skills=explode(",",$skills);
+            $data=[];
+            foreach($skills as $skill){
+                $test=SkillSet::where('skill',$skill)->first();
+                if(!$test){
+                    $data[]=['skill'=>$skill,'title'=>$model->job_title];
+                }
+            }
+            if(count($data)>0){
+                SkillSet::insert($data);
+            }
         });
         static::deleting(function($model)
         {
             if($model->resume!=null){
-                $d=unlink(public_path('uploads/resumes/'. $model->resume));
+                $d=unlink(public_path('public/uploads/resumes/'. $model->resume));
             }
             $model->resume = Null;
             $model->deleted_by = Auth::user()->id;
