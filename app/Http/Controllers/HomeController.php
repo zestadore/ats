@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Candidate;
 use App\Models\JobOpportunity;
+use App\Models\SkillSet;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Auth;
 
@@ -101,11 +102,6 @@ class HomeController extends Controller
         }
     }
 
-    public function companySignup()
-    {
-        return view('application.signup');
-    }
-
     public function updateCandidatesAI()
     {
         $data=JobOpportunity::get();
@@ -128,5 +124,49 @@ class HomeController extends Controller
             $item->candidates()->attach($idArray);
         }
         dd($data);
+    }
+
+    public function updateSkillsAI()
+    {
+        $candidates=Candidate::whereNotNull('skills')->get();
+        $skillArray=[];
+        foreach($candidates as $candidate){
+            $skillz=explode(",",$candidate->skills);
+            foreach($skillz as $array){
+                $checkDupli=SkillSet::where('skill',$array)->get();
+                if(count($checkDupli)==0){
+                    $skillArray[]=[
+                        'skill'=>$array,
+                        'title'=>$candidate->job_title,
+                        'created_at'=>now(),
+                    ];
+                }
+            }
+        }
+        if(count($skillArray)>0){
+            SkillSet::insert($skillArray);
+        }
+        // $data=JobOpportunity::get();
+        // $skillArray=[];
+        // foreach($data as $item){
+        //     $matchedCandidates=$item->candidates();
+        //     if($matchedCandidates){
+        //         foreach($matchedCandidates as $candidate){
+        //             if($candidate->skills){
+        //                 $skillArray=explode(",",$candidate->skills);
+        //                 foreach($skillArray as $array){
+        //                     $skillArray[]=[
+        //                         'skill'=>$array,
+        //                         'title'=>$candidate->job_title,
+        //                         'created_at'=>now(),
+        //                     ];
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
+        // if(count($skillArray)>0){
+        //     SkillSet::insert($skillArray);
+        // }
     }
 }

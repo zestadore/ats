@@ -255,7 +255,8 @@ class CandidateController extends Controller
                 ->text();
             $emailId=$this->extractEmailId($text);
             $mobile=$this->extractContact($text);
-            $data=['candidate_name'=>$originalName,'email'=>$emailId,'contact'=>$mobile,'resume'=>$filename];
+            $linkedIn=$this->extractLinkedIn($text);
+            $data=['candidate_name'=>$originalName,'email'=>$emailId,'contact'=>$mobile,'resume'=>$filename,'linked_in'=>$linkedIn];
             $res=Candidate::create($data)->id;
             if($res){
                 return redirect()->route('admin.candidates.edit',Crypt::encrypt($res))->with('success', 'Successfully updated the data.');
@@ -274,7 +275,14 @@ class CandidateController extends Controller
 
     private function extractContact($text)
     {
-        $pattern = '/\b[0-9]{3}\s*[-]?\s*[0-9]{3}\s*[-]?\s*[0-9]{4}\b/';
+        $pattern = '\(?([0-9]{3})\s*\)?\s*-?\s*([0-9]{3})\s*-?\s*([0-9]{4})';
+        preg_match_all($pattern, $text, $matches);
+        return $matches[0][0]??null;
+    }
+
+    private function extractLinkedIn($text)
+    {
+        $pattern = '/https:\/\/www.linkedin.com\/in\/[a-zA-Z0-9]+/';
         preg_match_all($pattern, $text, $matches);
         return $matches[0][0]??null;
     }

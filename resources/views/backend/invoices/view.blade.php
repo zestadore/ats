@@ -124,7 +124,7 @@
                                                                 <td class="no">{{$item->hours}}</td>
                                                                 <td>
                                                                     <a href="javascript:;">
-                                                                        {{Carbon::parse($item->date)->format('d-M-Y')}} till {{Carbon::parse($item->to_date)->format('d-M-Y')}}
+                                                                        {{Carbon::parse($item->from_date)->format('d-M-Y')}} till {{Carbon::parse($item->to_date)->format('d-M-Y')}}
                                                                     </a>
                                                                 </td>
                                                                 <td class="unit">$ {{$item->amount}}</td>

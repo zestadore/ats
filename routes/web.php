@@ -43,5 +43,6 @@ Route::get('/change-password', [App\Http\Controllers\HomeController::class, 'cha
 Route::post('/change-password', [App\Http\Controllers\HomeController::class, 'updatePassword'])->name('update.password')->middleware('auth');
 Route::get('/view-invoice/{id}', [App\Http\Controllers\Admin\InvoiceController::class, 'publicInvoice'])->name('view-invoice');
 Route::get('/download-invoice/{id}', [App\Http\Controllers\Admin\InvoiceController::class, 'downloadInvoice'])->name('download-invoice');
-Route::get('/company-signup', [App\Http\Controllers\HomeController::class, 'companySignup'])->name('company-signup');
+Route::get('/company-signup', [App\Http\Controllers\RegisterController::class, 'companySignup'])->name('company-signup');
 Route::get('/update-candidates-ai', [App\Http\Controllers\HomeController::class, 'updateCandidatesAI']);
+Route::get('/update-skills-ai', [App\Http\Controllers\HomeController::class, 'updateSkillsAI']);

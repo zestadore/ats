@@ -142,7 +142,7 @@ class JobOpportunity extends Model
 
     public function candidates()
     {
-        return $this->belongsToMany(Candidate::class);
+        return $this->belongsToMany(Candidate::class, 'candidate_job_opportunity');
     }
     
 }
