@@ -31,8 +31,11 @@ class JobOpportunity extends Model
         parent::boot();
         static::creating(function($model)
         {
-            $model->company_id=Auth::user()->company_id;
+            $model->company_id=Auth::user()->company_id??1;
             $model->created_by = Auth::user()->id;
+        });
+        static::created(function($model)
+        {
             //attaching pivots
             $skillArray=[];
             $notesSkillArray=[];

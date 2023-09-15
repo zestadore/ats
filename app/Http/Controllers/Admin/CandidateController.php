@@ -14,6 +14,7 @@ use DataTables;
 use Spatie\PdfToText\Pdf;
 use Nnjeim\World\World;
 use Skills;
+use PhpOffice\PhpWord\Settings;
 
 class CandidateController extends Controller
 {
@@ -245,14 +246,25 @@ class CandidateController extends Controller
     public function uploadAutoResume(Request $request)
     {
         $request->validate([
-            'resume' => 'required|file|max:2048|mimes:pdf',
+            'resume' => 'required|file|max:2048|mimes:pdf,docx,doc',
         ]);
         if($request->file('resume')){
             $file= $request->file('resume');
-            $original=$file->getClientOriginalName();
-            $filename= date('YmdHi').$original;
-            $originalName= pathinfo($original, PATHINFO_FILENAME);
-            $file-> move(public_path('uploads/resumes'), $filename);
+            $extension=$file->getClientOriginalExtension();
+            if($extension=="docx" or $extension=="doc"){
+                $original=$file->getClientOriginalName();
+                $filename= date('YmdHi').$original;
+                $originalName= pathinfo($original, PATHINFO_FILENAME);
+                $file-> move(public_path('uploads/temp'), $filename);
+                $oldName=$filename;
+                $filename=$this->convertToPdf($filename);
+                $d=unlink(public_path('uploads/temp/'. $oldName));
+            }else{
+                $original=$file->getClientOriginalName();
+                $filename= date('YmdHi').$original;
+                $originalName= pathinfo($original, PATHINFO_FILENAME);
+                $file-> move(public_path('uploads/resumes'), $filename);
+            }
             $text = (new Pdf('c:/Program Files/Git/mingw64/bin/pdftotext'))
                 ->setPdf(public_path('uploads/resumes/'.$filename))
                 ->text();
@@ -334,5 +346,17 @@ class CandidateController extends Controller
         return implode(", ",$names);
     }
 
+    private function convertToPdf($fileName)
+    {
+        $domPdfPath = base_path('vendor/dompdf/dompdf');
+        \PhpOffice\PhpWord\Settings::setPdfRendererPath($domPdfPath);
+        \PhpOffice\PhpWord\Settings::setPdfRendererName('DomPDF'); 
+        \PhpOffice\PhpWord\Settings::setZipClass(Settings::PCLZIP);
+        $Content = \PhpOffice\PhpWord\IOFactory::load(public_path('uploads/temp/'.$fileName)); 
+        $PDFWriter = \PhpOffice\PhpWord\IOFactory::createWriter($Content,'PDF');
+        $name=date('YmdHi').'.pdf';
+        $PDFWriter->save(public_path('uploads/resumes/'.$name)); 
+        return $name;
+    }
 
 }
