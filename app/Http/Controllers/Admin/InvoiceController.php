@@ -89,8 +89,8 @@ class InvoiceController extends Controller
                     $data[]=[
                         'invoice_id'=>$res,
                         'hours'=>$request->hours[$i],
-                        'from_date'=>$request->from_date[$i],
-                        'to_date'=>$request->to_date[$i],
+                        'from_date'=>Carbon::parse($request->from_date[$i])->format('Y-m-d'),
+                        'to_date'=>Carbon::parse($request->to_date[$i])->format('Y-m-d'),
                         'amount'=>$request->rate[$i],
                         'total_amount'=>$request->amount[$i],
                         'created_at'=>now(),

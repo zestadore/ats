@@ -59,10 +59,14 @@ class User extends Authenticatable
         parent::boot();
         static::creating(function($model)
         {
-            if(Auth::user()->role!='super_admin'){
-                $model->company_id=Auth::user()->company_id;
+            if(Auth::check()){
+                if(Auth::user()->role!='super_admin'){
+                    $model->company_id=Auth::user()->company_id;
+                }
+                $model->created_by = Auth::user()->id??0;
+            }else{
+                $model->created_by = 0;
             }
-            $model->created_by = Auth::user()->id??0;
         });
         static::updating(function($model)
         {

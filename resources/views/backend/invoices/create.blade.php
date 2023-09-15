@@ -3,6 +3,7 @@
     <link href="{{asset('assets/css/datatable/css/dataTables.bootstrap5.min.css')}}" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
+    <link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel = "stylesheet">
     <style>
         .select2-container .select2-choice:not(.select2-default) {
             background-image: none !important;
@@ -156,6 +157,7 @@
     <script src="{{asset('assets/js/jquery.validate.min.js')}}"></script>
     {{-- <script src="{{asset('assets/plugins/validation/validation-script.js')}}"></script> --}}
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
     <script>
         var rowCount=1;
         $( document ).ready( function () {
@@ -302,6 +304,8 @@
                     agree: "Please accept our policy"
                 },
             } );
+
+            
         } );
 
         $('#candidate_id').select2({
@@ -351,7 +355,20 @@
         });
 
         function addRow(){
-            $('#wrapperRows').append('{!!$renderHtml!!}');
+            var html='{!!$renderHtml!!}';
+            var dateId1='from_date_'+rowCount;
+            html=html.replace('FROMDATEFIELD', dateId1);
+            var dateId2='to_date_'+rowCount;
+            html=html.replace('TODATEFIELD', dateId2);
+            $('#wrapperRows').append(html);
+            $('#'+dateId1).datepicker({
+                dateFormat: 'dd-mm-yy',
+                firstDay: 1
+            });
+            $('#'+dateId2).datepicker({
+                dateFormat: 'dd-mm-yy',
+                firstDay: 1
+            });
         }
 
         $('#wrapperRows').on('click', '.remove_button', function(e){
@@ -425,4 +442,5 @@
         });
 
     </script>
+    
 @endsection
