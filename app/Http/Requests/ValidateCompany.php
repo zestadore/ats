@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 use Illuminate\Support\Facades\Crypt;
 use App\Models\User;
+use App\Rules\FreeEmailValidation;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ValidateCompany extends FormRequest
@@ -29,9 +30,10 @@ class ValidateCompany extends FormRequest
             // 'currency_symbol'=>'required',
             // 'currency_position'=>'required',
             // 'precision'=>'required',
-            'pricing_plan_id'=>'required|numeric',
+            // 'pricing_plan_id'=>'required|numeric',
             'first_name'=>'required',
             'email' => 'required|email|unique:users,email,'. $userId,
+            'email'=>new FreeEmailValidation,
             'mobile'=>'required|unique:users,mobile,'. $userId,
         ];
     }

@@ -7,11 +7,24 @@
         <div class="container">
             <div class="align-items-center">
                 <div class="h-100 d-flex align-items-center justify-content-center">
+                    
                     <div class="card ">
                         <div class="card-header px-lg-5">
                             <div class="card-heading text-primary" style="text-align:center;">Amnext - ATS</div>
                         </div>
                         <div class="card-body p-lg-5">
+                            @if (session('error'))
+                                <div class="alert alert-danger border-0 bg-danger alert-dismissible fade show">
+                                    <div class="text-white">{{ session('error') }}</div>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            @endif
+                            @if (session('success'))
+                                <div class="alert alert-primary border-0 bg-primary alert-dismissible fade show">
+                                    <div class="text-white">{{ session('success') }}</div>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            @endif
                             <div class="row gx-5">
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                     <h3 class="mb-4">Hi, welcome back! 👋👋</h3>

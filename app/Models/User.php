@@ -24,7 +24,7 @@ class User extends Authenticatable
     protected $fillable = [
         'first_name','last_name','mobile','role','image','created_by','updated_by',
         'email','company_id',
-        'password',
+        'password','email_verified_at'
     ];
 
     /**
@@ -70,7 +70,7 @@ class User extends Authenticatable
         });
         static::updating(function($model)
         {
-            $model->updated_by = Auth::user()->id;
+            $model->updated_by = Auth::user()->id??0;
         });
         static::deleting(function($model)
         {
