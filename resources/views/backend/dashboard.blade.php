@@ -1,4 +1,6 @@
 @extends('layouts.app')
+@section('styles')
+@endsection
 @section('title')
     ATS - Dashboard
 @endsection
@@ -77,160 +79,163 @@
                 </div>
             @endif
             <p> </p>
-            <section class="mb-4 mb-lg-5" id="countsSection">
-                <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Counts</h2>
-                @canany(['isAdmin','isAccountManager','isTeamLead','isCompanyAdmin'])
-                    @php
-                        $class="col-lg-3 col-md-3 col-sm-6 col-xs-12";
-                    @endphp
-                @endcanany
-                @can('isRecruiter')
-                    @php    
-                        $class="col-lg-4 col-md-4 col-sm-6 col-xs-12";
-                    @endphp
-                @endcan
-                <div class="row">
-                    @canany(['isAdmin','isAccountManager','isTeamLead','isCompanyAdmin'])
-                        <div class="{{$class}}">
-                            <div class="card h-100">
-                                <div class="card-body">
-                                  <div class="d-flex align-items-center justify-content-between">
-                                    <div>
-                                      <h4 class="fw-normal text-red">{{getClientsCount()}}</h4>
-                                      <p class="subtitle text-sm text-muted mb-0">Clients</p>
+            <div class="dashboard">
+                <span class="grid-stack-element" id="countsSection" draggable="true" data-index="0">
+                    <section class="mb-4 mb-lg-5" id="countzSection" class="grid-stack-item">
+                        <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Counts</h2>
+                        @canany(['isAdmin','isAccountManager','isTeamLead','isCompanyAdmin'])
+                            @php
+                                $class="col-lg-3 col-md-3 col-sm-6 col-xs-12";
+                            @endphp
+                        @endcanany
+                        @can('isRecruiter')
+                            @php    
+                                $class="col-lg-4 col-md-4 col-sm-6 col-xs-12";
+                            @endphp
+                        @endcan
+                        <div class="row">
+                            @canany(['isAdmin','isAccountManager','isTeamLead','isCompanyAdmin'])
+                                <div class="{{$class}}">
+                                    <div class="card h-100">
+                                        <div class="card-body">
+                                          <div class="d-flex align-items-center justify-content-between">
+                                            <div>
+                                              <h4 class="fw-normal text-red">{{getClientsCount()}}</h4>
+                                              <p class="subtitle text-sm text-muted mb-0">Clients</p>
+                                            </div>
+                                            <div class="flex-shrink-0 ms-3">
+                                                <i class="fas fa-user-plus"></i>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="card-footer py-3 bg-red-light">
+                                          <div class="row align-items-center text-red">
+                                            <div class="col-10">
+                                              <p class="mb-0">+{{getLastWeekClientsCount()}} from last week</p>
+                                            </div>
+                                            <div class="col-2 text-end"><i class="fas fa-caret-up"></i>
+                                            </div>
+                                          </div>
+                                        </div>
                                     </div>
-                                    <div class="flex-shrink-0 ms-3">
-                                        <i class="fas fa-user-plus"></i>
-                                    </div>
-                                  </div>
                                 </div>
-                                <div class="card-footer py-3 bg-red-light">
-                                  <div class="row align-items-center text-red">
-                                    <div class="col-10">
-                                      <p class="mb-0">+{{getLastWeekClientsCount()}} from last week</p>
+                            @endcanany
+                            <div class="{{$class}}">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                      <div class="d-flex align-items-center justify-content-between">
+                                        <div>
+                                          <h4 class="fw-normal text-blue">{{getCandidatesCount()}}</h4>
+                                          <p class="subtitle text-sm text-muted mb-0">Candidates</p>
+                                        </div>
+                                        <div class="flex-shrink-0 ms-3">
+                                            <i class="fas fa-user-plus"></i>
+                                        </div>
+                                      </div>
                                     </div>
-                                    <div class="col-2 text-end"><i class="fas fa-caret-up"></i>
+                                    <div class="card-footer py-3 bg-blue-light">
+                                      <div class="row align-items-center text-blue">
+                                        <div class="col-10">
+                                          <p class="mb-0">+{{getLastWeekCandidatesCount()}} from last week</p>
+                                        </div>
+                                        <div class="col-2 text-end"><i class="fas fa-caret-up"></i>
+                                        </div>
+                                      </div>
                                     </div>
-                                  </div>
+                                </div>
+                            </div>
+                            <div class="{{$class}}">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                      <div class="d-flex align-items-center justify-content-between">
+                                        <div>
+                                          <h4 class="fw-normal text-primary">{{getJobOpportunitiesCount()}}</h4>
+                                          <p class="subtitle text-sm text-muted mb-0">Job Opportunities</p>
+                                        </div>
+                                        <div class="flex-shrink-0 ms-3">
+                                            <i class="fas fas fa-plus-circle"></i>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="card-footer py-3 bg-primary-light">
+                                      <div class="row align-items-center text-primary">
+                                        <div class="col-10">
+                                          <p class="mb-0">+{{getLastWeekJobOpportunitiesCount()}} from last week</p>
+                                        </div>
+                                        <div class="col-2 text-end"><i class="fas fa-caret-up"></i>
+                                        </div>
+                                      </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="{{$class}}">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                      <div class="d-flex align-items-center justify-content-between">
+                                        <div>
+                                          <h4 class="fw-normal text-green">{{getSubmissionsCount()}}</h4>
+                                          <p class="subtitle text-sm text-muted mb-0">Job Submissions</p>
+                                        </div>
+                                        <div class="flex-shrink-0 ms-3">
+                                            <i class="fas fas fa-rss"></i>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="card-footer py-3 bg-green-light">
+                                      <div class="row align-items-center text-green">
+                                        <div class="col-10">
+                                          <p class="mb-0">+{{getLastWeekSubmissionsCount()}} from last week</p>
+                                        </div>
+                                        <div class="col-2 text-end"><i class="fas fa-caret-up"></i>
+                                        </div>
+                                      </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><p> </p>
+                    </section><p> </p>
+                </span>
+                <span class="grid-stack-element" id="pipelineSection" draggable="true" data-index="1">
+                    <section class="mb-4 mb-lg-5" id="pipelinezSection" class="grid-stack-item">
+                        <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Pipeline Summary</h2>
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                                <canvas class="mt-4" id="chart1"></canvas>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                                <canvas class="mt-4" id="chart2"></canvas>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                                <canvas class="mt-4" id="chart3"></canvas>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                                <canvas class="mt-4" id="chart4"></canvas>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                                <canvas class="mt-4" id="chart5"></canvas>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                                <canvas class="mt-4" id="chart6"></canvas>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                                <canvas class="mt-4" id="chart7"></canvas>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                                <canvas class="mt-4" id="chart8"></canvas>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    @endcanany
-                    <div class="{{$class}}">
-                        <div class="card h-100">
-                            <div class="card-body">
-                              <div class="d-flex align-items-center justify-content-between">
-                                <div>
-                                  <h4 class="fw-normal text-blue">{{getCandidatesCount()}}</h4>
-                                  <p class="subtitle text-sm text-muted mb-0">Candidates</p>
-                                </div>
-                                <div class="flex-shrink-0 ms-3">
-                                    <i class="fas fa-user-plus"></i>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="card-footer py-3 bg-blue-light">
-                              <div class="row align-items-center text-blue">
-                                <div class="col-10">
-                                  <p class="mb-0">+{{getLastWeekCandidatesCount()}} from last week</p>
-                                </div>
-                                <div class="col-2 text-end"><i class="fas fa-caret-up"></i>
-                                </div>
-                              </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="{{$class}}">
-                        <div class="card h-100">
-                            <div class="card-body">
-                              <div class="d-flex align-items-center justify-content-between">
-                                <div>
-                                  <h4 class="fw-normal text-primary">{{getJobOpportunitiesCount()}}</h4>
-                                  <p class="subtitle text-sm text-muted mb-0">Job Opportunities</p>
-                                </div>
-                                <div class="flex-shrink-0 ms-3">
-                                    <i class="fas fas fa-plus-circle"></i>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="card-footer py-3 bg-primary-light">
-                              <div class="row align-items-center text-primary">
-                                <div class="col-10">
-                                  <p class="mb-0">+{{getLastWeekJobOpportunitiesCount()}} from last week</p>
-                                </div>
-                                <div class="col-2 text-end"><i class="fas fa-caret-up"></i>
-                                </div>
-                              </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="{{$class}}">
-                        <div class="card h-100">
-                            <div class="card-body">
-                              <div class="d-flex align-items-center justify-content-between">
-                                <div>
-                                  <h4 class="fw-normal text-green">{{getSubmissionsCount()}}</h4>
-                                  <p class="subtitle text-sm text-muted mb-0">Job Submissions</p>
-                                </div>
-                                <div class="flex-shrink-0 ms-3">
-                                    <i class="fas fas fa-rss"></i>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="card-footer py-3 bg-green-light">
-                              <div class="row align-items-center text-green">
-                                <div class="col-10">
-                                  <p class="mb-0">+{{getLastWeekSubmissionsCount()}} from last week</p>
-                                </div>
-                                <div class="col-2 text-end"><i class="fas fa-caret-up"></i>
-                                </div>
-                              </div>
-                            </div>
-                        </div>
-                    </div>
-                </div><p> </p>
-            </section>
-            <section class="mb-4 mb-lg-5" id="pipelineSection">
-                <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Pipeline Summary</h2>
-                <div class="row">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                                        <canvas class="mt-4" id="chart1"></canvas>
-                                    </div>
-                                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                                        <canvas class="mt-4" id="chart2"></canvas>
-                                    </div>
-                                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                                        <canvas class="mt-4" id="chart3"></canvas>
-                                    </div>
-                                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                                        <canvas class="mt-4" id="chart4"></canvas>
-                                    </div>
-                                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                                        <canvas class="mt-4" id="chart5"></canvas>
-                                    </div>
-                                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                                        <canvas class="mt-4" id="chart6"></canvas>
-                                    </div>
-                                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                                        <canvas class="mt-4" id="chart7"></canvas>
-                                    </div>
-                                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                                        <canvas class="mt-4" id="chart8"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    </section><p> </p>
                 </div>
-            </section>
-            <p> </p>
-            <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="interviewsSection">
-                    <section class="mb-4 mb-lg-5">
+                <span class="grid-stack-element" id="interviewsSection" draggable="true" data-index="2">
+                    <section class="mb-4 mb-lg-5" id="interviewzSection" class="grid-stack-item">
                         <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Upcoming Interviews</h2>
                         <div class="card">
                             <div class="card-body">
@@ -250,10 +255,10 @@
                                 </table>
                             </div>
                         </div>
-                    </section>
-                </div>
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="completedInterviewsSection">
-                    <section class="mb-4 mb-lg-5">
+                    </section><p> </p>
+                </span>
+                <span class="grid-stack-element" id="completedInterviewsSection" draggable="true" data-index="3">
+                    <section class="mb-4 mb-lg-5" id="completedInterviewzSection" class="grid-stack-item">
                         <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Completed Interviews</h2>
                         <div class="card">
                             <div class="card-body">
@@ -273,12 +278,10 @@
                                 </table>
                             </div>
                         </div>
-                    </section>
-                </div>
-            </div><p> </p>
-            <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="recentSubmissionsSection">
-                    <section class="mb-4 mb-lg-5">
+                    </section><p> </p>
+                </span>
+                <span class="grid-stack-element" id="recentSubmissionsSection" draggable="true" data-index="4">
+                    <section class="mb-4 mb-lg-5" id="recentSubmissionzSection" class="grid-stack-item">
                         <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Recent Submissions</h2>
                         <div class="card">
                             <div class="card-body">
@@ -298,10 +301,10 @@
                                 </table>
                             </div>
                         </div>
-                    </section>
+                    </section><p> </p>
                 </div>
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="activityLogsSection">
-                    <section class="mb-4 mb-lg-5">
+                <span class="grid-stack-element" id="activityLogsSection" draggable="true" data-index="5">
+                    <section class="mb-4 mb-lg-5" id="activityLogzSection" class="grid-stack-item">
                         <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Activity Logs</h2>
                         <div class="card">
                             <div class="card-body">
@@ -341,9 +344,9 @@
                                 </table>
                             </div>
                         </div>
-                    </section>
-                </div>
-            </div><p> </p>
+                    </section><p> </p>
+                </span>
+            </div>
         </div>
     </div>
 @endsection
@@ -351,6 +354,8 @@
     <!-- Init Charts on Charts page-->
     <script src="{{asset('assets/vendor/chart.js/Chart.min.js')}}"></script>
     <script src="{{asset('assets/js/charts-defaults.js')}}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
         function drawChart() {
             var internalInterviews='{{getInternalInterviewCounts()}}';
@@ -572,6 +577,65 @@
             }else{
                 $('#activityLogsSection').hide();
             }
+        });
+
+        
+    </script>
+    <script>
+        let draggedWidget = null;
+        let widgetOrder = []; // Array to store the order of widgets
+
+        // Function to get the widget order from localStorage
+        function getWidgetOrder() {
+            return JSON.parse(localStorage.getItem('widgetOrder')) || [];
+        }
+
+        // Function to save the widget order to localStorage
+        function saveWidgetOrder(order) {
+            console.warn(JSON.stringify(order),'JSON.stringify(order)');
+            localStorage.setItem('widgetOrder', JSON.stringify(order));
+        }
+
+        // Function to update the widget order array
+        function updateWidgetOrder() {
+            const widgets = document.querySelectorAll('.grid-stack-element');
+            const order = Array.from(widgets).map((widget, index) => {
+                widget.setAttribute('data-index', index);
+                return index;
+            });
+            // Save the updated widget order to localStorage
+            saveWidgetOrder(order);
+        }
+
+        document.addEventListener('dragstart', (event) => {
+            draggedWidget = event.target;
+        });
+
+        document.addEventListener('dragover', (event) => {
+            event.preventDefault();
+        });
+
+        document.addEventListener('drop', (event) => {
+            event.preventDefault();
+            // Find the closest parent with class "grid-stack-element"
+            const targetElement = event.target.closest('.grid-stack-element');
+            const draggedIndex = parseInt(draggedWidget.getAttribute('data-index'));
+            const targetIndex = parseInt(targetElement.getAttribute('data-index'));
+            if (!isNaN(draggedIndex) && !isNaN(targetIndex)) {
+                // Update the data-index attribute
+                draggedWidget.setAttribute('data-index', targetIndex);
+                targetElement.setAttribute('data-index', draggedIndex);
+            }
+            if (draggedWidget !== null && targetElement) {
+                // Swap the positions of the dragged and dropped widgets
+                const tempHTML = draggedWidget.innerHTML;
+                draggedWidget.innerHTML = targetElement.innerHTML;
+                targetElement.innerHTML = tempHTML;
+                // Update the widget order array
+                updateWidgetOrder();
+            }
+            draggedWidget = null;
+            drawChart();
         });
     </script>
 @endsection
