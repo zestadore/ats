@@ -6,7 +6,7 @@
     <div class="container-fluid px-lg-4 px-xl-5">
         <div class="page-content">
             <div style="padding:5px;"><span style="float:right !important;font-weight:bold;">Hi, {{Auth::user()->first_name}} {{Auth::user()->last_name}}, Welcome to Ezizaas - ATS !<span>&nbsp;
-                <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="float:right !important;">Dashboard options&nbsp;<i class="fas fa-cog"></i></button>
+                {{-- <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="float:right !important;">Dashboard options&nbsp;<i class="fas fa-cog"></i></button>
                 <div class="dropdown-menu" style="">
                     <a class="dropdown-item" href="Javascript::void(0)">
                         <label class="switch">
@@ -50,7 +50,7 @@
                         </label>
                         Activity Logs
                     </a>
-                </div>
+                </div> --}}
             </div>
             <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
                 <div class="breadcrumb-title pe-3">Dashboard</div>
@@ -92,55 +92,99 @@
                 <div class="row">
                     @canany(['isAdmin','isAccountManager','isTeamLead','isCompanyAdmin'])
                         <div class="{{$class}}">
-                            <div class="card-widget h-100">
-                                <div class="card-widget-body">
-                                    <div class="dot me-3 bg-indigo"></div>
-                                    <div class="text">
-                                        <h6 class="mb-0">Clients</h6>
-                                        <span class="text-gray-500">{{getClientsCount()}}</span> / 
-                                        <span class="text-gray-500">+{{getLastWeekClientsCount()}} from last week</span>
+                            <div class="card h-100">
+                                <div class="card-body">
+                                  <div class="d-flex align-items-center justify-content-between">
+                                    <div>
+                                      <h4 class="fw-normal text-red">{{getClientsCount()}}</h4>
+                                      <p class="subtitle text-sm text-muted mb-0">Clients</p>
                                     </div>
-                                    <div class="icon text-white bg-indigo"><i class="fas fa-user-plus"></i></div>
+                                    <div class="flex-shrink-0 ms-3">
+                                        <i class="fas fa-user-plus"></i>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="card-footer py-3 bg-red-light">
+                                  <div class="row align-items-center text-red">
+                                    <div class="col-10">
+                                      <p class="mb-0">+{{getLastWeekClientsCount()}} from last week</p>
+                                    </div>
+                                    <div class="col-2 text-end"><i class="fas fa-caret-up"></i>
+                                    </div>
+                                  </div>
                                 </div>
                             </div>
                         </div>
                     @endcanany
                     <div class="{{$class}}">
-                        <div class="card-widget h-100">
-                            <div class="card-widget-body">
-                                <div class="dot me-3 bg-indigo"></div>
-                                <div class="text">
-                                    <h6 class="mb-0">Candidates</h6>
-                                    <span class="text-gray-500">{{getCandidatesCount()}}</span> / 
-                                    <span class="text-gray-500">+{{getLastWeekCandidatesCount()}} from last week</span>
+                        <div class="card h-100">
+                            <div class="card-body">
+                              <div class="d-flex align-items-center justify-content-between">
+                                <div>
+                                  <h4 class="fw-normal text-blue">{{getCandidatesCount()}}</h4>
+                                  <p class="subtitle text-sm text-muted mb-0">Candidates</p>
                                 </div>
-                                <div class="icon text-white bg-indigo"><i class="fas fa-user-check"></i></div>
+                                <div class="flex-shrink-0 ms-3">
+                                    <i class="fas fa-user-plus"></i>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="card-footer py-3 bg-blue-light">
+                              <div class="row align-items-center text-blue">
+                                <div class="col-10">
+                                  <p class="mb-0">+{{getLastWeekCandidatesCount()}} from last week</p>
+                                </div>
+                                <div class="col-2 text-end"><i class="fas fa-caret-up"></i>
+                                </div>
+                              </div>
                             </div>
                         </div>
                     </div>
                     <div class="{{$class}}">
-                        <div class="card-widget h-100">
-                            <div class="card-widget-body">
-                                <div class="dot me-3 bg-indigo"></div>
-                                <div class="text">
-                                    <h6 class="mb-0">Job Opportunities</h6>
-                                    <span class="text-gray-500">{{getJobOpportunitiesCount()}}</span> / 
-                                    <span class="text-gray-500">+{{getLastWeekJobOpportunitiesCount()}} from last week</span>
+                        <div class="card h-100">
+                            <div class="card-body">
+                              <div class="d-flex align-items-center justify-content-between">
+                                <div>
+                                  <h4 class="fw-normal text-primary">{{getJobOpportunitiesCount()}}</h4>
+                                  <p class="subtitle text-sm text-muted mb-0">Job Opportunities</p>
                                 </div>
-                                <div class="icon text-white bg-indigo"><i class="fas fas fa-plus-circle"></i></div>
+                                <div class="flex-shrink-0 ms-3">
+                                    <i class="fas fas fa-plus-circle"></i>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="card-footer py-3 bg-primary-light">
+                              <div class="row align-items-center text-primary">
+                                <div class="col-10">
+                                  <p class="mb-0">+{{getLastWeekJobOpportunitiesCount()}} from last week</p>
+                                </div>
+                                <div class="col-2 text-end"><i class="fas fa-caret-up"></i>
+                                </div>
+                              </div>
                             </div>
                         </div>
                     </div>
                     <div class="{{$class}}">
-                        <div class="card-widget h-100">
-                            <div class="card-widget-body">
-                                <div class="dot me-3 bg-indigo"></div>
-                                <div class="text">
-                                    <h6 class="mb-0">Job Submissions</h6>
-                                    <span class="text-gray-500">{{getSubmissionsCount()}}</span> / 
-                                    <span class="text-gray-500">+{{getLastWeekSubmissionsCount()}} from last week</span>
+                        <div class="card h-100">
+                            <div class="card-body">
+                              <div class="d-flex align-items-center justify-content-between">
+                                <div>
+                                  <h4 class="fw-normal text-green">{{getSubmissionsCount()}}</h4>
+                                  <p class="subtitle text-sm text-muted mb-0">Job Submissions</p>
                                 </div>
-                                <div class="icon text-white bg-indigo"><i class="fas fas fas fa-rss"></i></div>
+                                <div class="flex-shrink-0 ms-3">
+                                    <i class="fas fas fa-rss"></i>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="card-footer py-3 bg-green-light">
+                              <div class="row align-items-center text-green">
+                                <div class="col-10">
+                                  <p class="mb-0">+{{getLastWeekSubmissionsCount()}} from last week</p>
+                                </div>
+                                <div class="col-2 text-end"><i class="fas fa-caret-up"></i>
+                                </div>
+                              </div>
                             </div>
                         </div>
                     </div>
