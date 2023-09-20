@@ -37,14 +37,14 @@
             @endif
             <p> </p>
             <div class="dashboard row">
-                <span class="grid-stack-element" id="countsSection" draggable="true" data-index="countzSection">
+                <span class="grid-stack-element col-lg-12 col-md-12 col-sm-12 col-xs-12" id="countsSection" draggable="true" data-index="{{$order[0]}}">
                     @php
                         $sec=$order[0];
                     @endphp
                     @switch($sec)
                         @case('countzSection')
-                            <section class="mb-4 mb-lg-5" id="countzSection" class="grid-stack-item">
-                                <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Counts</h2>
+                            <section id="countzSection" class="grid-stack-item">
+                                {{-- <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Counts</h2> --}}
                                 @canany(['isAdmin','isAccountManager','isTeamLead','isCompanyAdmin'])
                                     @php
                                         $class="col-lg-3 col-md-3 col-sm-6 col-xs-12";
@@ -155,14 +155,17 @@
                                         </div>
                                     </div>
                                 </div><p> </p>
-                            </section><p> </p>
+                            </section><p> </p><br>
                             @break
                         @case('pipelinezSection')
                             <section class="mb-4 mb-lg-5" id="pipelinezSection" class="grid-stack-item">
-                                <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Pipeline Summary</h2>
+                                {{-- <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Pipeline Summary</h2> --}}
                                 <div class="row">
                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                         <div class="card">
+                                            <div class="card-header">
+                                                <h5 class="card-heading">Pipeline Summary</h5>
+                                            </div>
                                             <div class="card-body">
                                                 <div class="row">
                                                     <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
@@ -198,32 +201,38 @@
                             @break
                         @case('interviewzSection')
                             <section class="mb-4 mb-lg-5" id="interviewzSection" class="grid-stack-item">
-                                <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Upcoming Interviews</h2>
+                                {{-- <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Upcoming Interviews</h2> --}}
                                 <div class="card">
-                                    <div class="card-body">
-                                        <table class="table table-striped">
-                                            <tr>
-                                                <th>Candidate</th>
-                                                <th>Client</th>
-                                                <th>Date</th>
-                                            </tr>
-                                            @foreach (getUpComingInterviews() as $item)
-                                                <tr>
-                                                    <td>{{$item->candidate?->candidate_name}}</td>
-                                                    <td>{{$item->client?->client_name}}</td>
-                                                    <td>{{$item->from_date}}</td>
-                                                </tr>
-                                            @endforeach
-                                        </table>
-                                    </div>
+                                <div class="card-header">
+                                    <h5 class="card-heading">Upcoming Interviews</h5>
                                 </div>
+                                <div class="card-body">
+                                    <table class="table table-striped">
+                                        <tr>
+                                            <th>Candidate</th>
+                                            <th>Client</th>
+                                            <th>Date</th>
+                                        </tr>
+                                        @foreach (getUpComingInterviews() as $item)
+                                            <tr>
+                                                <td>{{$item->candidate?->candidate_name}}</td>
+                                                <td>{{$item->client?->client_name}}</td>
+                                                <td>{{$item->from_date}}</td>
+                                            </tr>
+                                        @endforeach
+                                    </table>
+                                </div>
+                            </div>
                             </section><p> </p>
                             @break
                         @case('completedInterviewzSection')
                             <section class="mb-4 mb-lg-5" id="completedInterviewzSection" class="grid-stack-item">
-                                <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Completed Interviews</h2>
+                                {{-- <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Completed Interviews</h2> --}}
                                 <div class="card">
-                                    <div class="card-body">
+                                    <div class="card-header">
+                                    <h5 class="card-heading">Completed Interviews</h5>
+                                </div>                           
+                                <div class="card-body">
                                         <table class="table table-striped">
                                             <tr>
                                                 <th>Candidate</th>
@@ -244,8 +253,11 @@
                             @break
                         @case('recentSubmissionzSection')
                             <section class="mb-4 mb-lg-5" id="recentSubmissionzSection" class="grid-stack-item">
-                                <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Recent Submissions</h2>
+                                {{-- {{-- <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Recent Submissions</h2> --}} 
                                 <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-heading">Recent Submissions</h5>
+                                    </div>                      
                                     <div class="card-body">
                                         <table class="table table-striped">
                                             <tr>
@@ -267,8 +279,11 @@
                             @break
                         @case('activityLogzSection')
                             <section class="mb-4 mb-lg-5" id="activityLogzSection" class="grid-stack-item">
-                                <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Activity Logs</h2>
+                                {{-- <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Activity Logs</h2> --}}
                                 <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-heading">Activity Logs</h5>
+                                    </div>                         
                                     <div class="card-body">
                                         <table class="table table-striped">
                                             @foreach (getUserActivityLogs() as $item)
@@ -310,14 +325,14 @@
                             @break
                     @endswitch
                 </span>
-                <span class="grid-stack-element" id="pipelineSection" draggable="true" data-index="pipelinezSection">
+                <span class="grid-stack-element col-lg-12 col-md-12 col-sm-12 col-xs-12" id="pipelineSection" draggable="true" data-index="{{$order[1]}}">
                     @php
                         $sec=$order[1];
                     @endphp
                     @switch($sec)
                         @case('countzSection')
                             <section class="mb-4 mb-lg-5" id="countzSection" class="grid-stack-item">
-                                <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Counts</h2>
+                                {{-- <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Counts</h2> --}}
                                 @canany(['isAdmin','isAccountManager','isTeamLead','isCompanyAdmin'])
                                     @php
                                         $class="col-lg-3 col-md-3 col-sm-6 col-xs-12";
@@ -432,10 +447,13 @@
                             @break
                         @case('pipelinezSection')
                             <section class="mb-4 mb-lg-5" id="pipelinezSection" class="grid-stack-item">
-                                <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Pipeline Summary</h2>
+                                {{-- <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Pipeline Summary</h2> --}}
                                 <div class="row">
                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                         <div class="card">
+                                            <div class="card-header">
+                                                <h5 class="card-heading">Pipeline Summary</h5>
+                                            </div>
                                             <div class="card-body">
                                                 <div class="row">
                                                     <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
@@ -471,8 +489,11 @@
                             @break
                         @case('interviewzSection')
                             <section class="mb-4 mb-lg-5" id="interviewzSection" class="grid-stack-item">
-                                <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Upcoming Interviews</h2>
+                                {{-- <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Upcoming Interviews</h2> --}}
                                 <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-heading">Upcoming Interviews</h5>
+                                    </div>
                                     <div class="card-body">
                                         <table class="table table-striped">
                                             <tr>
@@ -494,8 +515,11 @@
                             @break
                         @case('completedInterviewzSection')
                             <section class="mb-4 mb-lg-5" id="completedInterviewzSection" class="grid-stack-item">
-                                <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Completed Interviews</h2>
+                                {{-- <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Completed Interviews</h2> --}}
                                 <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-heading">Completed Interviews</h5>
+                                    </div>                           
                                     <div class="card-body">
                                         <table class="table table-striped">
                                             <tr>
@@ -517,8 +541,11 @@
                             @break
                         @case('recentSubmissionzSection')
                             <section class="mb-4 mb-lg-5" id="recentSubmissionzSection" class="grid-stack-item">
-                                <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Recent Submissions</h2>
+                                {{-- <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Recent Submissions</h2> --}}
                                 <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-heading">Recent Submissions</h5>
+                                    </div>                      
                                     <div class="card-body">
                                         <table class="table table-striped">
                                             <tr>
@@ -540,9 +567,12 @@
                             @break
                         @case('activityLogzSection')
                             <section class="mb-4 mb-lg-5" id="activityLogzSection" class="grid-stack-item">
-                                <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Activity Logs</h2>
+                                {{-- <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Activity Logs</h2> --}}
                                 <div class="card">
-                                    <div class="card-body">
+                                    <div class="card-header">
+                                    <h5 class="card-heading">Activity Logs</h5>
+                                </div>                         
+                                <div class="card-body">
                                         <table class="table table-striped">
                                             @foreach (getUserActivityLogs() as $item)
                                                 <tr>
@@ -583,7 +613,7 @@
                             @break
                     @endswitch
                 </span>
-                <span class="grid-stack-element" id="interviewsSection" draggable="true" data-index="interviewzSection">
+                <span class="grid-stack-element col-lg-6 col-md-6 col-sm-12 col-xs-12" id="interviewsSection" draggable="true" data-index="{{$order[2]}}">
                     @php
                         $sec=$order[2];
                     @endphp
@@ -705,10 +735,13 @@
                             @break
                         @case('pipelinezSection')
                             <section class="mb-4 mb-lg-5" id="pipelinezSection" class="grid-stack-item">
-                                <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Pipeline Summary</h2>
+                                {{-- <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Pipeline Summary</h2> --}}
                                 <div class="row">
                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                         <div class="card">
+                                            <div class="card-header">
+                                                <h5 class="card-heading">Pipeline Summary</h5>
+                                            </div>
                                             <div class="card-body">
                                                 <div class="row">
                                                     <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
@@ -744,8 +777,11 @@
                             @break
                         @case('interviewzSection')
                             <section class="mb-4 mb-lg-5" id="interviewzSection" class="grid-stack-item">
-                                <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Upcoming Interviews</h2>
+                                {{-- <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Upcoming Interviews</h2> --}}
                                 <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-heading">Upcoming Interviews</h5>
+                                    </div>
                                     <div class="card-body">
                                         <table class="table table-striped">
                                             <tr>
@@ -767,8 +803,11 @@
                             @break
                         @case('completedInterviewzSection')
                             <section class="mb-4 mb-lg-5" id="completedInterviewzSection" class="grid-stack-item">
-                                <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Completed Interviews</h2>
+                                {{-- <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Completed Interviews</h2> --}}
                                 <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-heading">Completed Interviews</h5>
+                                    </div>                           
                                     <div class="card-body">
                                         <table class="table table-striped">
                                             <tr>
@@ -790,8 +829,11 @@
                             @break
                         @case('recentSubmissionzSection')
                             <section class="mb-4 mb-lg-5" id="recentSubmissionzSection" class="grid-stack-item">
-                                <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Recent Submissions</h2>
+                                {{-- <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Recent Submissions</h2> --}}
                                 <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-heading">Recent Submissions</h5>
+                                    </div>                      
                                     <div class="card-body">
                                         <table class="table table-striped">
                                             <tr>
@@ -813,8 +855,11 @@
                             @break
                         @case('activityLogzSection')
                             <section class="mb-4 mb-lg-5" id="activityLogzSection" class="grid-stack-item">
-                                <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Activity Logs</h2>
+                                {{-- <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Activity Logs</h2> --}}
                                 <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-heading">Activity Logs</h5>
+                                    </div>                         
                                     <div class="card-body">
                                         <table class="table table-striped">
                                             @foreach (getUserActivityLogs() as $item)
@@ -856,7 +901,7 @@
                             @break
                     @endswitch
                 </span>
-                <span class="grid-stack-element" id="completedInterviewsSection" draggable="true" data-index="completedInterviewzSection">
+                <span class="grid-stack-element col-lg-6 col-md-6 col-sm-12 col-xs-12" id="completedInterviewsSection" draggable="true" data-index="{{$order[3]}}">
                     @php
                         $sec=$order[3];
                     @endphp
@@ -978,10 +1023,13 @@
                             @break
                         @case('pipelinezSection')
                             <section class="mb-4 mb-lg-5" id="pipelinezSection" class="grid-stack-item">
-                                <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Pipeline Summary</h2>
+                                {{-- <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Pipeline Summary</h2> --}}
                                 <div class="row">
                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                         <div class="card">
+                                            <div class="card-header">
+                                                <h5 class="card-heading">Pipeline Summary</h5>
+                                            </div>
                                             <div class="card-body">
                                                 <div class="row">
                                                     <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
@@ -1017,8 +1065,11 @@
                             @break
                         @case('interviewzSection')
                             <section class="mb-4 mb-lg-5" id="interviewzSection" class="grid-stack-item">
-                                <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Upcoming Interviews</h2>
+                                {{-- <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Upcoming Interviews</h2> --}}
                                 <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-heading">Upcoming Interviews</h5>
+                                    </div>
                                     <div class="card-body">
                                         <table class="table table-striped">
                                             <tr>
@@ -1040,8 +1091,11 @@
                             @break
                         @case('completedInterviewzSection')
                             <section class="mb-4 mb-lg-5" id="completedInterviewzSection" class="grid-stack-item">
-                                <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Completed Interviews</h2>
+                                {{-- <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Completed Interviews</h2> --}}
                                 <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-heading">Completed Interviews</h5>
+                                    </div>                           
                                     <div class="card-body">
                                         <table class="table table-striped">
                                             <tr>
@@ -1063,8 +1117,11 @@
                             @break
                         @case('recentSubmissionzSection')
                             <section class="mb-4 mb-lg-5" id="recentSubmissionzSection" class="grid-stack-item">
-                                <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Recent Submissions</h2>
+                                {{-- <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Recent Submissions</h2> --}}
                                 <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-heading">Recent Submissions</h5>
+                                    </div>                      
                                     <div class="card-body">
                                         <table class="table table-striped">
                                             <tr>
@@ -1086,8 +1143,11 @@
                             @break
                         @case('activityLogzSection')
                             <section class="mb-4 mb-lg-5" id="activityLogzSection" class="grid-stack-item">
-                                <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Activity Logs</h2>
+                                {{-- <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Activity Logs</h2> --}}
                                 <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-heading">Activity Logs</h5>
+                                    </div>                         
                                     <div class="card-body">
                                         <table class="table table-striped">
                                             @foreach (getUserActivityLogs() as $item)
@@ -1129,7 +1189,7 @@
                             @break
                     @endswitch
                 </span>
-                <span class="grid-stack-element" id="recentSubmissionsSection" draggable="true" data-index="recentSubmissionzSection">
+                <span class="grid-stack-element col-lg-6 col-md-6 col-sm-12 col-xs-12" id="recentSubmissionsSection" draggable="true" data-index="{{$order[4]}}">
                     @php
                         $sec=$order[4];
                     @endphp
@@ -1251,10 +1311,13 @@
                             @break
                         @case('pipelinezSection')
                             <section class="mb-4 mb-lg-5" id="pipelinezSection" class="grid-stack-item">
-                                <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Pipeline Summary</h2>
+                                {{-- <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Pipeline Summary</h2> --}}
                                 <div class="row">
                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                         <div class="card">
+                                            <div class="card-header">
+                                                <h5 class="card-heading">Pipeline Summary</h5>
+                                            </div>
                                             <div class="card-body">
                                                 <div class="row">
                                                     <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
@@ -1290,8 +1353,11 @@
                             @break
                         @case('interviewzSection')
                             <section class="mb-4 mb-lg-5" id="interviewzSection" class="grid-stack-item">
-                                <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Upcoming Interviews</h2>
+                                {{-- <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Upcoming Interviews</h2> --}}
                                 <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-heading">Upcoming Interviews</h5>
+                                    </div>
                                     <div class="card-body">
                                         <table class="table table-striped">
                                             <tr>
@@ -1313,8 +1379,11 @@
                             @break
                         @case('completedInterviewzSection')
                             <section class="mb-4 mb-lg-5" id="completedInterviewzSection" class="grid-stack-item">
-                                <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Completed Interviews</h2>
+                                {{-- <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Completed Interviews</h2> --}}
                                 <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-heading">Completed Interviews</h5>
+                                    </div>                           
                                     <div class="card-body">
                                         <table class="table table-striped">
                                             <tr>
@@ -1336,8 +1405,11 @@
                             @break
                         @case('recentSubmissionzSection')
                             <section class="mb-4 mb-lg-5" id="recentSubmissionzSection" class="grid-stack-item">
-                                <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Recent Submissions</h2>
+                                {{-- <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Recent Submissions</h2> --}}
                                 <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-heading">Recent Submissions</h5>
+                                    </div>                      
                                     <div class="card-body">
                                         <table class="table table-striped">
                                             <tr>
@@ -1359,8 +1431,11 @@
                             @break
                         @case('activityLogzSection')
                             <section class="mb-4 mb-lg-5" id="activityLogzSection" class="grid-stack-item">
-                                <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Activity Logs</h2>
+                                {{-- <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Activity Logs</h2> --}}
                                 <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-heading">Activity Logs</h5>
+                                    </div>                         
                                     <div class="card-body">
                                         <table class="table table-striped">
                                             @foreach (getUserActivityLogs() as $item)
@@ -1402,7 +1477,7 @@
                             @break
                     @endswitch
                 </span>
-                <span class="grid-stack-element" id="activityLogsSection" draggable="true" data-index="activityLogzSection">
+                <span class="grid-stack-element col-lg-6 col-md-6 col-sm-12 col-xs-12" id="activityLogsSection" draggable="true" data-index="{{$order[5]}}">
                     @php
                         $sec=$order[5];
                     @endphp
@@ -1524,10 +1599,13 @@
                             @break
                         @case('pipelinezSection')
                             <section class="mb-4 mb-lg-5" id="pipelinezSection" class="grid-stack-item">
-                                <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Pipeline Summary</h2>
+                                {{-- <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Pipeline Summary</h2> --}}
                                 <div class="row">
                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                         <div class="card">
+                                            <div class="card-header">
+                                                <h5 class="card-heading">Pipeline Summary</h5>
+                                            </div>
                                             <div class="card-body">
                                                 <div class="row">
                                                     <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
@@ -1563,8 +1641,11 @@
                             @break
                         @case('interviewzSection')
                             <section class="mb-4 mb-lg-5" id="interviewzSection" class="grid-stack-item">
-                                <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Upcoming Interviews</h2>
+                                {{-- <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Upcoming Interviews</h2> --}}
                                 <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-heading">Upcoming Interviews</h5>
+                                    </div>
                                     <div class="card-body">
                                         <table class="table table-striped">
                                             <tr>
@@ -1586,8 +1667,11 @@
                             @break
                         @case('completedInterviewzSection')
                             <section class="mb-4 mb-lg-5" id="completedInterviewzSection" class="grid-stack-item">
-                                <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Completed Interviews</h2>
+                                {{-- <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Completed Interviews</h2> --}}
                                 <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-heading">Completed Interviews</h5>
+                                    </div>                           
                                     <div class="card-body">
                                         <table class="table table-striped">
                                             <tr>
@@ -1609,8 +1693,11 @@
                             @break
                         @case('recentSubmissionzSection')
                             <section class="mb-4 mb-lg-5" id="recentSubmissionzSection" class="grid-stack-item">
-                                <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Recent Submissions</h2>
+                                {{-- <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Recent Submissions</h2> --}}
                                 <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-heading">Recent Submissions</h5>
+                                    </div>                      
                                     <div class="card-body">
                                         <table class="table table-striped">
                                             <tr>
@@ -1632,9 +1719,12 @@
                             @break
                         @case('activityLogzSection')
                             <section class="mb-4 mb-lg-5" id="activityLogzSection" class="grid-stack-item">
-                                <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Activity Logs</h2>
+                                {{-- <h2 class="section-heading section-heading-ms mb-4 mb-lg-5">Activity Logs</h2> --}}
                                 <div class="card">
-                                    <div class="card-body">
+                                    <div class="card-header">
+                                    <h5 class="card-heading">Activity Logs</h5>
+                                </div>                         
+                                <div class="card-body">
                                         <table class="table table-striped">
                                             @foreach (getUserActivityLogs() as $item)
                                                 <tr>
@@ -1912,30 +2002,28 @@
         let draggedWidget = null;
 
         function getWidgetOrder() {
-            setTimeout((function() {
-                var parentElement = document.querySelector('.dashboard');
-                var clonedParent = parentElement.cloneNode(true);
-                var gridElements = clonedParent.querySelectorAll('.grid-stack-element');
-                var clonedChild=null;
-                var order=[];
-                gridElements.forEach(function(child) {
-                    clonedChild=child.cloneNode(true);
-                    order.push($(clonedChild).data('index'));
-                });
-                console.warn(order,'order');
-                $.ajax({
-                    url: "{{route('save.dashboard-order')}}",
-                    type: "POST",
-                    data: {
-                        order: order,
-                        user_id:'{{Auth()->user()->id}}',
-                        _token: "{{csrf_token()}}"
-                    },
-                    success: function (response) {
-                        
-                    }
-                });
-            }), 3000);
+            var parentElement = document.querySelector('.dashboard');
+            var clonedParent = parentElement.cloneNode(true);
+            var gridElements = clonedParent.querySelectorAll('.grid-stack-element');
+            var clonedChild="";
+            var order=[];
+            gridElements.forEach(function(child) {
+                clonedChild=child.cloneNode(true);
+                order.push($(clonedChild).data('index'));
+            });
+            console.warn(order,'order');
+            $.ajax({
+                url: "{{route('save.dashboard-order')}}",
+                type: "POST",
+                data: {
+                    order: order,
+                    user_id:'{{Auth()->user()->id}}',
+                    _token: "{{csrf_token()}}"
+                },
+                success: function (response) {
+                    
+                }
+            });
         }
 
         document.addEventListener('dragstart', (event) => {
