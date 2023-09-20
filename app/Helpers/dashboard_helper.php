@@ -6,6 +6,7 @@ use App\Models\JobOpportunity;
 use App\Models\Submission;
 use App\Models\Interview;
 use App\Models\User;
+use App\Models\DashboardWidgetOrder;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Activitylog\Models\Activity;
@@ -151,6 +152,23 @@ use Spatie\Activitylog\Models\Activity;
     function getUserName($id){
         $user = User::find($id);
         return $user?->full_name;
+    }
+
+    function getDashboardWidgetOrder(){
+        $order= DashboardWidgetOrder::where('user_id',Auth::user()->id)->first();
+        if($order){
+            return $order->order;
+        }else{
+            $res=DashboardWidgetOrder::create(['user_id'=>Auth::user()->id,'order'=>[
+                "countzSection",
+                "pipelinezSection",
+                "interviewzSection",
+                "completedInterviewzSection",
+                "recentSubmissionzSection",
+                "activityLogzSection"
+            ]]);
+            return $res->order;
+        }
     }
 
 ?>

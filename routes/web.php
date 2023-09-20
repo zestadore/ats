@@ -48,3 +48,4 @@ Route::post('/company-signup', [App\Http\Controllers\RegisterController::class, 
 Route::get('/verify-email/{id}', [App\Http\Controllers\RegisterController::class, 'verifyEmail'])->name('verify-email');
 Route::get('/update-candidates-ai', [App\Http\Controllers\HomeController::class, 'updateCandidatesAI']);
 Route::get('/update-skills-ai', [App\Http\Controllers\HomeController::class, 'updateSkillsAI']);
+Route::post('/save-dashboard-order', [App\Http\Controllers\DashboardController::class, 'saveDashboardOrder'])->name('save.dashboard-order')->middleware('auth');
