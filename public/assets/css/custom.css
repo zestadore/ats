@@ -76,3 +76,7 @@ div.dt-buttons {
   .slider.round:before {
 	border-radius: 50%;
   }
+
+  .grid-stack-element{
+	touch-action: none;
+  }
