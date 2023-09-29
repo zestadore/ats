@@ -310,5 +310,18 @@
             });
         });
 
+        function checkLocalStorage(){
+            var date = localStorage.getItem('interview_date');
+            if(date){
+                var selectedDate = new Date(date);
+                var now = new Date();
+                selectedDate.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+                document.getElementById('from_date').value = selectedDate.toISOString().slice(0,16);
+                localStorage.removeItem('interview_date');
+            }
+        }
+
+        checkLocalStorage();
+
     </script>
 @endsection

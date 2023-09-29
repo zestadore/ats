@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\ValidateInterview;
 use App\Models\Candidate;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Auth;
 use DataTables;
 
 class InterviewController extends Controller
@@ -154,6 +155,23 @@ class InterviewController extends Controller
         if(count($data)>0){
             AdditionalAttachment::insert($data);
         }
+    }
+
+    public function calendar()
+    {
+        $clients=Client::get();
+        $users=User::whereNot('role', 'super_admin')->get();
+        $events=Interview::get();
+        $data=[];
+        foreach($events as $event){
+            $data[]=[
+                'id'=>Crypt::encrypt($event->id),
+                'title'=>$event->interview_name,
+                'start'=>$event->from_date,
+                'end'=>$event->to_date,
+            ];
+        }
+        return view('backend.interviews.calendar.index',['clients'=>$clients,'users'=>$users,'events'=>$data]);
     }
 
 }

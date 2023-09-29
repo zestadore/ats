@@ -32,5 +32,6 @@ Route::middleware(['auth'])->name('admin.')->namespace("App\Http\Controllers\Adm
     Route::get('get-candidate-matches/{id}', [App\Http\Controllers\Admin\CandidateController::class, 'getMatches'])->name('get-candidate-matches');
     Route::resource('notes', NoteController::class);
     Route::post('upload-auto-resume', [App\Http\Controllers\Admin\CandidateController::class, 'uploadAutoResume'])->name('upload-auto-resume');
+    Route::get('calendar', [App\Http\Controllers\Admin\InterviewController::class, 'calendar'])->name('view.calendar');
 });
 

@@ -2,6 +2,9 @@
 <header class="header">
     <nav class="navbar navbar-expand-lg px-4 py-2 bg-white shadow"><a class="fw-bold text-uppercase text-base" href="JavaScript:void(0)"><span class="d-none d-brand-partial">{{env('APP_NAME','')}} </span></a>&nbsp;<a class="sidebar-toggler text-gray-500 me-4 me-lg-5 lead" href="#" style="float: left !important;"><i class="fas fa-align-left"></i></a>
       <ul class="ms-auto d-flex align-items-center list-unstyled mb-0">
+        <li class="nav-item dropdown me-2" onclick="openCalendar()" style="padding : 10px;cursor : pointer">
+          <div class="icon text-white bg-indigo"><i class="far fa-calendar-plus"></i></div>
+        </li>
         <li class="nav-item dropdown me-2" onclick="openNotes()" style="padding : 10px;cursor : pointer">
           <div class="icon text-white bg-indigo"><i class="fas fa-plus"></i></div>
         </li>

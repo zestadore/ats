@@ -105,6 +105,10 @@
             });
         }
 
+        function openCalendar(){
+            window.location.href="{{route('admin.view.calendar')}}";
+        }
+
         $('#note_description').summernote({
             placeholder: 'Notes Description',
             tabsize: 2,
