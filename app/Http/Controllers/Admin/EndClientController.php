@@ -39,16 +39,30 @@ class EndClientController extends Controller
             'end_client' => 'required',
         ]);
         $res=EndClient::create($request->except(['_token']))->id;
-        if($res){
-            return redirect()->route('admin.clients.end-clients.index',$client_id)->with('success', 'Successfully updated the data.');
+        if($request->ajax()){
+            if($res){
+                return response()->json(['success'=>true]);
+            }else{
+                return response()->json(['success'=>false]);
+            }
         }else{
-            return redirect()->route('admin.clients.end-clients.index',$client_id)->with('error', 'Failed to update the data. Please try again.');
+            if($res){
+                return redirect()->route('admin.clients.end-clients.index',$client_id)->with('success', 'Successfully updated the data.');
+            }else{
+                return redirect()->route('admin.clients.end-clients.index',$client_id)->with('error', 'Failed to update the data. Please try again.');
+            }
         }
     }
 
-    public function show(EndClient $endClient)
+    public function show($client_id,$id)
     {
-        //
+        $id=Crypt::decrypt($id);
+        $res=EndClient::findOrFail($id);
+        if($res){
+            return response()->json(['success'=>true,'data'=>$res]);
+        }else{
+            return response()->json(['success'=>false,'data'=>Null]);
+        }
     }
 
     public function edit($client_id,$id)
@@ -66,10 +80,18 @@ class EndClientController extends Controller
         $id=Crypt::decrypt($id);
         $client=EndClient::findOrFail($id);
         $res=$client->update($request->except('_token'));
-        if($res){
-            return redirect()->route('admin.clients.end-clients.index',Crypt::encrypt($client->client_id))->with('success', 'Successfully updated the data.');
+        if($request->ajax()){
+            if($res){
+                return response()->json(['success'=>true]);
+            }else{
+                return response()->json(['success'=>false]);
+            }
         }else{
-            return redirect()->route('admin.clients.end-clients.index',Crypt::encrypt($client->client_id))->with('error', 'Failed to update the data. Please try again.');
+            if($res){
+                return redirect()->route('admin.clients.end-clients.index',$client_id)->with('success', 'Successfully updated the data.');
+            }else{
+                return redirect()->route('admin.clients.end-clients.index',$client_id)->with('error', 'Failed to update the data. Please try again.');
+            }
         }
     }
 

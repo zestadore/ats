@@ -37,10 +37,18 @@ class ClientController extends Controller
     public function store(ValidateClient $request)
     {
         $res=Client::create($request->except('_token'));
-        if($res){
-            return redirect()->route('admin.clients.index')->with('success', 'Successfully updated the data.');
+        if($request->ajax()){
+            if($res){
+                return response()->json(['success'=>true]);
+            }else{
+                return response()->json(['success'=>false]);
+            }
         }else{
-            return redirect()->route('admin.clients.index')->with('error', 'Failed to update the data. Please try again.');
+            if($res){
+                return redirect()->route('admin.clients.index')->with('success', 'Successfully updated the data.');
+            }else{
+                return redirect()->route('admin.clients.index')->with('error', 'Failed to update the data. Please try again.');
+            }
         }
     }
 
@@ -66,10 +74,18 @@ class ClientController extends Controller
         $id=Crypt::decrypt($id);
         $client=Client::findOrFail($id);
         $res=$client->update($request->except('_token'));
-        if($res){
-            return redirect()->route('admin.clients.index')->with('success', 'Successfully updated the data.');
+        if($request->ajax()){
+            if($res){
+                return response()->json(['success'=>true]);
+            }else{
+                return response()->json(['success'=>false]);
+            }
         }else{
-            return redirect()->route('admin.clients.index')->with('error', 'Failed to update the data. Please try again.');
+            if($res){
+                return redirect()->route('admin.clients.index')->with('success', 'Successfully updated the data.');
+            }else{
+                return redirect()->route('admin.clients.index')->with('error', 'Failed to update the data. Please try again.');
+            }
         }
     }
 

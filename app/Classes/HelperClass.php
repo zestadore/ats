@@ -24,6 +24,22 @@ class HelperClass {
                     ]
                 ];
                 break;
+            case 'company_admin':
+                    $roleArray=[
+                        [
+                            'id' => 'recruiter',
+                            'text'=> 'Recruiter',
+                        ],
+                        [
+                            'id' => 'account_manager',
+                            'text'=> 'Account Manager',
+                        ],
+                        [
+                            'id' => 'team_lead',
+                            'text'=> 'Team Lead',
+                        ]
+                    ];
+                    break;
             case 'account_manager':
                 $roleArray=[
                     [

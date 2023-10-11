@@ -61,7 +61,9 @@ class CandidateController extends Controller
                 ->escapeColumns('aaData')
                 ->make(true);
         }
-        return view('backend.candidates.index');
+        $renderHtml=view('backend.candidates.add_more')->render();
+        $renderHtml = preg_replace("/[\r\n]*/","",$renderHtml);
+        return view('backend.candidates.index',['renderHtml'=>$renderHtml]);
     }
 
     public function create()
@@ -115,14 +117,27 @@ class CandidateController extends Controller
                 $res = AdditionalAttachment::insert($data);
             }
         }
-        if($res){
-            if($request->ajax()){
-                return response()->json(['success'=>"Data added successfully!"]);
+        if($request->ajax()){
+            if($res){
+                return response()->json(['success'=>true]);
+            }else{
+                return response()->json(['success'=>false]);
             }
-            return redirect()->route('admin.candidates.index')->with('success', 'Successfully updated the data.');
         }else{
-            return redirect()->route('admin.candidates.index')->with('error', 'Failed to update the data. Please try again.');
+            if($res){
+                return redirect()->route('admin.candidates.index')->with('success', 'Successfully updated the data.');
+            }else{
+                return redirect()->route('admin.candidates.index')->with('error', 'Failed to update the data. Please try again.');
+            }
         }
+        // if($res){
+        //     if($request->ajax()){
+        //         return response()->json(['success'=>"Data added successfully!"]);
+        //     }
+        //     return redirect()->route('admin.candidates.index')->with('success', 'Successfully updated the data.');
+        // }else{
+        //     return redirect()->route('admin.candidates.index')->with('error', 'Failed to update the data. Please try again.');
+        // }
     }
 
     public function show($id)

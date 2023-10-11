@@ -37,7 +37,9 @@ class UserController extends Controller
                 ->addColumn('action', 'backend.users.action')
                 ->make(true);
         }
-        return view('backend.users.index');
+        $helperClass=New HelperClass;
+        $roles=$helperClass->getRolesList();
+        return view('backend.users.index',['roles'=>$roles]);
     }
 
     public function create()
@@ -52,10 +54,18 @@ class UserController extends Controller
         $request->merge(['password', Hash::make($request->password_string??$request->mobile)]);
         $request->request->add(['password'=> Hash::make($request->password_string??$request->mobile)]);
         $res=User::create($request->except(['_token','password_string']));
-        if($res){
-            return redirect()->route('admin.users.index')->with('success', 'Successfully updated the data.');
+        if($request->ajax()){
+            if($res){
+                return response()->json(['success'=>true]);
+            }else{
+                return response()->json(['success'=>false]);
+            }
         }else{
-            return redirect()->route('admin.users.index')->with('error', 'Failed to update the data. Please try again.');
+            if($res){
+                return redirect()->route('admin.users.index')->with('success', 'Successfully updated the data.');
+            }else{
+                return redirect()->route('admin.users.index')->with('error', 'Failed to update the data. Please try again.');
+            }
         }
     }
 
@@ -87,10 +97,18 @@ class UserController extends Controller
             $request->request->add(['password'=> Hash::make($request->password_string)]);
         }
         $res=$data->update($request->except(['_token','password_string']));
-        if($res){
-            return redirect()->route('admin.users.index')->with('success', 'Successfully updated the data.');
+        if($request->ajax()){
+            if($res){
+                return response()->json(['success'=>true]);
+            }else{
+                return response()->json(['success'=>false]);
+            }
         }else{
-            return redirect()->route('admin.users.index')->with('error', 'Failed to update the data. Please try again.');
+            if($res){
+                return redirect()->route('admin.users.index')->with('success', 'Successfully updated the data.');
+            }else{
+                return redirect()->route('admin.users.index')->with('error', 'Failed to update the data. Please try again.');
+            }
         }
     }
 

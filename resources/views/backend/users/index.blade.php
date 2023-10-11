@@ -20,7 +20,8 @@
                     </nav>
                 </div>
                 <div class="ms-auto">
-                    <a href="{{route('admin.users.create')}}" class="btn btn-primary">Add New</a>
+                    <button class="btn btn-primary" type="button" onclick="addNew()">Add New</button>
+                    {{-- <a href="{{route('admin.users.create')}}" class="btn btn-primary">Add New</a> --}}
                 </div>
             </div>
             @if (session('error'))
@@ -78,11 +79,73 @@
             </div>
         </div>
     </div>
+    <!-- Modal -->
+    <div class="modal fade" id="addNewModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="jQueryValidationForm" method="POST">@csrf
+                        <div class="row g-3">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <x-forms.input class="form-control {{ $errors->has('first_name') ? ' is-invalid' : '' }}" title="First name" name="first_name" id="first_name" type="text" required="True"/>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <x-forms.input class="form-control {{ $errors->has('last_name') ? ' is-invalid' : '' }}" title="Last name" name="last_name" id="last_name" type="text" required="False"/>
+                            </div>
+                        </div><p> </p>
+                        <div class="row g-3">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <x-forms.input class="form-control {{ $errors->has('email') ? ' is-invalid' : '' }}" title="Email" name="email" id="email" type="email" required="True"/>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <x-forms.input class="form-control {{ $errors->has('mobile') ? ' is-invalid' : '' }}" title="Contact" name="mobile" id="mobile" type="text" required="True"/>
+                            </div>
+                        </div><p> </p>
+                        <div class="row g-3">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <label class="form-label" for="role">Role</label>
+                                <select name="role" id="role" class="form-select mb-3" required>
+                                    <option value="">Select a role</option>
+                                    @foreach ($roles as $role)
+                                        <option value="{{$role['id']}}">{{$role['text']}}</option>
+                                    @endforeach
+                                </select>
+                                @error('client_id')
+                                    <span class="error mt-2 text-danger" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <label for="inputChoosePassword" class="form-label">Password</label>
+                                <div class="input-group" id="show_hide_passwords">
+                                    <input type="password" class="form-control border-end-0" name="password_string" id="inputChoosePassword" placeholder="Enter Password"> <a href="javascript:;" class="input-group-text bg-transparent"><i class="fa fa-eye"></i></a>
+                                </div>
+                            </div>
+                        </div><p> </p>
+                        {{-- <div class="btn-group" role="group" aria-label="Basic example" style="float: right;">
+                            <a href="{{route('admin.users.index')}}" class="btn btn-secondary">Cancel</a>
+                            <button type="submit" class="btn btn-primary" style="float:right;">Submit</button>
+                        </div> --}}
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="addNewButton" data-id="0">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 @section('javascripts')
     <script src="{{asset('assets/css/datatable/js/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('assets/css/datatable/js/dataTables.bootstrap5.min.js')}}"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="{{asset('assets/js/jquery.validate.min.js')}}"></script>
     <script>
         function drawTable()
         {
@@ -161,9 +224,29 @@
         drawTable();
 
         function editData(id){
-            var url="{{route('admin.users.edit','ID')}}";
+            $('#addNewButton').attr("data-id",id);
+            var url="{{route('admin.users.show','ID')}}";
             url=url.replace('ID',id);
-            window.location.href=url;
+            $.ajax({
+                url: url,
+                type:"get",
+                success:function(response){
+                    if(response.success==true){
+                        $('#jQueryValidationForm')[0].reset();
+                        $('#first_name').val(response.data.first_name);
+                        $('#last_name').val(response.data.last_name);
+                        $('#email').val(response.data.email);
+                        $('#mobile').val(response.data.mobile);
+                        $('#role').val(response.data.role);
+                        $('#addNewModal').modal('show');
+                    }else{
+                        swal("Oops!", "Failed to fetch the data!", "error");
+                    }
+                },
+            });
+            // var url="{{route('admin.users.edit','ID')}}";
+            // url=url.replace('ID',id);
+            // window.location.href=url;
         }
 
         function deleteData(id)
@@ -273,5 +356,119 @@
                 });
             }
 
+            $( document ).ready( function () {
+                $( "#jQueryValidationForm" ).validate( {
+                    rules: {
+                        yourname: "required",
+                        phone: "required",
+                        username: {
+                            required: true,
+                            minlength: 2
+                        },
+                        password: {
+                            required: true,
+                            minlength: 5
+                        },
+                        confirm_password: {
+                            required: true,
+                            minlength: 5,
+                            equalTo: "#input38"
+                        },
+                        email: {
+                            required: true,
+                            email: true
+                        },
+                        country: "required",
+                        address: "required",
+                        agree: "required"
+                    },
+                    messages: {
+                        yourname: "Please enter your your name",
+                        phone: "Please enter your phone number",
+                        username: {
+                            required: "Please enter a username",
+                            minlength: "Your username must consist of at least 2 characters"
+                        },
+                        password: {
+                            required: "Please provide a password",
+                            minlength: "Your password must be at least 5 characters long"
+                        },
+                        confirm_password: {
+                            required: "Please provide a password",
+                            minlength: "Your password must be at least 5 characters long",
+                            equalTo: "Please enter the same password as above"
+                        },
+                        email: "Please enter a valid email address",
+                        country: "Please select country",
+                        address: "Please type your message",
+                        agree: "Please accept our policy"
+                    },errorElement: "div",
+                        errorPlacement: function ( error, element ) {
+                            error.addClass( "invalid-feedback" );
+                            error.insertAfter( element );
+                        },
+                    highlight: function(element) {
+                        $(element).removeClass('is-valid').addClass('is-invalid');
+                    },
+                    unhighlight: function(element) {
+                        $(element).removeClass('is-invalid').addClass('is-valid');
+                    }
+                } );
+            } );
+
+            $(document).ready(function () {
+                $("#show_hide_passwords a").on('click', function (event) {
+                    event.preventDefault();
+                    if ($('#show_hide_passwords input').attr("type") == "text") {
+                        $('#show_hide_passwords input').attr('type', 'password');
+                        $('#show_hide_passwords i').addClass("bx-hide");
+                        $('#show_hide_passwords i').removeClass("bx-show");
+                    } else if ($('#show_hide_passwords input').attr("type") == "password") {
+                        $('#show_hide_passwords input').attr('type', 'text');
+                        $('#show_hide_passwords i').removeClass("bx-hide");
+                        $('#show_hide_passwords i').addClass("bx-show");
+                    }
+                });
+                $('#inputChoosePassword').val('');
+            });
+
+            function addNew(){
+                //clear the form
+                $('#jQueryValidationForm')[0].reset();
+                $('#addNewButton').attr('data-id','0');
+                $('#addNewModal').modal('show');
+            }
+
+            $('#addNewButton').click(function(){
+                if($('#jQueryValidationForm').valid()){
+                    var id=$('#addNewButton').attr('data-id');
+                    if(id==0){
+                        var url="{{route('admin.users.store')}}";
+                        var method="post";
+                    }else{
+                        var url="{{route('admin.users.update','ID')}}";
+                        url=url.replace('ID',id);
+                        var method="put";
+                    }
+                    //submit form via ajax
+                    $.ajax({
+                        url:url,
+                        "headers": {"X-Requested-With":'XMLHttpRequest'},
+                        method:method,
+                        data:$('#jQueryValidationForm').serialize(),
+                        success:function(response){
+                            console.log(response);
+                            if(response.success==true){
+                                swal("Good job!", "Data added successfully", "success");
+                                $('#addNewModal').modal('hide');
+                                $('#jQueryValidationForm')[0].reset();
+                                drawTable();
+                            }else{
+                                swal("Oops!", "Failed to add the data!", "error");
+                            }
+                        }
+                    });
+                }
+            })
     </script>
 @endsection
