@@ -5895,7 +5895,7 @@ textarea.form-control-lg {
   background-color: var(--bs-modal-bg);
   background-clip: padding-box;
   border: var(--bs-modal-border-width) solid var(--bs-modal-border-color);
-  border-radius: var(--bs-modal-border-radius);
+  /* border-radius: var(--bs-modal-border-radius); */
   outline: 0;
 }
 
@@ -9468,7 +9468,7 @@ textarea.form-control-lg {
 }
 
 .text-sm {
-  font-size: 0.7875rem !important;
+  font-size: 0.9000rem !important;
 }
 
 .text-base {
@@ -18778,3 +18778,19 @@ STYLE SWITCHER FOR DEMO
 #style-switch h4, #style-switch .h4 {
   color: #495057;
 }
+
+.modal-dialog {
+  position: fixed;
+  margin: auto;
+  width: 50%;
+  height: 100%;
+  right: 0px;
+  border-radius: 0%;
+  overflow: auto;
+  background-color: white;
+
+}
+.modal-content {
+  height: 100%;
+}
+

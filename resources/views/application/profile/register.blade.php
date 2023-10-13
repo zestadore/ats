@@ -4,6 +4,19 @@
 @endsection
 @section('style')
     {{-- <link rel="stylesheet" href="{{asset('assets/css/intlTelInput.css')}}"> --}}
+    <style>
+        /* Chrome, Safari, Edge, Opera */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+        }
+
+        /* Firefox */
+        input[type=number] {
+        -moz-appearance: textfield;
+        }
+    </style>
 @endsection
 @section('content')
     <div class="page-holder align-items-center py-4 bg-gray-100 vh-100" style="background:#d9eefd !important;">
@@ -19,7 +32,7 @@
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                     <h3 class="mb-4">Hi, welcome! 👋👋</h3>
                                     {{-- <div style="text-align: center;"><img class="img-fluid mb-4" width="20%" src="{{asset('uploads/site_logo/'.env('SITE_LOGO',''))}}" alt=""></div> --}}
-                                    <p class="text-muted text-sm mb-5">Welcome to Amnext's Application Tracking System (ATS). Please enter your login credentials below to access your account.</p>
+                                    <p class="text-muted text-sm">Welcome to Ezisaas Application Tracking System (ATS). <br>Please enter your login credentials below to access your account.</p>
                                     <form id="loginForm" action="{{ route('company-signup.register') }}" method="post">@csrf
                                         <x-forms.input class="form-control {{ $errors->has('first_name') ? ' is-invalid' : '' }}" title="First name " name="first_name" id="first_name" type="text" required="True"/>
                                         <x-forms.input class="form-control {{ $errors->has('last_name') ? ' is-invalid' : '' }}" title="Last name" name="last_name" id="last_name" type="text" required="False"/>
