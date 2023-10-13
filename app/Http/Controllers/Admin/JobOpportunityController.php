@@ -53,7 +53,10 @@ class JobOpportunityController extends Controller
                 ->escapeColumns('aaData')
                 ->make(true);
         }
-        return view('backend.job_opportunities.index');
+        $clients=Client::get();
+        $accountManagers=User::where('role','account_manager')->get();
+        $recruiters=User::where('role','recruiter')->get();
+        return view('backend.job_opportunities.index',['clients'=>$clients,'accountManagers'=>$accountManagers,'recruiters'=>$recruiters]);
     }
 
     public function create()
@@ -70,18 +73,30 @@ class JobOpportunityController extends Controller
         if(!$request->status){
             $res=JobOpportunity::where('id',$res)->update(['status'=>0]);
         }
-        if($res){
-            return redirect()->route('admin.job-opportunities.index')->with('success', 'Successfully updated the data.');
+        if($request->ajax()){
+            if($res){
+                return response()->json(['success'=>true]);
+            }else{
+                return response()->json(['success'=>false]);
+            }
         }else{
-            return redirect()->route('admin.job-opportunities.index')->with('error', 'Failed to update the data. Please try again.');
+            if($res){
+                return redirect()->route('admin.job-opportunities.index')->with('success', 'Successfully updated the data.');
+            }else{
+                return redirect()->route('admin.job-opportunities.index')->with('error', 'Failed to update the data. Please try again.');
+            }
         }
     }
 
     public function show($id)
     {
         $res=JobOpportunity::with(['client','endClient'])->find(Crypt::decrypt($id));
+        $clients=Client::get();
+        $endClients=EndClient::where('client_id',$res->client_id)->get();
+        $accountManagers=User::where('role','account_manager')->get();
+        $recruiters=User::where('role','recruiter')->get();
         if($res){
-            return response()->json(['success'=>true,'data'=>$res]);
+            return response()->json(['success'=>true,'data'=>$res,'clients'=>$clients,'endClients'=>$endClients,'accountManagers'=>$accountManagers,'recruiters'=>$recruiters]);
         }else{
             return response()->json(['success'=>false,'data'=>Null]);
         }
@@ -98,18 +113,32 @@ class JobOpportunityController extends Controller
         return view('backend.job_opportunities.edit',['data'=>$data,'clients'=>$clients,'endClients'=>$endClients,'accountManagers'=>$accountManagers,'recruiters'=>$recruiters]);
     }
 
-    public function update(Request $request, $id)
+    public function update(ValidateJobOpportunity $request, $id)
     {
         $id=Crypt::decrypt($id);
         $data=JobOpportunity::findOrFail($id);
+        if(!$request->job_owner){
+            $request->request->add(['job_owner'=> Null]);
+        }
+        if(!$request->assign_recruiter){
+            $request->request->add(['assign_recruiter'=> Null]);
+        }
         $res=$data->update($request->except(['_token','files']));
         if(!$request->status){
             $res=$data->update(['status'=>0]);
         }
-        if($res){
-            return redirect()->route('admin.job-opportunities.index')->with('success', 'Successfully updated the data.');
+        if($request->ajax()){
+            if($res){
+                return response()->json(['success'=>true]);
+            }else{
+                return response()->json(['success'=>false]);
+            }
         }else{
-            return redirect()->back()->route('admin.job-opportunities.index')->with('error', 'Failed to update the data. Please try again.');
+            if($res){
+                return redirect()->route('admin.job-opportunities.index')->with('success', 'Successfully updated the data.');
+            }else{
+                return redirect()->route('admin.job-opportunities.index')->with('error', 'Failed to update the data. Please try again.');
+            }
         }
     }
 

@@ -59,7 +59,9 @@ class InterviewController extends Controller
                 ->addColumn('action', 'backend.interviews.action')
                 ->make(true);
         }
-        return view('backend.interviews.index');
+        $clients=Client::get();
+        $users=User::whereNot('role', 'super_admin')->get();
+        return view('backend.interviews.index',['clients'=>$clients,'users'=>$users]);
     }
 
     public function create()
@@ -76,10 +78,18 @@ class InterviewController extends Controller
         if($request->file('attachments')){
             $this->uploadAttachments($res->id,$request->file('attachments'));
         }
-        if($res){
-            return redirect()->route('admin.interviews.index')->with('success', 'Successfully updated the data.');
+        if($request->ajax()){
+            if($res){
+                return response()->json(['success'=>true]);
+            }else{
+                return response()->json(['success'=>false]);
+            }
         }else{
-            return redirect()->route('admin.interviews.index')->with('error', 'Failed to update the data. Please try again.');
+            if($res){
+                return redirect()->route('admin.interviews.index')->with('success', 'Successfully updated the data.');
+            }else{
+                return redirect()->route('admin.interviews.index')->with('error', 'Failed to update the data. Please try again.');
+            }
         }
     }
 
@@ -109,14 +119,25 @@ class InterviewController extends Controller
     {
         $id=Crypt::decrypt($id);
         $data=Interview::findOrFail($id);
+        if(!$request->interviewers_id){
+            $request->request->add(['interviewers_id'=>Null]);
+        }
         $res=$data->update($request->except(['_token','attachments']));
         if($request->file('attachments')){
             $this->uploadAttachments($id,$request->file('attachments'));
         }
-        if($res){
-            return redirect()->route('admin.interviews.index')->with('success', 'Successfully updated the data.');
+        if($request->ajax()){
+            if($res){
+                return response()->json(['success'=>true]);
+            }else{
+                return response()->json(['success'=>false]);
+            }
         }else{
-            return redirect()->route('admin.interviews.index')->with('error', 'Failed to update the data. Please try again.');
+            if($res){
+                return redirect()->route('admin.interviews.index')->with('success', 'Successfully updated the data.');
+            }else{
+                return redirect()->route('admin.interviews.index')->with('error', 'Failed to update the data. Please try again.');
+            }
         }
     }
 

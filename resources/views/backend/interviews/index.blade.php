@@ -1,6 +1,8 @@
 @extends('layouts.app')
 @section('styles')
     <link href="{{asset('assets/css/datatable/css/dataTables.bootstrap5.min.css')}}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
 @endsection
 @section('title')
     ATS - Interviews
@@ -20,7 +22,8 @@
                     </nav>
                 </div>
                 <div class="ms-auto">
-                    <a href="{{route('admin.interviews.create')}}" class="btn btn-primary">Add New</a>
+                    <button class="btn btn-primary" type="button" onclick="addNew()">Add New</button>
+                    {{-- <a href="{{route('admin.interviews.create')}}" class="btn btn-primary">Add New</a> --}}
                 </div>
             </div>
             @if (session('error'))
@@ -80,11 +83,186 @@
             </div>
         </div>
     </div>
+    <!-- Modal -->
+    <div class="modal fade" id="addNewModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{route('admin.interviews.store')}}" id="jQueryValidationForm" method="POST" enctype="multipart/form-data">@csrf
+                        <div class="row g-3">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <label class="form-label" for="interview_name">Interview name</label><span style="color:red;">*</span>
+                                <select name="interview_name" id="interview_name" class="form-select mb-3" required>
+                                    <option value="">Select a role</option>
+                                    <option value="internal_interview">Internal Interview</option>
+                                    <option value="general_interview">General Interview</option>
+                                    <option value="online_interview">Online Interview</option>
+                                    <option value="phone_interview">Phone Interview</option>
+                                    <option value="level1_interview">Level 1 Interview</option>
+                                    <option value="level2_interview">Level 2 Interview</option>
+                                    <option value="level3_interview">Level 3 Interview</option>
+                                    <option value="level4_interview">Level 4 Interview</option>
+                                </select>
+                                @error('interview_name')
+                                    <span class="error mt-2 text-danger" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <label class="form-label" for="candidate_id">Legal name <span style="color:red;"> *</span></label>
+                                <select name="candidate_id" id="candidate_id" class="form-select mb-3" required style="width: 100%;">
+                                    <option value="">Select candidate</option>
+                                </select>
+                                @error('candidate_id')
+                                    <span class="error mt-2 text-danger" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div><p> </p>
+                        <div class="row g-3">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <label class="form-label" for="client_id">Client <span style="color:red;"> *</span></label>
+                                <select name="client_id" id="client_id" class="form-select mb-3" required>
+                                    <option value="">Select a client</option>
+                                    @foreach ($clients as $item)
+                                        <option value="{{$item->id}}">{{$item->client_name}}</option>
+                                    @endforeach
+                                </select>
+                                @error('client_id')
+                                    <span class="error mt-2 text-danger" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <label class="form-label" for="job_opportunity_id">Job title <span style="color:red;"> *</span></label>
+                                <select name="job_opportunity_id" id="job_opportunity_id" class="form-select mb-3" required>
+                                    <option value="">Select Job Opportunity</option>
+                                    {{-- @foreach ($opportunities as $item)
+                                        <option value="{{$item->id}}">{{$item->title}}</option>
+                                    @endforeach --}}
+                                </select>
+                                @error('job_opportunity_id')
+                                    <span class="error mt-2 text-danger" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div><p> </p>
+                        <div class="row g-3">
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                <label class="form-label" for="from_date">From <span style="color:red;"> *</span></label>
+                                <input type="datetime-local" name="from_date" id="from_date" class="form-control mb-3" required>
+                                @error('from_date')
+                                    <span class="error mt-2 text-danger" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                <label class="form-label" for="to_date">To <span style="color:red;"> *</span></label>
+                                <input type="datetime-local" name="to_date" id="to_date" class="form-control mb-3" required>
+                                @error('to_date')
+                                    <span class="error mt-2 text-danger" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                <label class="form-label" for="time_zone">Time zone </label>
+                                <select name="time_zone" id="time_zone" class="form-select mb-3">
+                                    <option value="">Select time zone</option>
+                                    @foreach (timezone_identifiers_list() as $item)
+                                        <option value="{{$item}}">{{$item}}</option>
+                                    @endforeach
+                                </select>
+                                @error('time_zone')
+                                    <span class="error mt-2 text-danger" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div><p> </p>
+                        <div class="row g-3">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-4">
+                                <label class="form-label" for="interviewers_id">Interviewer(s) </label>
+                                <select name="interviewers_id[]" id="interviewers_id" class="form-select" data-placeholder="Select interviewer(s)" multiple style="width: 100%;">
+                                    @foreach ($clients as $item)
+                                        <option value="{{$item->id}}">{{$item->client_name}}</option>
+                                    @endforeach
+                                </select>
+                                @error('interviewers_id')
+                                    <span class="error mt-2 text-danger" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <label class="form-label" for="interview_owner_id">Interview owner </label>
+                                <select name="interview_owner_id" id="interview_owner_id" class="form-select mb-3">
+                                    <option value="">Select interview owner</option>
+                                    @foreach ($users as $item)
+                                        <option value="{{$item->id}}">{{$item->first_name}} {{$item->last_name}}</option>
+                                    @endforeach
+                                </select>
+                                @error('interview_owner_id')
+                                    <span class="error mt-2 text-danger" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div><p> </p>
+                        <div class="row g-3">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <x-forms.input class="form-control {{ $errors->has('location') ? ' is-invalid' : '' }}" title="Location" name="location" id="location" type="text" required="False"/>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <x-forms.input class="form-control {{ $errors->has('assesment_name') ? ' is-invalid' : '' }}" title="Assesment name" name="assesment_name" id="assesment_name" type="text" required="False"/>
+                            </div>
+                        </div><p> </p>
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <label class="form-label" for="attachments">Attachments(.docx / .pdf / .jpg) </label>
+                                <div class="input-group">
+                                    <div class="custom-file">
+                                        <input type="file" class="form-control" id="attachments" name="attachments[]" style="width:100% !important;" multiple>
+                                    </div>
+                                </div>
+                                @error("attachments")
+                                    <span class="error mt-2 text-danger" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div><p> </p>
+                        <x-forms.input class="form-control {{ $errors->has('comments') ? ' is-invalid' : '' }}" title="Comments" name="comments" id="comments" type="textarea" required="False"/>
+                        <p> </p>
+                        {{-- <div class="btn-group" role="group" aria-label="Basic example" style="float: right;">
+                            <a href="{{route('admin.interviews.index')}}" class="btn btn-secondary">Cancel</a>
+                            <button type="submit" class="btn btn-primary" style="float:right;">Submit</button>
+                        </div> --}}
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="addNewButton" data-id="0">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 @section('javascripts')
     <script src="{{asset('assets/css/datatable/js/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('assets/css/datatable/js/dataTables.bootstrap5.min.js')}}"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="{{asset('assets/js/jquery.validate.min.js')}}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
         function drawTable()
         {
@@ -162,11 +340,132 @@
         }
         drawTable();
 
-        function editData(id){
-            var url="{{route('admin.interviews.edit','ID')}}";
-            url=url.replace('ID',id);
-            window.location.href=url;
+        $('#candidate_id').select2({
+            dropdownParent: $("#addNewModal  .modal-content"),
+            minimumInputLength: 3,
+            ajax: {
+                url: getUrl(),
+                dataType: 'json',
+            },
+        });
+
+        function getUrl(){
+            var search=$('#candidate_id').val();
+            var url="{{route('admin.get-candidates-list','SEARCH')}}";
+            url=url.replace('SEARCH',search);
+            return url;
         }
+
+        $('#interviewers_id').select2({
+            dropdownParent: $("#addNewModal  .modal-content")
+        });
+
+        $('#client_id').change(function(){
+            var id = $(this).val();
+            var list = $("#job_opportunity_id");
+            var url="{{route('admin.get-client-job-opportunity','ID')}}";
+            url=url.replace('ID',id);
+            list.empty();
+            $.ajax({
+                url: url,
+                type:"get",
+                success:function(response){
+                    list.append(new Option("Select job opportunity", ""));
+                    $.each(response, function(index, item) {
+                        list.append($('<option/>', {
+                            value: item.id,
+                            text: item.title,
+                        }));
+                    });
+                },
+            });
+        });
+
+        function editData(id){
+            $('#addNewButton').attr("data-id",id);
+            var url="{{route('admin.interviews.show','ID')}}";
+            url=url.replace('ID',id);
+            $.ajax({
+                url: url,
+                type:"get",
+                success:function(response){
+                    if(response.success==true){
+                        // $('#candidate_id').val('').trigger('change');
+                        $('#candidate_id').empty();
+                        $('#candidate_id').append($('<option>', {
+                            value: response.data.candidate.id,
+                            text: response.data.candidate.candidate_name
+                        }));
+                        $('#job_opportunity_id').empty();
+                        $('#job_opportunity_id').append($('<option>', {
+                            value: response.data.job_opportunity.id,
+                            text: response.data.job_opportunity.title
+                        }));
+                        $('#interview_name').val(response.data.interview_name);
+                        $('#candidate_id').val(response.data.candidate_id);
+                        $('#client_id').val(response.data.client_id);
+                        $('#job_opportunity_id').val(response.data.job_opportunity_id);
+                        $('#from_date').val(response.data.from_date);
+                        $('#to_date').val(response.data.to_date);
+                        $('#interview_owner_id').val(response.data.interview_owner_id);
+                        $('#interviewers_id').val(response.data.interviewers_id).trigger('change');
+                        $('#location').val(response.data.location);
+                        $('#assesment_name').val(response.data.assesment_name);
+                        $('#comments').val(response.data.comments);
+                        $('#time_zone').val(response.data.time_zone);
+                        $('#addNewModal').modal('show');
+                    }else{
+                        swal("Oops!", "Failed to fetch the data!", "error");
+                    }
+                },
+            });
+            // var url="{{route('admin.interviews.edit','ID')}}";
+            // url=url.replace('ID',id);
+            // window.location.href=url;
+        }
+
+        function addNew(){
+            //clear the form
+            $('#jQueryValidationForm')[0].reset();
+            $('#addNewButton').attr('data-id','0');
+            $('#addNewModal').modal('show');
+        }
+
+        $('#addNewButton').click(function(){
+            if($('#jQueryValidationForm').valid()){
+                var id=$('#addNewButton').attr('data-id');
+                var formData = new FormData($('#jQueryValidationForm')[0]);
+                if(id==0){
+                    var url="{{route('admin.interviews.store')}}";
+                    var method="post";
+                }else{
+                    var url="{{route('admin.interviews.update','ID')}}";
+                    url=url.replace('ID',id);
+                    var method="post";
+                    formData.append('_method', 'put');
+                }
+                //submit form via ajax
+                $.ajax({
+                    url:url,
+                    "headers": {"X-Requested-With":'XMLHttpRequest'},
+                    method:method,
+                    processData: false,
+                    contentType: false,
+                    data:formData,
+                    success:function(response){
+                        console.log(response);
+                        if(response.success==true){
+                            swal("Good job!", "Data added successfully", "success");
+                            $('#addNewModal').modal('hide');
+                            $('#jQueryValidationForm')[0].reset();
+                            drawTable();
+                        }else{
+                            swal("Oops!", "Failed to add the data!", "error");
+                        }
+                    }
+                });
+            }
+        });
 
         function deleteData(id)
         {

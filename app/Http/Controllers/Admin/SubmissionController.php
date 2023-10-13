@@ -41,7 +41,7 @@ class SubmissionController extends Controller
                 })
                 ->addColumn('job_opportunity', function($data) {
                     if($data->job_title_id){
-                        return $data->jobOpportunity->title;
+                        return $data->jobOpportunity?->title;
                     }else{
                         return Null;
                     }
@@ -49,7 +49,11 @@ class SubmissionController extends Controller
                 ->addColumn('action', 'backend.job_submissions.action')
                 ->make(true);
         }
-        return view('backend.job_submissions.index');
+        $opportunities=JobOpportunity::get();
+        $candidates=Candidate::take(100)->get();
+        $renderHtml=view('backend.candidates.add_more')->render();
+        $renderHtml = preg_replace("/[\r\n]*/","",$renderHtml);
+        return view('backend.job_submissions.index',['opportunities'=>$opportunities,'candidates'=>$candidates,'renderHtml'=>$renderHtml]);
     }
 
     public function create()
@@ -79,36 +83,46 @@ class SubmissionController extends Controller
             }
         }
         if ($res) {
-            $x = count($request->attachment_name);
-            $data = [];
-            $allowedfileExtension = ['pdf', 'jpg', 'png', 'PNG'];
-            for ($i = 0; $i < $x; $i++) {
-                if ($request->attachment_name[$i] != null && $request->file('attachment')[$i]) {
-                    $file = $request->file('attachment')[$i];
-                    $filename = $file->getClientOriginalName();
-                    $extension = $file->getClientOriginalExtension();
-                    $check = in_array($extension, $allowedfileExtension);
-                    if ($check) {
-                        $filename = date('YmdHi') . mt_rand(10, 100) . $file->getClientOriginalName();
-                        $file->move(public_path('uploads/attachments'), $filename);
-                        $data[] = [
-                            'reference_id' => $res,
-                            'reference_type' => 'submission',
-                            'attachment' => $filename,
-                            'description' => $request->attachment_name[$i],
-                            'created_at' => now(),
-                        ];
+            if($request->attachment_name){
+                $x = count($request->attachment_name);
+                $data = [];
+                $allowedfileExtension = ['pdf', 'jpg', 'png', 'PNG'];
+                for ($i = 0; $i < $x; $i++) {
+                    if ($request->attachment_name[$i] != null && $request->file('attachment')[$i]) {
+                        $file = $request->file('attachment')[$i];
+                        $filename = $file->getClientOriginalName();
+                        $extension = $file->getClientOriginalExtension();
+                        $check = in_array($extension, $allowedfileExtension);
+                        if ($check) {
+                            $filename = date('YmdHi') . mt_rand(10, 100) . $file->getClientOriginalName();
+                            $file->move(public_path('uploads/attachments'), $filename);
+                            $data[] = [
+                                'reference_id' => $res,
+                                'reference_type' => 'submission',
+                                'attachment' => $filename,
+                                'description' => $request->attachment_name[$i],
+                                'created_at' => now(),
+                            ];
+                        }
                     }
                 }
-            }
-            if (count($data) > 0) {
-                $res = AdditionalAttachment::insert($data);
+                if (count($data) > 0) {
+                    $res = AdditionalAttachment::insert($data);
+                }
             }
         }
-        if($res){
-            return redirect()->route('admin.job-submissions.index')->with('success', 'Successfully updated the data.');
+        if($request->ajax()){
+            if($res){
+                return response()->json(['success'=>true]);
+            }else{
+                return response()->json(['success'=>false]);
+            }
         }else{
-            return redirect()->route('admin.job-submissions.index')->with('error', 'Failed to update the data. Please try again.');
+            if($res){
+                return redirect()->route('admin.job-submissions.index')->with('success', 'Successfully updated the data.');
+            }else{
+                return redirect()->route('admin.job-submissions.index')->with('error', 'Failed to update the data. Please try again.');
+            }
         }
     }
 
@@ -156,36 +170,46 @@ class SubmissionController extends Controller
             }
         }
         if ($res) {
-            $x = count($request->attachment_name);
-            $data = [];
-            $allowedfileExtension = ['pdf', 'jpg', 'png', 'PNG'];
-            for ($i = 0; $i < $x; $i++) {
-                if ($request->attachment_name[$i] != null && $request->file('attachment')[$i]) {
-                    $file = $request->file('attachment')[$i];
-                    $filename = $file->getClientOriginalName();
-                    $extension = $file->getClientOriginalExtension();
-                    $check = in_array($extension, $allowedfileExtension);
-                    if ($check) {
-                        $filename = date('YmdHi') . mt_rand(10, 100) . $file->getClientOriginalName();
-                        $file->move(public_path('uploads/attachments'), $filename);
-                        $data[] = [
-                            'reference_id' => $id,
-                            'reference_type' => 'submission',
-                            'attachment' => $filename,
-                            'description' => $request->attachment_name[$i],
-                            'created_at' => now(),
-                        ];
+            if($request->attachment_name){
+                $x = count($request->attachment_name);
+                $data = [];
+                $allowedfileExtension = ['pdf', 'jpg', 'png', 'PNG'];
+                for ($i = 0; $i < $x; $i++) {
+                    if ($request->attachment_name[$i] != null && $request->file('attachment')[$i]) {
+                        $file = $request->file('attachment')[$i];
+                        $filename = $file->getClientOriginalName();
+                        $extension = $file->getClientOriginalExtension();
+                        $check = in_array($extension, $allowedfileExtension);
+                        if ($check) {
+                            $filename = date('YmdHi') . mt_rand(10, 100) . $file->getClientOriginalName();
+                            $file->move(public_path('uploads/attachments'), $filename);
+                            $data[] = [
+                                'reference_id' => $id,
+                                'reference_type' => 'submission',
+                                'attachment' => $filename,
+                                'description' => $request->attachment_name[$i],
+                                'created_at' => now(),
+                            ];
+                        }
                     }
                 }
-            }
-            if (count($data) > 0) {
-                $res = AdditionalAttachment::insert($data);
+                if (count($data) > 0) {
+                    $res = AdditionalAttachment::insert($data);
+                }
             }
         }
-        if($res){
-            return redirect()->route('admin.job-submissions.index')->with('success', 'Successfully updated the data.');
+        if($request->ajax()){
+            if($res){
+                return response()->json(['success'=>true]);
+            }else{
+                return response()->json(['success'=>false]);
+            }
         }else{
-            return redirect()->route('admin.job-submissions.index')->with('error', 'Failed to update the data. Please try again.');
+            if($res){
+                return redirect()->route('admin.job-submissions.index')->with('success', 'Successfully updated the data.');
+            }else{
+                return redirect()->route('admin.job-submissions.index')->with('error', 'Failed to update the data. Please try again.');
+            }
         }
     }
 

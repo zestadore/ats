@@ -213,6 +213,7 @@
                         </div><p> </p>
                         <h6>Additional attachments</h6>
                         <hr>
+                        <div id="listAdditionalAttachments"></div>
                         <table class="table table-striped">
                             <thead>
                                 <tr>
@@ -340,9 +341,62 @@
         drawTable();
 
         function editData(id){
-            var url="{{route('admin.candidates.edit','ID')}}";
+            $('#addNewButton').attr("data-id",id);
+            var url="{{route('admin.candidates.show','ID')}}";
             url=url.replace('ID',id);
-            window.location.href=url;
+            $.ajax({
+                url: url,
+                type:"get",
+                success:function(response){
+                    if(response.success==true){
+                        $('#jQueryValidationForm')[0].reset();
+                        var atts=response.data.additional_attachments;
+                        var html2="<table class='table table-striped table-bordered'>";
+                        if(atts.length>0){
+                            html2+="<tr>";
+                            html2+="<td colspan='2'>Additional Attachments</td>";
+                            html2+="</tr>";
+                            $.each(atts, function( index, value ) {
+                                html2+="<tr>";
+                                html2+="<td>"+value.description+"</td>";
+                                html2+="<td><a href='#' onclick='deleteAttachment("+value.id+")'><i class='fadeIn animated fa fas fa-trash-alt'></i></a></td>";
+                                html2+="</tr>";
+                            });
+                        }
+                        html2+="</table>";
+                        $('#listAdditionalAttachments').html(html2);
+                        $('#candidate_name').val(response.data.candidate_name);
+                        $('#email').val(response.data.email);
+                        $('#contact').val(response.data.contact);
+                        $('#location').val(response.data.location);
+                        $('#skills').val(response.data.skills);
+                        $('#key_skills').val(response.data.key_skills);
+                        $('#linked_in').val(response.data.linked_in);
+                        $('#visa_status').val(response.data.visa_status);
+                        $('#candidate_type').val(response.data.candidate_type);
+                        $('#job_tag').val(response.data.job_tag);
+                        $('#job_title').val(response.data.job_title);
+                        $('#notes').val(response.data.notes);
+                        var employerDetails=response.data.employer_details;
+                        if(employerDetails==0){
+                            $("#employer_details").prop('checked', false);
+                            $('#employerSection').hide();
+                        }else{
+                            $("#employer_details").prop('checked', true);
+                            $('#employer_name').val(response.data.employer_name);
+                            $('#employer_contact').val(response.data.employer_contact);
+                            $('#employer_email').val(response.data.employer_email);
+                            $('#employerSection').show();
+                        }
+                        $('#addNewModal').modal('show');
+                    }else{
+                        swal("Oops!", "Failed to fetch the data!", "error");
+                    }
+                },
+            });
+            // var url="{{route('admin.candidates.edit','ID')}}";
+            // url=url.replace('ID',id);
+            // window.location.href=url;
         }
 
         function deleteData(id)
@@ -523,6 +577,7 @@
             $('#jQueryValidationForm')[0].reset();
             $('#addNewButton').attr('data-id','0');
             $('#wrapperRows').html('');
+            $('#listAdditionalAttachments').html('');
             addRow();
             $('#addNewModal').modal('show');
         }
@@ -530,17 +585,18 @@
         $('#addNewButton').click(function(){
             if($('#jQueryValidationForm').valid()){
                 var id=$('#addNewButton').attr('data-id');
+                var form = $('#jQueryValidationForm')[0];
+                var formData = new FormData(form);
                 if(id==0){
                     var url="{{route('admin.candidates.store')}}";
                     var method="post";
                 }else{
                     var url="{{route('admin.candidates.update','ID')}}";
                     url=url.replace('ID',id);
-                    var method="put";
+                    var method="post";
+                    formData.append('_method', 'put');
                 }
                 //submit form via ajax
-                var form = $('#jQueryValidationForm')[0];
-                var formData = new FormData(form);
                 $.ajax({
                     url:url,
                     "headers": {"X-Requested-With":'XMLHttpRequest'},
@@ -562,6 +618,37 @@
                 });
             }
         });
+
+        function deleteAttachment(id){
+            var viewId=$('#addNewButton').attr('data-id');
+            swal({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                buttons: true,
+                dangerMode: true,
+            }).then((result) => {
+                if (result) {
+                    var url="{{route('admin.delete-additional-attachment','ID')}}";
+                    url=url.replace('ID',id);
+                    $.ajax({
+                        url: url,
+                        type:"delete",
+                        data:{
+                            "_token": "{{ csrf_token() }}",
+                        },
+                        success:function(response){
+                            if(response.success){
+                                swal("Good job!", response.success, "success");
+                                editData(viewId);
+                            }else{
+                                swal("Oops!", "Failed to delete the attachment", "error");
+                            }
+                        },
+                    });
+                }
+            });
+        }
 
     </script>
 @endsection

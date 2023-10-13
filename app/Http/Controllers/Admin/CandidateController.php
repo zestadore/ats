@@ -91,30 +91,32 @@ class CandidateController extends Controller
             }
         }
         if ($res) {
-            $x = count($request->attachment_name);
-            $data = [];
-            $allowedfileExtension = ['pdf', 'jpg', 'png', 'PNG'];
-            for ($i = 0; $i < $x; $i++) {
-                if ($request->attachment_name[$i] != null && $request->file('attachment')[$i]) {
-                    $file = $request->file('attachment')[$i];
-                    $filename = $file->getClientOriginalName();
-                    $extension = $file->getClientOriginalExtension();
-                    $check = in_array($extension, $allowedfileExtension);
-                    if ($check) {
-                        $filename = date('YmdHi') . mt_rand(10, 100) . $file->getClientOriginalName();
-                        $file->move(public_path('uploads/attachments'), $filename);
-                        $data[] = [
-                            'reference_id' => $res,
-                            'reference_type' => 'candidate',
-                            'attachment' => $filename,
-                            'description' => $request->attachment_name[$i],
-                            'created_at' => now(),
-                        ];
+            if($request->attachment_name){
+                $x = count($request->attachment_name);
+                $data = [];
+                $allowedfileExtension = ['pdf', 'jpg', 'png', 'PNG'];
+                for ($i = 0; $i < $x; $i++) {
+                    if ($request->attachment_name[$i] != null && $request->file('attachment')[$i]) {
+                        $file = $request->file('attachment')[$i];
+                        $filename = $file->getClientOriginalName();
+                        $extension = $file->getClientOriginalExtension();
+                        $check = in_array($extension, $allowedfileExtension);
+                        if ($check) {
+                            $filename = date('YmdHi') . mt_rand(10, 100) . $file->getClientOriginalName();
+                            $file->move(public_path('uploads/attachments'), $filename);
+                            $data[] = [
+                                'reference_id' => $res,
+                                'reference_type' => 'candidate',
+                                'attachment' => $filename,
+                                'description' => $request->attachment_name[$i],
+                                'created_at' => now(),
+                            ];
+                        }
                     }
                 }
-            }
-            if (count($data) > 0) {
-                $res = AdditionalAttachment::insert($data);
+                if (count($data) > 0) {
+                    $res = AdditionalAttachment::insert($data);
+                }
             }
         }
         if($request->ajax()){
@@ -208,10 +210,18 @@ class CandidateController extends Controller
                 $res = AdditionalAttachment::insert($data);
             }
         }
-        if($res){
-            return redirect()->route('admin.candidates.index')->with('success', 'Successfully updated the data.');
+        if($request->ajax()){
+            if($res){
+                return response()->json(['success'=>true]);
+            }else{
+                return response()->json(['success'=>false]);
+            }
         }else{
-            return redirect()->route('admin.candidates.index')->with('error', 'Failed to update the data. Please try again.');
+            if($res){
+                return redirect()->route('admin.candidates.index')->with('success', 'Successfully updated the data.');
+            }else{
+                return redirect()->route('admin.candidates.index')->with('error', 'Failed to update the data. Please try again.');
+            }
         }
     }
 
@@ -241,7 +251,10 @@ class CandidateController extends Controller
 
     public function deleteAttachment($id)
     {
-        $id=Crypt::decrypt($id);
+        $encryptionStatus = $this->isEncrypted($id);
+        if($encryptionStatus === true){
+            $id=Crypt::decrypt($id);
+        }
         $attachment=AdditionalAttachment::findOrFail($id);
         $res=$attachment->delete();
         if($res){
@@ -372,6 +385,23 @@ class CandidateController extends Controller
         $name=date('YmdHi').'.pdf';
         $PDFWriter->save(public_path('uploads/resumes/'.$name)); 
         return $name;
+    }
+
+    protected function isEncrypted(string $encryptedString){
+ 
+        try{
+ 
+            $plainString    = Crypt::decryptString($encryptedString);
+            return true;
+ 
+        }catch(\Illuminate\Contracts\Encryption\DecryptException $ex){
+             
+           //DecryptException thrown by laravel, so we can assume this text is already encrypted.
+            return -1;
+ 
+        }
+ 
+        return false;
     }
 
 }
