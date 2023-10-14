@@ -1,6 +1,6 @@
 <div class="sidebar py-3" id="sidebar">
     <ul class="list-unstyled">
-          <li class="sidebar-list-item"><a class="sidebar-link text-muted {{ (request()->is('admin/dashboard'))? 'active' : '' }}" href="{{route('admin.dashboard')}}"><i class="fa fa-tasks" style="font-size:15px;padding:5px;"></i>&nbsp;Dashboard</a></li>
+          <li class="sidebar-list-item"><a class="sidebar-link text-muted {{ (request()->is('admin/dashboard'))? 'active' : '' }}" href="{{route('admin.dashboard')}}"><i class="fa fa-tasks" style="font-size:13px;padding:2px;"></i>&nbsp;Dashboard</a></li>
           @canany(['isAdmin'])
             <li class="sidebar-list-item"><a class="sidebar-link text-muted {{ (request()->is('admin/site-settings*')|| request()->is('admin/mail-settings*')|| request()->is('admin/pricing-plans/*')|| request()->is('admin/companies*'))? 'active' : '' }}" href="#" data-bs-target="#saasDropdown" role="button" aria-expanded="true" data-bs-toggle="collapse"> 
               <img src="{{asset('assets/icons/saas.png')}}" class="img-fluid" width="15px" alt="">&nbsp;<span class="sidebar-link-title">&nbsp;SaaS </span></a>
