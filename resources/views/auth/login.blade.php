@@ -10,7 +10,7 @@
                     
                     <div class="card ">
                         <div class="card-header px-lg-5">
-                            <div class="card-heading text-primary" style="text-align:center;">Amnext - ATS</div>
+                            <div class="card-heading text-primary" style="text-align:center;"><img src="{{asset('assets/img/ezizaas_logo.png')}}" alt="" class="img-responsive"></div>
                         </div>
                         <div class="card-body p-lg-5">
                             @if (session('error'))
@@ -27,7 +27,7 @@
                             @endif
                             <div class="row gx-5">
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                    <h3 class="mb-4">Hi, welcome back! 👋👋</h3>
+                                    <h3 class="mb-4">Hi, Welcome Back! 👋👋</h3>
                                     {{-- <div style="text-align: center;"><img class="img-fluid mb-4" width="20%" src="{{asset('uploads/site_logo/'.env('SITE_LOGO',''))}}" alt=""></div> --}}
                                     <p class="text-muted text-sm ">Welcome to Ezisaas Application Tracking System (ATS). <br>Please enter your login credentials below to access your account.</p>
                                     <form id="loginForm" action="{{ route('login') }}" method="post">

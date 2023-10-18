@@ -16,6 +16,9 @@
         input[type=number] {
         -moz-appearance: textfield;
         }
+
+        
+
     </style>
 @endsection
 @section('content')
@@ -25,12 +28,12 @@
                 <div class="h-100 d-flex align-items-center justify-content-center">
                     <div class="card ">
                         <div class="card-header px-lg-5">
-                            <div class="card-heading text-primary" style="text-align:center;">Amnext - ATS</div>
+                            <div class="card-heading text-primary" style="text-align:center;"><img src="{{asset('assets/img/ezizaas_logo.png')}}" alt="" class="img-responsive"></div>
                         </div>
                         <div class="card-body p-lg-5">
                             <div class="row gx-5">
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                    <h3 class="mb-4">Hi, welcome! 👋👋</h3>
+                                    <h3 class="mb-4">Hi, Welcome! 👋👋</h3>
                                     {{-- <div style="text-align: center;"><img class="img-fluid mb-4" width="20%" src="{{asset('uploads/site_logo/'.env('SITE_LOGO',''))}}" alt=""></div> --}}
                                     <p class="text-muted text-sm">Welcome to Ezisaas Application Tracking System (ATS). <br>Please enter your login credentials below to access your account.</p>
                                     <form id="loginForm" action="{{ route('company-signup.register') }}" method="post">@csrf
@@ -72,7 +75,7 @@
                                         <x-forms.input class="form-control {{ $errors->has('company_name') ? ' is-invalid' : '' }}" title="Company name " name="company_name" id="company_name" type="text" required="True"/>
                                         <div class="row">
                                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                                <div class="input-group">
+                                                <div class="input-group" style="height: calc(3.5rem + 2px);box-shadow: 3px 3px 3px #ced4da;">
                                                     {{-- <input type="button" value="-" class="button-minus" data-field="quantity"> --}}
                                                     <button class="btn btn-secondary" type="button" style="height: calc(3.5rem + 2px);" onclick="getUserCount('minus')">-</button>
                                                     <x-forms.input class="form-control {{ $errors->has('estimated_users') ? ' is-invalid' : '' }}" title="Estimated users " name="estimated_users" id="estimated_users" type="number" required="True"/>
@@ -84,10 +87,13 @@
                                             </div>
                                         </div><p> </p>
                                         <x-forms.input class="form-control {{ $errors->has('address') ? ' is-invalid' : '' }}" title="Address" name="address" id="address" type="textarea" required="False"/>
+                                        <div class="form-check mb-3">
+                                            <input class="form-check-input" type="checkbox" name="terms" id="terms" {{ old('remember') ? 'checked' : '' }} required checked>
+                                            <label class="form-check-label" for="remember">I agree to the <a href="javascript:void(0);">Terms and Conditions</a> & <a href="javascript:void(0);">Privacy Policy</a>.</label>
+                                        </div>
                                         <button class="btn btn-primary btn-lg" type="submit">Submit</button>
-                                    
                                     </form><br>
-                                    <p>By signing up, I agree to the <a href="javascript:void(0);">Terms and Conditions</a> & <a href="javascript:void(0);">Privacy Policy</a>.</p>
+                                    {{-- <p>By signing up, </p> --}}
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                     <!-- Carousel -->
