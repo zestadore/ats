@@ -52,9 +52,9 @@
                                     <th>{{ __('Company') }}</th>
                                     <th>{{ __('Contact') }}</th>
                                     <th>{{ __('Address') }}</th>
-                                    <th>{{ __('Pricing Plan') }}</th>
+                                    {{-- <th>{{ __('Pricing Plan') }}</th>
                                     <th>{{ __('No of Users') }}</th>
-                                    <th>{{ __('No of Invoices') }}</th>
+                                    <th>{{ __('No of Invoices') }}</th> --}}
                                     <th class="nosort">Action</th>
                                 </tr>
                             </thead>
@@ -133,18 +133,18 @@
                         data: 'address',
                         name: 'address'
                     },
-                    {
-                        data: 'plan',
-                        name: 'plan'
-                    },
-                    {
-                        data: 'users',
-                        name: 'users'
-                    },
-                    {
-                        data: 'invoices',
-                        name: 'invoices'
-                    },
+                    // {
+                    //     data: 'plan',
+                    //     name: 'plan'
+                    // },
+                    // {
+                    //     data: 'users',
+                    //     name: 'users'
+                    // },
+                    // {
+                    //     data: 'invoices',
+                    //     name: 'invoices'
+                    // },
                     {
                         data: 'action',
                         name: 'action'
@@ -204,100 +204,101 @@
         }
 
         function viewModal(id){
-                var url="{{route('admin.companies.show','ID')}}";
-                url=url.replace('ID',id);
-                $.ajax({
-                    url: url,
-                    type:"get",
-                    success:function(response){
-                        console.log(response);
-                        if(response.success==true){
-                            var html="<table class='table table-striped table-bordered'>";
-                            html+="<tr>";
-                            html+="<td>Company Name</td>";
-                            html+="<td>"+response.data.company_name+"</td>";
-                            html+="</tr>";
-                            html+="<tr>";
-                            html+="<td>Logo</td>";
-                            if(response.data.logo!=null && response.data.logo!=""){
-                                html+="<td><img src='"+window.location.origin+"/uploads/logos/"+response.data.logo+"'/></td>";
-                            }else{
-                                html+="<td> </td>";
-                            }
-                            html+="</tr>";
-                            html+="<tr>";
-                            html+="<td>Address</td>";
-                            html+="<td>"+response.data.address+"</td>";
-                            html+="</tr>";
-                            html+="<tr>";
-                            html+="<td>Website</td>";
-                            html+="<td>"+response.data.website+"</td>";
-                            html+="</tr>";
-                            // html+="<tr>";
-                            // html+="<td>Date format</td>";
-                            // html+="<td>"+response.data.date_format+"</td>";
-                            // html+="</tr>";
-                            // html+="<tr>";
-                            // html+="<td>Time zone</td>";
-                            // html+="<td>"+response.data.time_zone+"</td>";
-                            // html+="</tr>";
-                            // html+="<tr>";
-                            // html+="<td>Currency symbol</td>";
-                            // html+="<td>"+response.data.currency_symbol+"</td>";
-                            // html+="</tr>";
-                            // html+="<tr>";
-                            // html+="<td>Currency position</td>";
-                            // html+="<td>"+response.data.currency_position+"</td>";
-                            // html+="</tr>";
-                            // html+="<tr>";
-                            // html+="<td>Precision</td>";
-                            // html+="<td>"+response.data.precision+"</td>";
-                            // html+="</tr>";
-                            // html+="<tr>";
-                            // html+="<td>Invoice footer</td>";
-                            // html+="<td>"+response.data.invoice_footer+"</td>";
-                            // html+="</tr>";
-                            html+="<tr>";
-                            html+="<td>Address</td>";
-                            html+="<td>"+response.data.address+"</td>";
-                            html+="</tr>";
-                            html+="<tr>";
-                            html+="<td>Pricing Plan</td>";
-                            html+="<td>"+response.data.pricing_plan.plan_name+"</td>";
-                            html+="</tr>";
-                            html+="<tr>";
-                            html+="<td>No of Users</td>";
-                            html+="<td>"+response.data.pricing_plan.maximum_users+"</td>";
-                            html+="</tr>";
-                            html+="<tr>";
-                            html+="<td>No of Invoices</td>";
-                            html+="<td>"+response.data.pricing_plan.monthly_invoices+"</td>";
-                            html+="</tr>";
-                            html+="<tr>";
-                            html+="<td colspan='2' style='text-align:center;font-weight:bold;'>Admin details</td>";
-                            html+="</tr>";
-                            html+="<tr>";
-                            html+="<td>Name</td>";
-                            html+="<td>"+response.data.company_admin.full_name+"</td>";
-                            html+="</tr>";
-                            html+="<tr>";
-                            html+="<td>Email</td>";
-                            html+="<td>"+response.data.company_admin.email+"</td>";
-                            html+="</tr>";
-                            html+="<tr>";
-                            html+="<td>Mobile/Contact</td>";
-                            html+="<td>"+response.data.company_admin.mobile+"</td>";
-                            html+="</tr>";
-                            html+="</table>";
-                            html=html+"</html>";
-                            $('#view-modal-body').html(html);
-                            $('#exampleLargeModal').modal('show');
+            var url="{{route('admin.companies.show','ID')}}";
+            url=url.replace('ID',id);
+            $.ajax({
+                url: url,
+                type:"get",
+                success:function(response){
+                    console.log(response);
+                    if(response.success==true){
+                        var html="<table class='table table-striped table-bordered'>";
+                        html+="<tr>";
+                        html+="<td>Company Name</td>";
+                        html+="<td>"+response.data.company_name+"</td>";
+                        html+="</tr>";
+                        html+="<tr>";
+                        html+="<td>Logo</td>";
+                        if(response.data.logo!=null && response.data.logo!=""){
+                            html+="<td><img src='"+window.location.origin+"/uploads/logos/"+response.data.logo+"'/></td>";
                         }else{
-                            swal("Oops!", "Failed to fetch the data!", "error");
+                            html+="<td> </td>";
                         }
-                    },
-                });
-            }
+                        html+="</tr>";
+                        html+="<tr>";
+                        html+="<td>Address</td>";
+                        html+="<td>"+response.data.address+"</td>";
+                        html+="</tr>";
+                        html+="<tr>";
+                        html+="<td>Website</td>";
+                        html+="<td>"+response.data.website+"</td>";
+                        html+="</tr>";
+                        // html+="<tr>";
+                        // html+="<td>Date format</td>";
+                        // html+="<td>"+response.data.date_format+"</td>";
+                        // html+="</tr>";
+                        // html+="<tr>";
+                        // html+="<td>Time zone</td>";
+                        // html+="<td>"+response.data.time_zone+"</td>";
+                        // html+="</tr>";
+                        // html+="<tr>";
+                        // html+="<td>Currency symbol</td>";
+                        // html+="<td>"+response.data.currency_symbol+"</td>";
+                        // html+="</tr>";
+                        // html+="<tr>";
+                        // html+="<td>Currency position</td>";
+                        // html+="<td>"+response.data.currency_position+"</td>";
+                        // html+="</tr>";
+                        // html+="<tr>";
+                        // html+="<td>Precision</td>";
+                        // html+="<td>"+response.data.precision+"</td>";
+                        // html+="</tr>";
+                        // html+="<tr>";
+                        // html+="<td>Invoice footer</td>";
+                        // html+="<td>"+response.data.invoice_footer+"</td>";
+                        // html+="</tr>";
+                        html+="<tr>";
+                        html+="<td>Address</td>";
+                        html+="<td>"+response.data.address+"</td>";
+                        html+="</tr>";
+                        html+="<tr>";
+                        // html+="<td>Pricing Plan</td>";
+                        // html+="<td>"+response.data.pricing_plan.plan_name+"</td>";
+                        // html+="</tr>";
+                        // html+="<tr>";
+                        // html+="<td>No of Users</td>";
+                        // html+="<td>"+response.data.pricing_plan.maximum_users+"</td>";
+                        // html+="</tr>";
+                        // html+="<tr>";
+                        // html+="<td>No of Invoices</td>";
+                        // html+="<td>"+response.data.pricing_plan.monthly_invoices+"</td>";
+                        // html+="</tr>";
+                        html+="<tr>";
+                        html+="<td colspan='2' style='text-align:center;font-weight:bold;'>Admin details</td>";
+                        html+="</tr>";
+                        html+="<tr>";
+                        html+="<td>Name</td>";
+                        html+="<td>"+response.data.company_admin.full_name+"</td>";
+                        html+="</tr>";
+                        html+="<tr>";
+                        html+="<td>Email</td>";
+                        html+="<td>"+response.data.company_admin.email+"</td>";
+                        html+="</tr>";
+                        html+="<tr>";
+                        html+="<td>Mobile/Contact</td>";
+                        html+="<td>"+response.data.company_admin.mobile+"</td>";
+                        html+="</tr>";
+                        html+="</table>";
+                        html=html+"</html>";
+                        $('#view-modal-body').html(html);
+                        $('#exampleLargeModal').modal('show');
+                    }else{
+                        swal("Oops!", "Failed to fetch the data!", "error");
+                    }
+                },
+            });
+        }
+
 
     </script>
 @endsection

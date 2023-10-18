@@ -802,6 +802,7 @@
             //clear the form
             $('#jQueryValidationForm')[0].reset();
             $('#addNewButton').attr('data-id','0');
+            $('#candidate_id').val('').trigger('change');
             $('#addNewModal').modal('show');
         }
 

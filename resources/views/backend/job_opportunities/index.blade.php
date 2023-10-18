@@ -445,7 +445,11 @@
                         html+="</tr>";
                         html+="<tr>";
                         html+="<td>End Client</td>";
-                        var end_client=response.data.end_client.end_client?response.data.end_client.end_client:"-";
+                        if(response.data.end_client){
+                            var end_client=response.data.end_client.end_client?response.data.end_client.end_client:"-";
+                        }else{
+                            var end_client="-";
+                        }
                         html+="<td>"+end_client+"</td>";
                         html+="</tr>";
                         html+="<tr>";

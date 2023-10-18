@@ -9,7 +9,7 @@
           <div class="icon text-white bg-indigo"><i class="fas fa-plus"></i></div>
         </li>
         <li class="nav-item dropdown me-2" style="padding : 15px;">
-          <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="float:right !important;">Dashboard options&nbsp;<i class="fas fa-cog"></i></button>
+          <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="float:right !important;"><i class="fas fa-cog"></i>&nbsp;Dashboard options&nbsp;</button>
           <div class="dropdown-menu" style="">
               <a class="dropdown-item" href="Javascript::void(0)">
                   <label class="switch">
