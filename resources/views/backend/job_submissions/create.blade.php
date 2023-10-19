@@ -150,9 +150,9 @@
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th>{{ __('Attachment Name') }}</th>
-                                    <th>{{ __('Attach file(Supports .pdf/.jpg/.png)') }}</th>
-                                    <th>{{ __('Action') }}</th>
+                                    <th class="nosort">{{ __('Attachment Name') }}</th>
+                                    <th class="nosort">{{ __('Attach file(Supports .pdf/.jpg/.png)') }}</th>
+                                    <th class="nosort">{{ __('Action') }}</th>
                                 </tr>
                             </thead>
                             <tbody id="wrapperRows"></tbody>

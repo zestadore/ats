@@ -54,11 +54,11 @@
                     <table class="table table-striped">
                         <tr>
                             <th class="nosort">#</th>
-                            <th>{{ __('Candidate Name') }}</th>
-                            <th>{{ __('Email') }}</th>
-                            <th>{{ __('Contact') }}</th>
-                            <th>{{ __('Location') }}</th>
-                            <th>{{ __('Title') }}</th>
+                            <th class="nosort">{{ __('Candidate Name') }}</th>
+                            <th class="nosort">{{ __('Email') }}</th>
+                            <th class="nosort">{{ __('Contact') }}</th>
+                            <th class="nosort">{{ __('Location') }}</th>
+                            <th class="nosort">{{ __('Title') }}</th>
                             <th class="nosort">Action</th>
                         </tr>
                         @foreach ($matches as $item)

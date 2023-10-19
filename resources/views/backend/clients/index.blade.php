@@ -42,7 +42,10 @@
                         <form id="filterfordatatable" class="form-horizontal" onsubmit="event.preventDefault();">
                             <div class="row ">
                                 <div class="col">
-                                    <input type="text" name="search" class="form-control" placeholder="Search with client name">
+                                    <div class="form-floating mb-3">
+                                        <input type="text" name="search" class="form-control" placeholder="Search with client name">
+                                        <label class="form-label" for="search">Search with client name</label>
+                                    </div>
                                 </div>
                             </div>
                         </form><br>
@@ -50,10 +53,10 @@
                             <thead>
                                 <tr>
                                     <th class="nosort">#</th>
-                                    <th>{{ __('Client') }}</th>
-                                    <th>{{ __('Designation') }}</th>
-                                    <th>{{ __('Email') }}</th>
-                                    <th>{{ __('Contact') }}</th>
+                                    <th class="nosort">{{ __('Client') }}</th>
+                                    <th class="nosort">{{ __('Designation') }}</th>
+                                    <th class="nosort">{{ __('Email') }}</th>
+                                    <th class="nosort">{{ __('Contact') }}</th>
                                     <th class="nosort">Action</th>
                                 </tr>
                             </thead>

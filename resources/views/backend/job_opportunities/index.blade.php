@@ -47,7 +47,10 @@
                         <form id="filterfordatatable" class="form-horizontal" onsubmit="event.preventDefault();">
                             <div class="row ">
                                 <div class="col">
-                                    <input type="text" name="search" class="form-control" placeholder="Search with title">
+                                    <div class="form-floating mb-3">
+                                        <input type="text" name="search" class="form-control" placeholder="Search with title">
+                                        <label class="form-label" for="search">Search with title</label>
+                                    </div>
                                 </div>
                             </div>
                         </form><br>
@@ -55,14 +58,14 @@
                             <thead>
                                 <tr>
                                     <th class="nosort">#</th>
-                                    <th>{{ __('Title') }}</th>
-                                    <th>{{ __('Type') }}</th>
-                                    <th>{{ __('Matches') }}</th>
-                                    <th>{{ __('Job Owner') }}</th>
-                                    <th>{{ __('Job Status') }}</th>
-                                    <th>{{ __('Client') }}</th>
-                                    <th>{{ __('End Client') }}</th>
-                                    <th>{{ __('Key Skills') }}</th>
+                                    <th class="nosort">{{ __('Title') }}</th>
+                                    <th class="nosort">{{ __('Type') }}</th>
+                                    <th class="nosort">{{ __('Matches') }}</th>
+                                    <th class="nosort">{{ __('Job Owner') }}</th>
+                                    <th class="nosort">{{ __('Job Status') }}</th>
+                                    <th class="nosort">{{ __('Client') }}</th>
+                                    <th class="nosort">{{ __('End Client') }}</th>
+                                    <th class="nosort">{{ __('Key Skills') }}</th>
                                     <th class="nosort">Action</th>
                                 </tr>
                             </thead>
@@ -102,11 +105,13 @@
                                 <x-forms.input class="form-control {{ $errors->has('title') ? ' is-invalid' : '' }}" title="Job title" name="title" id="title" type="text" required="True"/>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                <label class="form-label" for="type">Job type</label>
-                                <select name="type" id="type" class="form-select mb-3">
-                                    <option value="0">Contract</option>
-                                    <option value="1">Full time</option>
-                                </select>
+                                <div class="form-floating mb-3">
+                                    <select name="type" id="type" class="form-select mb-3">
+                                        <option value="0">Contract</option>
+                                        <option value="1">Full time</option>
+                                    </select>
+                                    <label class="form-label" for="type">Job type</label>
+                                </div>
                                 @error('type')
                                     <span class="error mt-2 text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -119,12 +124,14 @@
                                 <x-forms.input class="form-control {{ $errors->has('salary') ? ' is-invalid' : '' }}" title="Salary" name="salary" id="salary" type="number" required="False"/>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                <label class="form-label" for="job_owner">Job owner(s) </label>
-                                <select name="job_owner[]" id="job_owner" class="form-select" data-placeholder="Select job owner(s)" multiple style="width: 100%;">
-                                    @foreach ($accountManagers as $item)
-                                        <option value="{{$item->id}}">{{$item->full_name}}</option>
-                                    @endforeach
-                                </select>
+                                <div class="form-floating mb-3">
+                                    <select name="job_owner[]" id="job_owner" class="form-select" data-placeholder="Select job owner(s)" multiple style="height: 100% !important;width: 100%;">
+                                        @foreach ($accountManagers as $item)
+                                            <option value="{{$item->id}}">{{$item->full_name}}</option>
+                                        @endforeach
+                                    </select>
+                                    {{-- <label class="form-label" for="job_owner">Job owner(s) </label> --}}
+                                </div>
                                 @error('job_owner')
                                     <span class="error mt-2 text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -134,13 +141,15 @@
                         </div><p> </p>
                         <div class="row g-3">
                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                <label class="form-label" for="client_id">Client</label>
-                                <select name="client_id" id="client_id" class="form-select mb-3" required>
-                                    <option value="">Select a client</option>
-                                    @foreach ($clients as $item)
-                                        <option value="{{$item->id}}">{{$item->client_name}}</option>
-                                    @endforeach
-                                </select>
+                                <div class="form-floating mb-3">
+                                    <select name="client_id" id="client_id" class="form-select mb-3" required>
+                                        <option value="">Select a client</option>
+                                        @foreach ($clients as $item)
+                                            <option value="{{$item->id}}">{{$item->client_name}}</option>
+                                        @endforeach
+                                    </select>
+                                    <label class="form-label" for="client_id">Client</label>
+                                </div>
                                 @error('client_id')
                                     <span class="error mt-2 text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -148,10 +157,12 @@
                                 @enderror
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                <label class="form-label" for="client_id">Client</label>
-                                <select name="end_client_id" id="end_client_id" class="form-select mb-3" required>
-                                    <option value="">Select end client</option>
-                                </select>
+                                <div class="form-floating mb-3">
+                                    <select name="end_client_id" id="end_client_id" class="form-select mb-3" required>
+                                        <option value="">Select end client</option>
+                                    </select>
+                                    <label class="form-label" for="client_id">Client</label>
+                                </div>
                                 @error('end_client_id')
                                     <span class="error mt-2 text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -161,12 +172,14 @@
                         </div><p> </p>
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                <label class="form-label" for="assign_recruiter">Assign recruiter(s) </label>
-                                <select name="assign_recruiter[]" id="assign_recruiter" class="form-select" data-placeholder="Assign recruiter(s)" multiple style="width: 100%;">
-                                    @foreach ($recruiters as $item)
-                                        <option value="{{$item->id}}">{{$item->full_name}}</option>
-                                    @endforeach
-                                </select>
+                                <div class="form-floating mb-3">
+                                    <select name="assign_recruiter[]" id="assign_recruiter" class="form-select" data-placeholder="Assign recruiter(s)" multiple style="width: 100%;">
+                                        @foreach ($recruiters as $item)
+                                            <option value="{{$item->id}}">{{$item->full_name}}</option>
+                                        @endforeach
+                                    </select>
+                                    {{-- <label class="form-label" for="assign_recruiter">Assign recruiter(s) </label> --}}
+                                </div>
                                 @error('job_owner')
                                     <span class="error mt-2 text-danger" role="alert">
                                         <strong>{{ $message }}</strong>

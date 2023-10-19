@@ -42,7 +42,11 @@
                         <form id="filterfordatatable" class="form-horizontal" onsubmit="event.preventDefault();">
                             <div class="row ">
                                 <div class="col">
-                                    <input type="text" name="search" class="form-control" placeholder="Search with first name">
+                                    <div class="form-floating mb-3">
+                                        <input type="text" name="search" class="form-control" placeholder="Search with first name">
+                                        <label class="form-label" for="search">Search with first name</label>
+                                    </div>
+                                    {{-- <input type="text" name="search" class="form-control" placeholder="Search with first name"> --}}
                                 </div>
                             </div>
                         </form><br>
@@ -50,11 +54,11 @@
                             <thead>
                                 <tr>
                                     <th class="nosort">#</th>
-                                    <th>{{ __('First Name') }}</th>
-                                    <th>{{ __('Last Name') }}</th>
-                                    <th>{{ __('Email') }}</th>
-                                    <th>{{ __('Contact') }}</th>
-                                    <th>{{ __('Role') }}</th>
+                                    <th class="nosort">{{ __('First Name') }}</th>
+                                    <th class="nosort">{{ __('Last Name') }}</th>
+                                    <th class="nosort">{{ __('Email') }}</th>
+                                    <th class="nosort">{{ __('Contact') }}</th>
+                                    <th class="nosort">{{ __('Role') }}</th>
                                     <th class="nosort">Action</th>
                                 </tr>
                             </thead>
@@ -107,13 +111,15 @@
                         </div><p> </p>
                         <div class="row g-3">
                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                <label class="form-label" for="role">Role</label>
-                                <select name="role" id="role" class="form-select mb-3" required>
-                                    <option value="">Select a role</option>
-                                    @foreach ($roles as $role)
-                                        <option value="{{$role['id']}}">{{$role['text']}}</option>
-                                    @endforeach
-                                </select>
+                                <div class="form-floating mb-3">
+                                    <select name="role" id="role" class="form-select mb-3" required>
+                                        <option value="">Select a role</option>
+                                        @foreach ($roles as $role)
+                                            <option value="{{$role['id']}}">{{$role['text']}}</option>
+                                        @endforeach
+                                    </select>
+                                    <label class="form-label" for="role">Role</label>
+                                </div>
                                 @error('client_id')
                                     <span class="error mt-2 text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -121,9 +127,9 @@
                                 @enderror
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                <label for="inputChoosePassword" class="form-label">Password</label>
-                                <div class="input-group" id="show_hide_passwords">
-                                    <input type="password" class="form-control border-end-0" name="password_string" id="inputChoosePassword" placeholder="Enter Password"> <a href="javascript:;" class="input-group-text bg-transparent"><i class="fa fa-eye"></i></a>
+                                <div class="form-floating mb-3" id="show_hide_passwords">
+                                    <input type="password" class="form-control" name="password_string" id="inputChoosePassword" placeholder="Enter Password"> 
+                                    <label for="inputChoosePassword" class="form-label">Password</label>
                                 </div>
                             </div>
                         </div><p> </p>
@@ -469,6 +475,7 @@
                         }
                     });
                 }
-            })
+            });
+
     </script>
 @endsection

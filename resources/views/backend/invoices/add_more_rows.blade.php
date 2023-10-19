@@ -1,18 +1,33 @@
 <tr>
     <td>
-        <input class="form-control hrs {{ $errors->has('hours[]') ? ' is-invalid' : '' }} hrs" placeholder="Hours" name="hours[]" id="hours" type="number" required>
+        <div class="form-floating mb-3">
+            <input class="form-control hrs {{ $errors->has('hours[]') ? ' is-invalid' : '' }} hrs" placeholder="Hours" name="hours[]" id="hours" type="number" required>
+            <label class="form-label" for="hours">Hours</label>
+        </div>
     </td>
     <td>
-        <input class="form-control input-datepicker {{ $errors->has('from_date[]') ? ' is-invalid' : '' }}" placeholder="From date" name="from_date[]" id="FROMDATEFIELD" type="text" required>
+        <div class="form-floating mb-3">
+            <input class="form-control input-datepicker {{ $errors->has('from_date[]') ? ' is-invalid' : '' }}" placeholder="From date" name="from_date[]" id="FROMDATEFIELD" type="text" required>
+            <label class="form-label" for="from_date">From date</label>
+        </div>
     </td>
     <td>
-        <input class="form-control input-datepicker {{ $errors->has('to_date[]') ? ' is-invalid' : '' }}" placeholder="To date" name="to_date[]" id="TODATEFIELD" type="text" required>
+        <div class="form-floating mb-3">
+            <input class="form-control input-datepicker {{ $errors->has('to_date[]') ? ' is-invalid' : '' }}" placeholder="To date" name="to_date[]" id="TODATEFIELD" type="text" required>
+            <label class="form-label" for="to_date">To date</label>
+        </div>
     </td>
     <td>
-        <input class="form-control {{ $errors->has('rate[]') ? ' is-invalid' : '' }} rate" placeholder="Rate" name="rate[]" id="rate" type="number" required>
+        <div class="form-floating mb-3">
+            <input class="form-control {{ $errors->has('rate[]') ? ' is-invalid' : '' }} rate" placeholder="Rate" name="rate[]" id="rate" type="number" required>
+            <label class="form-label" for="rate">Rate</label>
+        </div>
     </td>
     <td>
-        <input class="form-control {{ $errors->has('amount[]') ? ' is-invalid' : '' }} amt" placeholder="Amount" name="amount[]" id="amount" type="number" required>
+        <div class="form-floating mb-3">
+            <input class="form-control {{ $errors->has('amount[]') ? ' is-invalid' : '' }} amt" placeholder="Amount" name="amount[]" id="amount" type="number" required>
+            <label class="form-label" for="amount">Amount</label>
+        </div>
     </td>
     <td>
         <div class="row">

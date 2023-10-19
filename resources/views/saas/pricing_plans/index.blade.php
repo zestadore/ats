@@ -49,13 +49,13 @@
                             <thead>
                                 <tr>
                                     <th class="nosort">#</th>
-                                    <th>{{ __('Plan Name') }}</th>
-                                    <th>{{ __('Type') }}</th>
-                                    <th>{{ __('Interval') }}</th>
-                                    <th>{{ __('Price') }}</th>
-                                    <th>{{ __('Max Users') }}</th>
-                                    <th>{{ __('Max Invoices') }}</th>
-                                    <th>{{ __('Trail Days') }}</th>
+                                    <th class="nosort">{{ __('Plan Name') }}</th>
+                                    <th class="nosort">{{ __('Type') }}</th>
+                                    <th class="nosort">{{ __('Interval') }}</th>
+                                    <th class="nosort">{{ __('Price') }}</th>
+                                    <th class="nosort">{{ __('Max Users') }}</th>
+                                    <th class="nosort">{{ __('Max Invoices') }}</th>
+                                    <th class="nosort">{{ __('Trail Days') }}</th>
                                     <th class="nosort">Action</th>
                                 </tr>
                             </thead>

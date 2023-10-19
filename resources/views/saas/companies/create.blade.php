@@ -143,10 +143,7 @@
                                 <x-forms.input class="form-control {{ $errors->has('mobile') ? ' is-invalid' : '' }}" title="Mobile" name="mobile" id="mobile" type="number" required="True"/>
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                                <label for="inputChoosePassword" class="form-label">Password</label>
-                                <div class="input-group" id="show_hide_passwords">
-                                    <input type="password" class="form-control border-end-0" name="password_string" id="inputChoosePassword" placeholder="Enter Password"> <a href="javascript:;" class="input-group-text bg-transparent"><i class="bx bx-hide"></i></a>
-                                </div>
+                                <x-forms.input class="form-control {{ $errors->has('password_string') ? ' is-invalid' : '' }}" title="Password" name="password_string" id="password_string" type="password" required="False"/>
                             </div>
                         </div><p> </p>
                         <div class="btn-group" role="group" aria-label="Basic example" style="float: right;">

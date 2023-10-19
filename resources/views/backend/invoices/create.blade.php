@@ -86,12 +86,12 @@
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th>{{ __('Hours') }}</th>
-                                        <th>{{ __('From date') }}</th>
-                                        <th>{{ __('To date') }}</th>
-                                        <th>{{ __('Rate') }}</th>
-                                        <th>{{ __('Amount') }}</th>
-                                        <th>{{ __('Action') }}</th>
+                                        <th class="nosort">{{ __('Hours') }}</th>
+                                        <th class="nosort">{{ __('From date') }}</th>
+                                        <th class="nosort">{{ __('To date') }}</th>
+                                        <th class="nosort">{{ __('Rate') }}</th>
+                                        <th class="nosort">{{ __('Amount') }}</th>
+                                        <th class="nosort">{{ __('Action') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody id="wrapperRows"></tbody>

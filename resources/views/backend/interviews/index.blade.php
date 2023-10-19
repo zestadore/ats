@@ -44,10 +44,16 @@
                         <form id="filterfordatatable" class="form-horizontal" onsubmit="event.preventDefault();">
                             <div class="row ">
                                 <div class="col">
-                                    <input type="text" name="search" class="form-control" placeholder="Search with interview name">
+                                    <div class="form-floating mb-3">
+                                        <input type="text" name="search" class="form-control" placeholder="Search with interview name">
+                                        <label class="form-label" for="search">Search with interview name</label>
+                                    </div>
                                 </div>
                                 <div class="col">
-                                    <input type="text" name="candidate" class="form-control" placeholder="Search with candidate name">
+                                    <div class="form-floating mb-3">
+                                        <input type="text" name="candidate" class="form-control" placeholder="Search with candidate name">
+                                        <label class="form-label" for="search">Search with candidate name</label>
+                                    </div>
                                 </div>
                             </div>
                         </form><br>
@@ -55,10 +61,10 @@
                             <thead>
                                 <tr>
                                     <th class="nosort">#</th>
-                                    <th>{{ __('Interview Name') }}</th>
-                                    <th>{{ __('Candidate') }}</th>
-                                    <th>{{ __('Client') }}</th>
-                                    <th>{{ __('Interview Owner') }}</th>
+                                    <th class="nosort">{{ __('Interview Name') }}</th>
+                                    <th class="nosort">{{ __('Candidate') }}</th>
+                                    <th class="nosort">{{ __('Client') }}</th>
+                                    <th class="nosort">{{ __('Interview Owner') }}</th>
                                     <th class="nosort">Action</th>
                                 </tr>
                             </thead>
@@ -95,18 +101,20 @@
                     <form action="{{route('admin.interviews.store')}}" id="jQueryValidationForm" method="POST" enctype="multipart/form-data">@csrf
                         <div class="row g-3">
                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                <label class="form-label" for="interview_name">Interview name</label><span style="color:red;">*</span>
-                                <select name="interview_name" id="interview_name" class="form-select mb-3" required>
-                                    <option value="">Select a role</option>
-                                    <option value="internal_interview">Internal Interview</option>
-                                    <option value="general_interview">General Interview</option>
-                                    <option value="online_interview">Online Interview</option>
-                                    <option value="phone_interview">Phone Interview</option>
-                                    <option value="level1_interview">Level 1 Interview</option>
-                                    <option value="level2_interview">Level 2 Interview</option>
-                                    <option value="level3_interview">Level 3 Interview</option>
-                                    <option value="level4_interview">Level 4 Interview</option>
-                                </select>
+                                <div class="form-floating mb-3">
+                                    <select name="interview_name" id="interview_name" class="form-select mb-3" required>
+                                        <option value="">Select a role</option>
+                                        <option value="internal_interview">Internal Interview</option>
+                                        <option value="general_interview">General Interview</option>
+                                        <option value="online_interview">Online Interview</option>
+                                        <option value="phone_interview">Phone Interview</option>
+                                        <option value="level1_interview">Level 1 Interview</option>
+                                        <option value="level2_interview">Level 2 Interview</option>
+                                        <option value="level3_interview">Level 3 Interview</option>
+                                        <option value="level4_interview">Level 4 Interview</option>
+                                    </select>
+                                    <label class="form-label" for="interview_name">Interview name <span style="color:red;">*</span></label>
+                                </div>
                                 @error('interview_name')
                                     <span class="error mt-2 text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -114,10 +122,12 @@
                                 @enderror
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                <label class="form-label" for="candidate_id">Legal name <span style="color:red;"> *</span></label>
-                                <select name="candidate_id" id="candidate_id" class="form-select mb-3" required style="width: 100%;">
-                                    <option value="">Select candidate</option>
-                                </select>
+                                <div class="form-floating mb-3">
+                                    <select name="candidate_id" id="candidate_id" class="form-select mb-3" required style="width: 100%;">
+                                        <option value="">Select candidate</option>
+                                    </select>
+                                    {{-- <label class="form-label" for="candidate_id">Legal name <span style="color:red;"> *</span></label> --}}
+                                </div>
                                 @error('candidate_id')
                                     <span class="error mt-2 text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -127,13 +137,15 @@
                         </div><p> </p>
                         <div class="row g-3">
                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                <label class="form-label" for="client_id">Client <span style="color:red;"> *</span></label>
-                                <select name="client_id" id="client_id" class="form-select mb-3" required>
-                                    <option value="">Select a client</option>
-                                    @foreach ($clients as $item)
-                                        <option value="{{$item->id}}">{{$item->client_name}}</option>
-                                    @endforeach
-                                </select>
+                                <div class="form-floating mb-3">
+                                    <select name="client_id" id="client_id" class="form-select mb-3" required>
+                                        <option value="">Select a client</option>
+                                        @foreach ($clients as $item)
+                                            <option value="{{$item->id}}">{{$item->client_name}}</option>
+                                        @endforeach
+                                    </select>
+                                    <label class="form-label" for="client_id">Client <span style="color:red;"> *</span></label>
+                                </div>
                                 @error('client_id')
                                     <span class="error mt-2 text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -141,13 +153,15 @@
                                 @enderror
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                <label class="form-label" for="job_opportunity_id">Job title <span style="color:red;"> *</span></label>
-                                <select name="job_opportunity_id" id="job_opportunity_id" class="form-select mb-3" required>
-                                    <option value="">Select Job Opportunity</option>
-                                    {{-- @foreach ($opportunities as $item)
-                                        <option value="{{$item->id}}">{{$item->title}}</option>
-                                    @endforeach --}}
-                                </select>
+                                <div class="form-floating mb-3">
+                                    <select name="job_opportunity_id" id="job_opportunity_id" class="form-select mb-3" required>
+                                        <option value="">Select Job Opportunity</option>
+                                        {{-- @foreach ($opportunities as $item)
+                                            <option value="{{$item->id}}">{{$item->title}}</option>
+                                        @endforeach --}}
+                                    </select>
+                                    <label class="form-label" for="job_opportunity_id">Job title <span style="color:red;"> *</span></label>
+                                </div>
                                 @error('job_opportunity_id')
                                     <span class="error mt-2 text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -157,8 +171,10 @@
                         </div><p> </p>
                         <div class="row g-3">
                             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                                <label class="form-label" for="from_date">From <span style="color:red;"> *</span></label>
-                                <input type="datetime-local" name="from_date" id="from_date" class="form-control mb-3" required>
+                                <div class="form-floating mb-3">
+                                    <input type="datetime-local" name="from_date" id="from_date" class="form-control mb-3" required>
+                                    <label class="form-label" for="from_date">From <span style="color:red;"> *</span></label>
+                                </div>
                                 @error('from_date')
                                     <span class="error mt-2 text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -166,8 +182,10 @@
                                 @enderror
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                                <label class="form-label" for="to_date">To <span style="color:red;"> *</span></label>
-                                <input type="datetime-local" name="to_date" id="to_date" class="form-control mb-3" required>
+                                <div class="form-floating mb-3">
+                                    <input type="datetime-local" name="to_date" id="to_date" class="form-control mb-3" required>
+                                    <label class="form-label" for="to_date">To <span style="color:red;"> *</span></label>
+                                </div>
                                 @error('to_date')
                                     <span class="error mt-2 text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -175,13 +193,15 @@
                                 @enderror
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                                <label class="form-label" for="time_zone">Time zone </label>
-                                <select name="time_zone" id="time_zone" class="form-select mb-3">
-                                    <option value="">Select time zone</option>
-                                    @foreach (timezone_identifiers_list() as $item)
-                                        <option value="{{$item}}">{{$item}}</option>
-                                    @endforeach
-                                </select>
+                                <div class="form-floating mb-3">
+                                    <select name="time_zone" id="time_zone" class="form-select mb-3">
+                                        <option value="">Select time zone</option>
+                                        @foreach (timezone_identifiers_list() as $item)
+                                            <option value="{{$item}}">{{$item}}</option>
+                                        @endforeach
+                                    </select>
+                                    <label class="form-label" for="time_zone">Time zone </label>
+                                </div>
                                 @error('time_zone')
                                     <span class="error mt-2 text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -191,12 +211,14 @@
                         </div><p> </p>
                         <div class="row g-3">
                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-4">
-                                <label class="form-label" for="interviewers_id">Interviewer(s) </label>
-                                <select name="interviewers_id[]" id="interviewers_id" class="form-select" data-placeholder="Select interviewer(s)" multiple style="width: 100%;">
-                                    @foreach ($clients as $item)
-                                        <option value="{{$item->id}}">{{$item->client_name}}</option>
-                                    @endforeach
-                                </select>
+                                <div class="form-floating mb-3">
+                                    <select name="interviewers_id[]" id="interviewers_id" class="form-select" data-placeholder="Select interviewer(s)" multiple style="width: 100%;">
+                                        @foreach ($clients as $item)
+                                            <option value="{{$item->id}}">{{$item->client_name}}</option>
+                                        @endforeach
+                                    </select>
+                                    {{-- <label class="form-label" for="interviewers_id">Interviewer(s) </label> --}}
+                                </div>
                                 @error('interviewers_id')
                                     <span class="error mt-2 text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -204,13 +226,15 @@
                                 @enderror
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                <label class="form-label" for="interview_owner_id">Interview owner </label>
-                                <select name="interview_owner_id" id="interview_owner_id" class="form-select mb-3">
-                                    <option value="">Select interview owner</option>
-                                    @foreach ($users as $item)
-                                        <option value="{{$item->id}}">{{$item->first_name}} {{$item->last_name}}</option>
-                                    @endforeach
-                                </select>
+                                <div class="form-floating mb-3">
+                                    <select name="interview_owner_id" id="interview_owner_id" class="form-select mb-3">
+                                        <option value="">Select interview owner</option>
+                                        @foreach ($users as $item)
+                                            <option value="{{$item->id}}">{{$item->first_name}} {{$item->last_name}}</option>
+                                        @endforeach
+                                    </select>
+                                    <label class="form-label" for="interview_owner_id">Interview owner </label>
+                                </div>
                                 @error('interview_owner_id')
                                     <span class="error mt-2 text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -228,11 +252,9 @@
                         </div><p> </p>
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                <label class="form-label" for="attachments">Attachments(.docx / .pdf / .jpg) </label>
-                                <div class="input-group">
-                                    <div class="custom-file">
-                                        <input type="file" class="form-control" id="attachments" name="attachments[]" style="width:100% !important;" multiple>
-                                    </div>
+                                <div class="form-floating mb-3">
+                                    <input type="file" class="form-control" id="attachments" name="attachments[]" style="width:100% !important;" multiple>
+                                    <label class="form-label" for="attachments">Attachments(.docx / .pdf / .jpg) </label>
                                 </div>
                                 @error("attachments")
                                     <span class="error mt-2 text-danger" role="alert">
@@ -428,6 +450,7 @@
             //clear the form
             $('#jQueryValidationForm')[0].reset();
             $('#addNewButton').attr('data-id','0');
+            // $('#candidate_id').val('').trigger('change');
             $('#addNewModal').modal('show');
         }
 

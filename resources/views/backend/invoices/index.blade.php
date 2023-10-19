@@ -41,10 +41,16 @@
                         <form id="filterfordatatable" class="form-horizontal" onsubmit="event.preventDefault();">
                             <div class="row ">
                                 <div class="col">
-                                    <input type="text" name="search" class="form-control" placeholder="Search with client name">
+                                    <div class="form-floating mb-3">
+                                        <input type="text" name="search" class="form-control" placeholder="Search with client name">
+                                        <label class="form-label" for="search">Search with client name</label>
+                                    </div>
                                 </div>
                                 <div class="col">
-                                    <input type="text" name="candidate" class="form-control" placeholder="Search with candidate name">
+                                    <div class="form-floating mb-3">
+                                        <input type="text" name="candidate" class="form-control" placeholder="Search with candidate name">
+                                        <label class="form-label" for="search">Search with candidate name</label>
+                                    </div>
                                 </div>
                             </div>
                         </form><br>
@@ -52,10 +58,10 @@
                             <thead>
                                 <tr>
                                     <th class="nosort">#</th>
-                                    <th>{{ __('Client Name') }}</th>
-                                    <th>{{ __('Candidate') }}</th>
-                                    <th>{{ __('Date') }}</th>
-                                    <th>{{ __('Due Date') }}</th>
+                                    <th class="nosort">{{ __('Client Name') }}</th>
+                                    <th class="nosort">{{ __('Candidate') }}</th>
+                                    <th class="nosort">{{ __('Date') }}</th>
+                                    <th class="nosort">{{ __('Due Date') }}</th>
                                     <th class="nosort">Action</th>
                                 </tr>
                             </thead>

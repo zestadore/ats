@@ -49,12 +49,12 @@
                             <thead>
                                 <tr>
                                     <th class="nosort">#</th>
-                                    <th>{{ __('Company') }}</th>
-                                    <th>{{ __('Contact') }}</th>
-                                    <th>{{ __('Address') }}</th>
-                                    {{-- <th>{{ __('Pricing Plan') }}</th>
-                                    <th>{{ __('No of Users') }}</th>
-                                    <th>{{ __('No of Invoices') }}</th> --}}
+                                    <th class="nosort">{{ __('Company') }}</th>
+                                    <th class="nosort">{{ __('Contact') }}</th>
+                                    <th class="nosort">{{ __('Address') }}</th>
+                                    {{-- <th class="nosort">{{ __('Pricing Plan') }}</th>
+                                    <th class="nosort">{{ __('No of Users') }}</th>
+                                    <th class="nosort">{{ __('No of Invoices') }}</th> --}}
                                     <th class="nosort">Action</th>
                                 </tr>
                             </thead>

@@ -55,10 +55,16 @@
                         <form id="filterfordatatable" class="form-horizontal" onsubmit="event.preventDefault();">
                             <div class="row ">
                                 <div class="col">
-                                    <input type="text" name="search" class="form-control" placeholder="Search with title">
+                                    <div class="form-floating mb-3">
+                                        <input type="text" name="search" class="form-control" placeholder="Search with title">
+                                        <label class="form-label" for="search">Search with title</label>
+                                    </div>
                                 </div>
                                 <div class="col">
-                                    <input type="text" name="candidate" class="form-control" placeholder="Search with candidate">
+                                    <div class="form-floating mb-3">
+                                        <input type="text" name="candidate" class="form-control" placeholder="Search with candidate">
+                                        <label class="form-label" for="candidate">Search with candidate</label>
+                                    </div>
                                 </div>
                             </div>
                         </form><br>
@@ -66,11 +72,11 @@
                             <thead>
                                 <tr>
                                     <th class="nosort">#</th>
-                                    <th>{{ __('Job Title') }}</th>
-                                    <th>{{ __('Candidate') }}</th>
-                                    <th>{{ __('Contact') }}</th>
-                                    <th>{{ __('Email') }}</th>
-                                    <th>{{ __('Current Location') }}</th>
+                                    <th class="nosort">{{ __('Job Title') }}</th>
+                                    <th class="nosort">{{ __('Candidate') }}</th>
+                                    <th class="nosort">{{ __('Contact') }}</th>
+                                    <th class="nosort">{{ __('Email') }}</th>
+                                    <th class="nosort">{{ __('Current Location') }}</th>
                                     <th class="nosort">Action</th>
                                 </tr>
                             </thead>
@@ -119,16 +125,21 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                    <div style="text-align: right;">
+                        <button type="button" class="btn btn-primary btn-sm"  data-bs-toggle="modal" data-bs-target="#addCandidateModal">Add Candidate</button>
+                    </div><br>
                     <form id="jQueryValidationForm" method="POST" enctype="multipart/form-data">@csrf
                         <div class="row g-3">
                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                <label class="form-label" for="job_title_id">Job title <span style="color:red;"> *</span></label>
-                                <select name="job_title_id" id="job_title_id" class="form-select mb-3" required>
-                                    <option value="">Select Job Opportunity</option>
-                                    @foreach ($opportunities as $item)
-                                        <option value="{{$item->id}}">{{$item->title}}</option>
-                                    @endforeach
-                                </select>
+                                <div class="form-floating mb-3">
+                                    <select name="job_title_id" id="job_title_id" class="form-select mb-3" required>
+                                        <option value="">Select Job Opportunity</option>
+                                        @foreach ($opportunities as $item)
+                                            <option value="{{$item->id}}">{{$item->title}}</option>
+                                        @endforeach
+                                    </select>
+                                    <label class="form-label" for="job_title_id">Job title <span style="color:red;"> *</span></label>
+                                </div>
                                 @error('job_title_id')
                                     <span class="error mt-2 text-danger" role="alert">
                                         <strong style="cpolor:red;">{{ $message }}</strong>
@@ -136,13 +147,15 @@
                                 @enderror
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                <label class="form-label" for="candidate_id">Legal name <span style="color:red;"> *</span></label><button type="button" class="btn btn-primary btn-sm" style="float:right;" data-bs-toggle="modal" data-bs-target="#addCandidateModal">+</button>
-                                <select name="candidate_id" id="candidate_id" class="form-select mb-3" style="width:100%;" required>
-                                    <option value="">Select candidate</option>
-                                    {{-- @foreach ($candidates as $item)
-                                        <option value="{{$item->id}}">{{$item->candidate_name}}</option>
-                                    @endforeach --}}
-                                </select>
+                                <div class="form-floating mb-3">
+                                    <select name="candidate_id" id="candidate_id" class="form-select mb-3" style="width:100%;" required>
+                                        <option value="">Select candidate</option>
+                                        {{-- @foreach ($candidates as $item)
+                                            <option value="{{$item->id}}">{{$item->candidate_name}}</option>
+                                        @endforeach --}}
+                                    </select>
+                                    {{-- <label class="form-label" for="candidate_id">Legal name <span style="color:red;"> *</span></label> --}}
+                                </div>
                                 @error('candidate_id')
                                     <span class="error mt-2 text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -184,16 +197,18 @@
                         </div><p> </p>
                         <div class="row g-3">
                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                <label class="form-label" for="visa_status">Visa status <span style="color:red;"> *</span></label>
-                                <select name="visa_status" id="visa_status" class="form-select mb-3" required>
-                                    <option value="OPT">OPT</option>
-                                    <option value="CPT">CPT</option>
-                                    <option value="H1B">H1B</option>
-                                    <option value="H4 EAD">H4 EAD</option>
-                                    <option value="GC">GC</option>
-                                    <option value="GC EAD">GC EAD</option>
-                                    <option value="Other">Other</option>
-                                </select>
+                                <div class="form-floating mb-3">
+                                    <select name="visa_status" id="visa_status" class="form-select mb-3" required>
+                                        <option value="OPT">OPT</option>
+                                        <option value="CPT">CPT</option>
+                                        <option value="H1B">H1B</option>
+                                        <option value="H4 EAD">H4 EAD</option>
+                                        <option value="GC">GC</option>
+                                        <option value="GC EAD">GC EAD</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                    <label class="form-label" for="visa_status">Visa status <span style="color:red;"> *</span></label>
+                                </div>
                                 @error('visa_status')
                                     <span class="error mt-2 text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -226,9 +241,9 @@
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th>{{ __('Attachment Name') }}</th>
-                                    <th>{{ __('Attach file(Supports .pdf/.jpg/.png)') }}</th>
-                                    <th>{{ __('Action') }}</th>
+                                    <th class="nosort">{{ __('Attachment Name') }}</th>
+                                    <th class="nosort">{{ __('Attach file(Supports .pdf/.jpg/.png)') }}</th>
+                                    <th class="nosort">{{ __('Action') }}</th>
                                 </tr>
                             </thead>
                             <tbody id="wrapperRows"></tbody>
@@ -285,16 +300,18 @@
                                 <x-forms.input class="form-control {{ $errors->has('linked_in') ? ' is-invalid' : '' }}" title="LinkedIn" name="linked_in" id="linked_in" type="text" required="False"/>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                <label class="form-label" for="visa_status">Visa status <span style="color:red;"> *</span></label>
-                                <select name="visa_status" id="visa_status" class="form-select mb-3" required>
-                                    <option value="OPT">OPT</option>
-                                    <option value="CPT">CPT</option>
-                                    <option value="H1B">H1B</option>
-                                    <option value="H4 EAD">H4 EAD</option>
-                                    <option value="GC">GC</option>
-                                    <option value="GC EAD">GC EAD</option>
-                                    <option value="Other">Other</option>
-                                </select>
+                                <div class="form-floating mb-3">
+                                    <select name="visa_status" id="visa_status" class="form-select mb-3" required>
+                                        <option value="OPT">OPT</option>
+                                        <option value="CPT">CPT</option>
+                                        <option value="H1B">H1B</option>
+                                        <option value="H4 EAD">H4 EAD</option>
+                                        <option value="GC">GC</option>
+                                        <option value="GC EAD">GC EAD</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                    <label class="form-label" for="visa_status">Visa status <span style="color:red;"> *</span></label>
+                                </div>
                                 @error('visa_status')
                                     <span class="error mt-2 text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -304,14 +321,16 @@
                         </div><p> </p>
                         <div class="row g-3">
                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                <label class="form-label" for="candidate_type">Candidate type</label>
-                                <select name="candidate_type" id="candidate_type" class="form-select mb-3">
-                                    <option value="1099">1099</option>
-                                    <option value="W2">W2</option>
-                                    <option value="C2C">C2C</option>
-                                    <option value="Bench Candidate">Bench Candidate</option>
-                                    <option value="Other">Other</option>
-                                </select>
+                                <div class="form-floating mb-3">
+                                    <select name="candidate_type" id="candidate_type" class="form-select mb-3">
+                                        <option value="1099">1099</option>
+                                        <option value="W2">W2</option>
+                                        <option value="C2C">C2C</option>
+                                        <option value="Bench Candidate">Bench Candidate</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                    <label class="form-label" for="candidate_type">Candidate type</label>
+                                </div>
                                 @error('candidate_type')
                                     <span class="error mt-2 text-danger" role="alert">
                                         <strong>{{ $message }}</strong>

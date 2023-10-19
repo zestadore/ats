@@ -60,16 +60,28 @@
                         <form id="filterfordatatable" class="form-horizontal" onsubmit="event.preventDefault();">
                             <div class="row ">
                                 <div class="col">
-                                    <input type="text" name="search" class="form-control" placeholder="Search with candidate name">
+                                    <div class="form-floating mb-3">
+                                        <input type="text" name="search" class="form-control" placeholder="Search with candidate name">
+                                        <label class="form-label" for="search">Search with candidate name</label>
+                                    </div>
                                 </div>
                                 <div class="col">
-                                    <input type="text" name="location" class="form-control" placeholder="Search with location">
+                                    <div class="form-floating mb-3">
+                                        <input type="text" name="location" class="form-control" placeholder="Search with location">
+                                        <label class="form-label" for="location">Search with location</label>
+                                    </div>
                                 </div>
                                 <div class="col">
-                                    <input type="text" name="title" class="form-control" placeholder="Search with title">
+                                    <div class="form-floating mb-3">
+                                        <input type="text" name="title" class="form-control" placeholder="Search with title">
+                                        <label class="form-label" for="title">Search with title</label>
+                                    </div>
                                 </div>
                                 <div class="col">
-                                    <input type="text" name="contact" class="form-control" placeholder="Search with contact">
+                                    <div class="form-floating mb-3">
+                                        <input type="text" name="contact" class="form-control" placeholder="Search with contact">
+                                        <label class="form-label" for="contact">Search with contact</label>
+                                    </div>
                                 </div>
                             </div>
                         </form><br>
@@ -77,12 +89,12 @@
                             <thead>
                                 <tr>
                                     <th class="nosort">#</th>
-                                    <th>{{ __('Candidate Name') }}</th>
-                                    <th>{{ __('Matches') }}</th>
-                                    <th>{{ __('Email') }}</th>
-                                    <th>{{ __('Contact') }}</th>
-                                    <th>{{ __('Location') }}</th>
-                                    <th>{{ __('Title') }}</th>
+                                    <th class="nosort">{{ __('Candidate Name') }}</th>
+                                    <th class="nosort">{{ __('Matches') }}</th>
+                                    <th class="nosort">{{ __('Email') }}</th>
+                                    <th class="nosort">{{ __('Contact') }}</th>
+                                    <th class="nosort">{{ __('Location') }}</th>
+                                    <th class="nosort">{{ __('Title') }}</th>
                                     <th class="nosort">Action</th>
                                 </tr>
                             </thead>
@@ -161,16 +173,18 @@
                                 <x-forms.input class="form-control {{ $errors->has('linked_in') ? ' is-invalid' : '' }}" title="LinkedIn" name="linked_in" id="linked_in" type="text" required="False"/>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                <label class="form-label" for="visa_status">Visa status <span style="color:red;"> *</span></label>
-                                <select name="visa_status" id="visa_status" class="form-select mb-3" required>
-                                    <option value="OPT">OPT</option>
-                                    <option value="CPT">CPT</option>
-                                    <option value="H1B">H1B</option>
-                                    <option value="H4 EAD">H4 EAD</option>
-                                    <option value="GC">GC</option>
-                                    <option value="GC EAD">GC EAD</option>
-                                    <option value="Other">Other</option>
-                                </select>
+                                <div class="form-floating mb-3">
+                                    <select name="visa_status" id="visa_status" class="form-select mb-3" required>
+                                        <option value="OPT">OPT</option>
+                                        <option value="CPT">CPT</option>
+                                        <option value="H1B">H1B</option>
+                                        <option value="H4 EAD">H4 EAD</option>
+                                        <option value="GC">GC</option>
+                                        <option value="GC EAD">GC EAD</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                    <label class="form-label" for="visa_status">Visa status <span style="color:red;"> *</span></label>
+                                </div>
                                 @error('visa_status')
                                     <span class="error mt-2 text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -180,14 +194,16 @@
                         </div><p> </p>
                         <div class="row g-3">
                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                <label class="form-label" for="candidate_type">Candidate type</label>
-                                <select name="candidate_type" id="candidate_type" class="form-select mb-3">
-                                    <option value="1099">1099</option>
-                                    <option value="W2">W2</option>
-                                    <option value="C2C">C2C</option>
-                                    <option value="Bench Candidate">Bench Candidate</option>
-                                    <option value="Other">Other</option>
-                                </select>
+                                <div class="form-floating mb-3">
+                                    <select name="candidate_type" id="candidate_type" class="form-select mb-3">
+                                        <option value="1099">1099</option>
+                                        <option value="W2">W2</option>
+                                        <option value="C2C">C2C</option>
+                                        <option value="Bench Candidate">Bench Candidate</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                    <label class="form-label" for="candidate_type">Candidate type</label>
+                                </div>
                                 @error('candidate_type')
                                     <span class="error mt-2 text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -217,9 +233,9 @@
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th>{{ __('Attachment Name') }}</th>
-                                    <th>{{ __('Attach file(Supports .pdf/.jpg/.png)') }}</th>
-                                    <th>{{ __('Action') }}</th>
+                                    <th class="nosort">{{ __('Attachment Name') }}</th>
+                                    <th class="nosort">{{ __('Attach file(Supports .pdf/.jpg/.png)') }}</th>
+                                    <th class="nosort">{{ __('Action') }}</th>
                                 </tr>
                             </thead>
                             <tbody id="wrapperRows"></tbody>
