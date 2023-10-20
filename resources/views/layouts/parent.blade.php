@@ -37,7 +37,7 @@
     <script src="{{asset('assets/vendor/prismjs/plugins/toolbar/prism-toolbar.min.js')}}"></script>
     <script src="{{asset('assets/vendor/prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js')}}"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js" defer></script>
     <script type="text/javascript">
       // Optional
       Prism.plugins.NormalizeWhitespace.setDefaults({
@@ -80,6 +80,20 @@
                 //alert("mouse moved" + idleTime);
                 idleTime = 0;
             });
+
+            $('#note_description').summernote({
+                placeholder: 'Notes Description',
+                tabsize: 2,
+                height: 150,
+                toolbar: [
+                    ['style', ['style']],
+                    ['font', ['bold', 'underline', 'clear']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['table', ['table']],
+                    ['insert', ['link']],
+                ]
+            });
         });
     
         function timerIncrement() {
@@ -110,7 +124,7 @@
                         $('#note_choice').val(1);
                     }
                     $('#note_title').val('');
-                    $('#note_description').val('');
+                    $('#note_description').summernote('code','');
                     $('#assigned_to').val('')
                     $('#saveNotes').attr('data-id','0');
                     $('#notesModal').modal('show');
@@ -122,24 +136,11 @@
             window.location.href="{{route('admin.view.calendar')}}";
         }
 
-        $('#note_description').summernote({
-            placeholder: 'Notes Description',
-            tabsize: 2,
-            height: 150,
-            toolbar: [
-                ['style', ['style']],
-                ['font', ['bold', 'underline', 'clear']],
-                ['color', ['color']],
-                ['para', ['ul', 'ol', 'paragraph']],
-                ['table', ['table']],
-                ['insert', ['link']],
-            ]
-        });
         $('#hiddenDiv').hide();
         $('#toggleDiv').click(function(){
             $('#hiddenDiv').toggle();
             $('#note_title').val('');
-            $('#note_description').html('');
+            $('#note_description').summernote('code','');
             $('#assigned_to').val('');
             $('#saveNotes').attr('data-id','0');
         });
@@ -214,7 +215,7 @@
                 success:function(response){
                     console.log(response);
                     $('#note_title').val(response.title);
-                    $('#note_description').val(response.description);
+                    $('#note_description').summernote('code',response.description);
                     if(response.assigned_to){
                         $('#assigned_to').val(response.assigned_to.id)
                     }

@@ -357,7 +357,8 @@
                         $('#client_id').val(response.data.client_id);
                         $('#end_client_id').val(response.data.end_client_id);
                         $('#notes').val(response.data.notes);
-                        $('#description').html(response.data.description);
+                        // $('#description').html(response.data.description);
+                        $('#description').summernote('code',response.data.description);
                         $('#key_skills').val(response.data.key_skills);
                         $('#job_owner').val(response.data.job_owner).trigger('change');
                         $('#assign_recruiter').val(response.data.assign_recruiter).trigger('change');
@@ -453,7 +454,11 @@
                         html+="</tr>";
                         html+="<tr>";
                         html+="<td>Client</td>";
-                        var client=response.data.client.client_name?response.data.client.client_name:"-";
+                        if(response.data.client){
+                            var client=response.data.client.client_name?response.data.client.client_name:"-";
+                        }else{
+                            var client="-";
+                        }
                         html+="<td>"+client+"</td>";
                         html+="</tr>";
                         html+="<tr>";
