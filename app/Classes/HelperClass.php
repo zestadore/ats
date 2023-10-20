@@ -1,5 +1,6 @@
 <?php
 namespace App\Classes;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class HelperClass {
@@ -62,6 +63,22 @@ class HelperClass {
                 break;
         }
         return $roleArray;
+    }
+
+    public function getRelatedUsers(){
+        $rolesList=$this->getRolesList();
+        $role=Auth::user()->role;
+        if($role=='super_admin'){
+            $users=User::where('id','!=',Auth::user()->id)->get();
+            return $users;
+        }else{
+            $roles=[];
+            foreach($rolesList as $rolez){
+                $roles[]=$rolez['id'];
+            }
+            $users=User::where('id','!=',Auth::user()->id)->whereIn('role',$roles)->get();
+            return $users;
+        }
     }
 
 }

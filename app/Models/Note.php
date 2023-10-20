@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
+use App\Models\Scopes\SaasScope;
 
 class Note extends Model
 {
@@ -30,5 +31,14 @@ class Note extends Model
         {
             $model->updated_by = Auth::user()->id;
         });
+    }
+
+    protected static function booted()
+    {
+        static::addGlobalScope(new SaasScope);
+    }
+
+    public function assignedTo(){
+        return $this->belongsTo(User::class, 'assigned_to', 'id');
     }
 }

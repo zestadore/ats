@@ -71,8 +71,8 @@
                                                 <div class="row">
                                                     <div class="col">
                                                         <div class="text-gray-light">INVOICE FROM:</div>
-                                                        <h5 class="name">
-                                                            <a target="_blank" href="javascript:;">
+                                                        <h5 class="name" >
+                                                            <a target="_blank" href="javascript:;" style="color:black !important;">
                                                                 American Nexus Trading Inc.
                                                             </a>
                                                         </h5>
@@ -82,7 +82,7 @@
                                                     <div class="col company-details" style="text-align: right;">
                                                         <div class="text-gray-light">INVOICE TO:</div>
                                                         <h5 class="name">
-                                                            <a target="_blank" href="javascript:;">
+                                                            <a target="_blank" href="javascript:;" style="color:black !important;">
                                                                 {{$data->client?->client_name}}
                                                             </a>
                                                         </h5>
@@ -97,10 +97,10 @@
                                                 <div class="row contacts">
                                                     <div class="col invoice-to">
                                                         <div class="text-gray-light">FOR CANDIDATE:</div>
-                                                        <h4 class="to"><a target="_blank" href="javascript:;">{{$data->candidate?->candidate_name}}</a></h4>
+                                                        <h5 class="to"><a target="_blank" href="javascript:;" style="color:black !important;">{{$data->candidate?->candidate_name}}</a></h5>
                                                     </div>
                                                     <div class="col invoice-details" style="text-align: right;">
-                                                        <h4 class="invoice-id"><a target="_blank" href="javascript:;">INVOICE #INV{{$data->invoice_no}}</a></h4>
+                                                        <h5 class="invoice-id"><a target="_blank" href="javascript:;" style="color:black !important;">INVOICE #INV{{$data->invoice_no}}</a></h5>
                                                         <div class="date">Date of Invoice: {{Carbon::parse($data->invoice_date)->format('d/m/Y')}}</div>
                                                         <div class="date">Due Date: {{Carbon::parse($data->due_date)->format('d/m/Y')}}</div>
                                                     </div>
@@ -123,7 +123,7 @@
                                                             <tr>
                                                                 <td class="no">{{$item->hours}}</td>
                                                                 <td>
-                                                                    <a href="javascript:;">
+                                                                    <a href="javascript:;" style="color:black !important;">
                                                                         {{Carbon::parse($item->from_date)->format('d-M-Y')}} till {{Carbon::parse($item->to_date)->format('d-M-Y')}}
                                                                     </a>
                                                                 </td>

@@ -4,10 +4,9 @@
 <head>
 	<!-- Required meta tags -->
 	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-	<META HTTP-EQUIV="REFRESH" CONTENT="csrf_timeout_in_seconds">
-	<meta name="robots" content="all,follow">
 	<link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&amp;display=swap" rel="stylesheet">
     <!-- Prism Syntax Highlighting-->
@@ -21,7 +20,6 @@
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
     <!-- Favicon-->
     <link rel="shortcut icon" href="{{asset('assets/img/favicon.png')}}">
-	
     @yield('style')
 	<title>@yield('title_head')</title>
 </head>
@@ -38,8 +36,8 @@
     <script src="{{asset('assets/vendor/prismjs/plugins/normalize-whitespace/prism-normalize-whitespace.min.js')}}"></script>
     <script src="{{asset('assets/vendor/prismjs/plugins/toolbar/prism-toolbar.min.js')}}"></script>
     <script src="{{asset('assets/vendor/prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js')}}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
     <script type="text/javascript">
       // Optional
       Prism.plugins.NormalizeWhitespace.setDefaults({
@@ -94,12 +92,27 @@
 			}
         }
         
-        function openNotes(){
+        function openNotes(type){
             $.ajax({
                 url: "{{route('admin.notes.index')}}",
                 type:"get",
+                data:{
+                    'type':type
+                },
                 success:function(response){
                     $('#view-notes-modal-body').html(response.html);
+                    $('#notesTitle').text(type);
+                    if(type=="Notes"){
+                        $('.assigned_to').hide();
+                        $('#note_choice').val(0);
+                    }else{
+                        $('.assigned_to').show();
+                        $('#note_choice').val(1);
+                    }
+                    $('#note_title').val('');
+                    $('#note_description').val('');
+                    $('#assigned_to').val('')
+                    $('#saveNotes').attr('data-id','0');
                     $('#notesModal').modal('show');
                 },
             });
@@ -125,18 +138,31 @@
         $('#hiddenDiv').hide();
         $('#toggleDiv').click(function(){
             $('#hiddenDiv').toggle();
+            $('#note_title').val('');
+            $('#note_description').html('');
+            $('#assigned_to').val('');
+            $('#saveNotes').attr('data-id','0');
         });
 
         $('#saveNotes').click(function(){
+            var id=$('#saveNotes').attr('data-id');
+            if(id==0){
+                var url="{{route('admin.notes.store')}}";
+                var type="POST";
+            }else{
+                var url="{{route('admin.notes.update','ID')}}";
+                url=url.replace('ID',id);
+                var type="PUT";
+            }
             $.ajax({
-                url: "{{route('admin.notes.store')}}",
-                type:"post",
+                url: url,
+                type:type,
                 data:{
                     "_token": "{{ csrf_token() }}",
                     "title": $('#note_title').val(),
                     "type": $('#note_choice').val(),
-                    "color_code": $('#note_color').val(),
-                    "description": $('#note_description').summernote('code'),
+                    "description": $('#note_description').val(),
+                    'assigned_to': $('#assigned_to').val(),
                 },
                 success:function(response){
                     if(response.success){
@@ -145,7 +171,7 @@
                     }   
                 },
             });
-        })
+        });
 
         function deleteNote(id)
         {
@@ -178,6 +204,65 @@
                 }
             });
         }
+
+        function editNote(id){
+            var url="{{route('admin.notes.edit','ID')}}";
+            url=url.replace('ID',id);
+            $.ajax({
+                url: url,
+                type:"get",
+                success:function(response){
+                    console.log(response);
+                    $('#note_title').val(response.title);
+                    $('#note_description').val(response.description);
+                    if(response.assigned_to){
+                        $('#assigned_to').val(response.assigned_to.id)
+                    }
+                    if(response.type==1){
+                        $('.assigned_to').show();
+                    }
+                    $('#hiddenDiv').show();
+                    $('#saveNotes').attr('data-id',id);
+                },
+            });
+        }
+
+        function changeStatus(id,type){
+            swal({
+                title: 'Are you sure?',
+                text: "You change the status!",
+                icon: 'warning',
+                buttons: true,
+                dangerMode: true,
+            }).then((result) => {
+                if (result) {
+                    var url="{{route('admin.notes.update','ID')}}";
+                    url=url.replace('ID',id);
+                    $.ajax({
+                        url: url,
+                        type:"PUT",
+                        data:{
+                            "_token": "{{ csrf_token() }}",
+                            "status": 1
+                        },
+                        success:function(response){
+                            console.log(response);
+                            if(response.success){
+                                swal("Good job!", "You changed the status!", "success");
+                                if(type==0){
+                                    openNotes('Notes');
+                                }else{
+                                    openNotes('ToDos');
+                                }
+                            }else{
+                                swal("Oops!", "Failed to change the status!", "danger");
+                            }
+                        },
+                    });
+                }
+            });
+        }
+
     </script>
     @yield('javascripts')
 </body>

@@ -7,6 +7,7 @@ use App\Models\Submission;
 use App\Models\Interview;
 use App\Models\User;
 use App\Models\DashboardWidgetOrder;
+use App\Classes\HelperClass;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Activitylog\Models\Activity;
@@ -168,6 +169,24 @@ use Spatie\Activitylog\Models\Activity;
                 "activityLogzSection"
             ]]);
             return $res->order;
+        }
+    }
+    
+    function getRelatedUsers(){
+        
+        $role=Auth::user()->role;
+        if($role=='super_admin'){
+            $users=User::where('id','!=',Auth::user()->id)->get();
+            return $users;
+        }else{
+            $helperClass=New HelperClass;
+            $rolesList=$helperClass->getRolesList();
+            $roles=[];
+            foreach($rolesList as $rolez){
+                $roles[]=$rolez['id'];
+            }
+            $users=User::where('id','!=',Auth::user()->id)->whereIn('role',$roles)->get();
+            return $users;
         }
     }
 
