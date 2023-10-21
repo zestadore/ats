@@ -269,7 +269,7 @@
         var events=[];
         for (var i = 0; i < eventArray.length; i++) {
             events.push({
-                title: eventArray[i].title,
+                title: toTitleCase(eventArray[i].title),
                 start: eventArray[i].start,
                 end: eventArray[i].end,
                 id:eventArray[i].id,
@@ -492,6 +492,16 @@
                 });
             }
         });
+
+        function toTitleCase(str) {
+            str = str.replace('_', ' ');
+            return str.replace(
+                /\w\S*/g,
+                function(txt) {
+                    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+                }
+            );
+        }
 
     </script>
 @endsection

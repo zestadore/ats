@@ -90,3 +90,10 @@ div.dt-buttons {
 		width: 100% !important;
 		height: 100% !important;
 	}
+	
+	.fc-col-header-cell{
+		background:purple;
+	}
+	.fc-col-header-cell-cushion {
+		color: white !important;
+	}
