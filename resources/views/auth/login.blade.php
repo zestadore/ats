@@ -10,7 +10,7 @@
                     
                     <div class="card ">
                         <div class="card-header px-lg-5">
-                            <div class="card-heading text-primary" style="text-align:center;"><img src="{{asset('assets/img/ezizaas_logo.png')}}" alt="" class="img-responsive"></div>
+                            <div class="card-heading text-primary" style="text-align:center;"><img src="{{asset('assets/img/EZISAAS-LOGO-PNG.png')}}" alt="" class="img-responsive" style="width:200px;"></div>
                         </div>
                         <div class="card-body p-lg-5">
                             @if (session('error'))
