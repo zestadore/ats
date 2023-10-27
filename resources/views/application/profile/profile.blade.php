@@ -54,7 +54,7 @@
                         </div><p> </p>
                         <div class="row g-3">
                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                <x-forms.input class="custom-file-input {{ $errors->has('image') ? ' is-invalid' : '' }}" title="Image" name="image" id="image" type="file" required="False"/>
+                                <x-forms.input class="form-control {{ $errors->has('image') ? ' is-invalid' : '' }}" title="Image" name="image" id="image" type="file" required="False"/>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                             </div>

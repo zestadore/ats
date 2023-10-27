@@ -28,10 +28,20 @@
 </head>
 <body>
 	@yield('content')
+    <div class="toast-container position-absolute top-0 end-0 p-3">
+        <div class="toast align-items-center" role="alert" aria-live="assertive" aria-atomic="true" id="toast_class">
+            <div class="d-flex">
+              <div class="toast-body" id="toast-body">
+                Hello, world! This is a toast message.
+              </div>
+              <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"><span class="visually-hidden">Close</span></button>
+            </div>
+        </div>
+    </div>
 	<!-- JavaScript files-->
+    <script src="{{asset('assets/js/jquery.js')}}"></script>
     <script src="{{asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
-    <script src="{{asset('assets/js/jquery.js')}}"></script>
     <!-- Main Theme JS File-->
     <script src="{{asset('assets/js/theme.js')}}"></script>
     <!-- Prism for syntax highlighting-->
@@ -39,6 +49,8 @@
     <script src="{{asset('assets/vendor/prismjs/plugins/normalize-whitespace/prism-normalize-whitespace.min.js')}}"></script>
     <script src="{{asset('assets/vendor/prismjs/plugins/toolbar/prism-toolbar.min.js')}}"></script>
     <script src="{{asset('assets/vendor/prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js')}}"></script>
+    <!-- Notifications Init-->
+    {{-- <script src="{{asset('assets/js/components-notifications.js')}}"> </script> --}}
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js" defer></script>
     <script type="text/javascript">
@@ -97,6 +109,7 @@
                     ['insert', ['link']],
                 ]
             });
+
         });
     
         function timerIncrement() {
@@ -196,12 +209,22 @@
                             "_token": "{{ csrf_token() }}",
                         },
                         success:function(response){
-                            console.log(response);
+                            // console.log(response);
                             if(response.success){
-                                swal("Good job!", "You deleted the data!", "success");
+                                // swal("Good job!", "You deleted the data!", "success");
+                                $('#toast-body').text("You deleted the data!");
+                                $('#toast_class').addClass('bg-success');
+                                $('#toast_class').removeClass('bg-danger');
+                                window.scrollTo(0, 0);
+                                toastList.forEach(toast => toast.show());
                                 $('#view-notes-modal-body').html(response.html);
                             }else{
-                                swal("Oops!", "Failed to deleted the data!", "danger");
+                                // swal("Oops!", "Failed to deleted the data!", "danger");
+                                $('#toast-body').text("You deleted the data!");
+                                $('#toast_class').addClass('bg-danger');
+                                $('#toast_class').removeClass('bg-success');
+                                window.scrollTo(0, 0);
+                                toastList.forEach(toast => toast.show());
                             }
                         },
                     });
@@ -294,6 +317,14 @@
         $(document).ajaxStop(function(){
             $('.centerLoader').hide();
         });
+        $('.hidden_icon').hide();
+        $('.show_icon').show();
+    </script>
+    <script>
+        var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+        var toastList = toastElList.map(function(toastEl) {
+            return new bootstrap.Toast(toastEl);
+        })
     </script>
     @yield('javascripts')
 </body>

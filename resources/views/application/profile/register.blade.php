@@ -61,16 +61,18 @@
                                             @enderror
                                         </div><p> </p>
                                         <div id="primary_focus_div">
-                                            <label class="form-label" for="primary_focus">Primary focus</label>
-                                            <select name="primary_focus" id="primary_focus" class="form-select">
-                                                <option value="">Select an option</option>
-                                                <option value="cpmmercial_staffing">Commercial staffing / Temp agency</option>
-                                                <option value="executive_search">Executive search</option>
-                                                <option value="permanent_placement">Permanent placement</option>
-                                                <option value="professional_staffing">Professional staffing</option>
-                                                <option value="rpo">RPO</option>
-                                                <option value="job_board">Job board</option>
-                                            </select>
+                                            <div class="form-floating mb-3">
+                                                <select name="primary_focus" id="primary_focus" class="form-select">
+                                                    <option value="">Select an option</option>
+                                                    <option value="cpmmercial_staffing">Commercial staffing / Temp agency</option>
+                                                    <option value="executive_search">Executive search</option>
+                                                    <option value="permanent_placement">Permanent placement</option>
+                                                    <option value="professional_staffing">Professional staffing</option>
+                                                    <option value="rpo">RPO</option>
+                                                    <option value="job_board">Job board</option>
+                                                </select>
+                                                <label for="primary_focus">Primary focus</label>
+                                            </div>
                                         </div><p> </p>
                                         <x-forms.input class="form-control {{ $errors->has('company_name') ? ' is-invalid' : '' }}" title="Company name " name="company_name" id="company_name" type="text" required="True"/>
                                         <div class="row">

@@ -1773,8 +1773,8 @@
     <!-- Init Charts on Charts page-->
     <script src="{{asset('assets/vendor/chart.js/Chart.min.js')}}"></script>
     <script src="{{asset('assets/js/charts-defaults.js')}}"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
+    {{-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> --}}
     <script>
         function drawChart() {
             var internalInterviews='{{getInternalInterviewCounts()}}';
@@ -2055,6 +2055,8 @@
             draggedWidget = null;
             getWidgetOrder();
             drawChart();
+            
         });
+        // toastList.forEach(toast => toast.show()) 
     </script>
 @endsection

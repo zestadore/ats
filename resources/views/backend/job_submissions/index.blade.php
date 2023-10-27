@@ -507,7 +507,12 @@
                         $('#interview_availability').val(response.data.interview_availability);
                         $('#addNewModal').modal('show');
                     }else{
-                        swal("Oops!", "Failed to fetch the data!", "error");
+                        // swal("Oops!", "Failed to fetch the data!", "error");
+                        $('#toast-body').text("Failed to fetch the data!");
+                        $('#toast_class').addClass('bg-danger');
+                        $('#toast_class').removeClass('bg-success');
+                        window.scrollTo(0, 0);
+                        toastList.forEach(toast => toast.show());
                     }
                 },
             });
@@ -537,10 +542,20 @@
                         success:function(response){
                             console.log(response);
                             if(response.success){
-                                swal("Good job!", "You deleted the data!", "success");
+                                // swal("Good job!", "You deleted the data!", "success");
+                                $('#toast-body').text("You deleted the data!");
+                                $('#toast_class').addClass('bg-success');
+                                $('#toast_class').removeClass('bg-danger');
+                                window.scrollTo(0, 0);
+                                toastList.forEach(toast => toast.show());
                                 drawTable();
                             }else{
-                                swal("Oops!", "Failed to deleted the data!", "danger");
+                                // swal("Oops!", "Failed to deleted the data!", "danger");
+                                $('#toast-body').text("You deleted the data!");
+                                $('#toast_class').addClass('bg-danger');
+                                $('#toast_class').removeClass('bg-success');
+                                window.scrollTo(0, 0);
+                                toastList.forEach(toast => toast.show());
                             }
                         },
                     });
@@ -659,7 +674,12 @@
                         $('#view-modal-body').html(html);
                         $('#exampleLargeModal').modal('show');
                     }else{
-                        swal("Oops!", "Failed to fetch the data!", "error");
+                        // swal("Oops!", "Failed to fetch the data!", "error");
+                        $('#toast-body').text("Failed to fetch the data!");
+                        $('#toast_class').addClass('bg-danger');
+                        $('#toast_class').removeClass('bg-success');
+                        window.scrollTo(0, 0);
+                        toastList.forEach(toast => toast.show());
                     }
                 },
             });
@@ -849,12 +869,22 @@
                     success:function(response){
                         console.log(response);
                         if(response.success==true){
-                            swal("Good job!", "Data added successfully", "success");
+                            // swal("Good job!", "Data added successfully", "success");
+                                $('#toast-body').text("Data added successfully");
+                                $('#toast_class').addClass('bg-success');
+                                $('#toast_class').removeClass('bg-danger');
+                                window.scrollTo(0, 0);
+                                toastList.forEach(toast => toast.show());
                             $('#addNewModal').modal('hide');
                             $('#jQueryValidationForm')[0].reset();
                             drawTable();
                         }else{
-                            swal("Oops!", "Failed to add the data!", "error");
+                            $('#toast-body').text("Failed to add the data!");
+                                $('#toast_class').addClass('bg-danger');
+                                $('#toast_class').removeClass('bg-success');
+                                window.scrollTo(0, 0);
+                                toastList.forEach(toast => toast.show());
+                                // swal("Oops!", "Failed to add the data!", "error");
                         }
                     }
                 });

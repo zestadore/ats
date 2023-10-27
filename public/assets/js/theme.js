@@ -19,6 +19,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
             document.querySelector(".sidebar").classList.toggle("shrink");
             document.querySelector(".sidebar").classList.toggle("show");
+            $(".sidebar_title").toggle();
+            $(".hidden_icon").toggle();
+            $(".show_icon").toggle();
         });
     }
 
