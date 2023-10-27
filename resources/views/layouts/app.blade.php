@@ -18,8 +18,8 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <div style="text-align:right;" id="toggleDiv"><i class='fas fa-plus-square' style='font-size:24px;color:green;'></i></div>
-                        <div id="hiddenDiv">
+                        {{-- <div style="text-align:right;" id="toggleDiv"><i class='fas fa-plus-square' style='font-size:24px;color:green;'></i></div> --}}
+                        <div>
                             <div class="row">
                                 <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
                                     <input type="hidden" name="note_choice" id="note_choice" value="0">
@@ -41,15 +41,16 @@
                                 </div>
                             </div>
                             <x-forms.input class="form-control summernote {{ $errors->has('note_description') ? ' is-invalid' : '' }}" title=" " name="note_description" id="note_description" type="textarea" required="False"/>
-                            <div style="text-align: right;">
+                            {{-- <div style="text-align: right;">
                                 <button type="button" class="btn btn-primary" id="saveNotes" data-id="0">Save</button>
-                            </div>
+                            </div> --}}
                         </div>
                         <p> </p>
                         <div id="view-notes-modal-body"></div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="saveNotes" data-id="0">Submit</button>
                     </div>
                 </div>
             </div>

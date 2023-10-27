@@ -19,6 +19,11 @@ class NoteController extends Controller
         return response()->json(["html"=>$html]);
     }
 
+    public function listNotes($type)
+    {
+        return view('backend.notes.index',['type'=>$type]);
+    }
+
     public function create()
     {
         //
@@ -76,8 +81,9 @@ class NoteController extends Controller
 
     private function getNotes($type)
     {
-        $notes=Note::where('type',$type)->latest('created_at')->get();
-        $renderHtml=view('backend.notes.list',['notes'=>$notes,'type'=>$type])->render();
+        $pendingNotes=Note::where('type',$type)->where('status',0)->latest('created_at')->get();
+        $finishedNotes=Note::where('type',$type)->where('status',1)->latest('created_at')->get();
+        $renderHtml=view('backend.notes.list',['pendingNotes'=>$pendingNotes,'finishedNotes'=>$finishedNotes,'type'=>$type])->render();
         return $renderHtml;
     }
 }

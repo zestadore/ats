@@ -33,5 +33,6 @@ Route::middleware(['auth'])->name('admin.')->namespace("App\Http\Controllers\Adm
     Route::resource('notes', NoteController::class);
     Route::post('upload-auto-resume', [App\Http\Controllers\Admin\CandidateController::class, 'uploadAutoResume'])->name('upload-auto-resume');
     Route::get('calendar', [App\Http\Controllers\Admin\InterviewController::class, 'calendar'])->name('view.calendar');
+    Route::get('list-notes/{type}', [App\Http\Controllers\Admin\NoteController::class, 'listNotes'])->name('notes.list');
 });
 

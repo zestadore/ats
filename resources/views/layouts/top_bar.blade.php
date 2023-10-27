@@ -15,10 +15,16 @@
             <div class="icon text-white bg-indigo"><i class="fas fa-plus"></i></div>
           </a>
           <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated" aria-labelledby="notesInfo">
-            <a class="dropdown-item" href="Javascript::void(0)" onclick="openNotes('Notes')">
+            {{-- <a class="dropdown-item" href="Javascript::void(0)" onclick="openNotes('Notes')">
                 Notes
             </a>
             <a class="dropdown-item" href="Javascript::void(0)" onclick="openNotes('ToDos')">
+                ToDos
+            </a> --}}
+            <a class="dropdown-item" href="{{route('admin.notes.list','Notes')}}">
+              Notes
+            </a>
+            <a class="dropdown-item" href="{{route('admin.notes.list','ToDos')}}">
                 ToDos
             </a>
           </div>

@@ -291,30 +291,20 @@
             fixedWeekCount: false,
             events: events,
             dateClick: function(info) {
-                swal({
-                    title: 'Hi!',
-                    text: "Do you want to schedule an interview?",
-                    icon: 'warning',
-                    buttons: true,
-                    dangerMode: true,
-                }).then((result) => {
-                    if (result) {
-                        // localStorage.setItem("interview_date", info.dateStr);
-                        $('#jQueryValidationForm')[0].reset();
-                        $('#addNewButton').attr('data-id','0');
-                        var date = info.dateStr;
-                        if(date){
-                            var selectedDate = new Date(date);
-                            var now = new Date();
-                            selectedDate.setMinutes(now.getMinutes() - now.getTimezoneOffset());
-                            document.getElementById('from_date').value = selectedDate.toISOString().slice(0,16);
-                        }
-                        // $('#from_date').val(info.dateStr);
-                        // $('#candidate_id').val('').trigger('change');
-                        $('#addNewModal').modal('show');
-                        // window.location.href="{{route('admin.interviews.create')}}";
-                    }
-                })
+                // localStorage.setItem("interview_date", info.dateStr);
+                $('#jQueryValidationForm')[0].reset();
+                $('#addNewButton').attr('data-id','0');
+                var date = info.dateStr;
+                if(date){
+                    var selectedDate = new Date(date);
+                    var now = new Date();
+                    selectedDate.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+                    document.getElementById('from_date').value = selectedDate.toISOString().slice(0,16);
+                }
+                // $('#from_date').val(info.dateStr);
+                // $('#candidate_id').val('').trigger('change');
+                $('#addNewModal').modal('show');
+                // window.location.href="{{route('admin.interviews.create')}}";
             },
             eventClick: function(info) {
                 info.jsEvent.preventDefault(); // don't let the browser navigate

@@ -152,14 +152,12 @@
             window.location.href="{{route('admin.view.calendar')}}";
         }
 
-        $('#hiddenDiv').hide();
-        $('#toggleDiv').click(function(){
-            $('#hiddenDiv').toggle();
-            $('#note_title').val('');
-            $('#note_description').summernote('code','');
-            $('#assigned_to').val('');
-            $('#saveNotes').attr('data-id','0');
-        });
+        // $('#toggleDiv').click(function(){
+        //     $('#note_title').val('');
+        //     $('#note_description').summernote('code','');
+        //     $('#assigned_to').val('');
+        //     $('#saveNotes').attr('data-id','0');
+        // });
 
         $('#saveNotes').click(function(){
             var id=$('#saveNotes').attr('data-id');
@@ -183,8 +181,9 @@
                 },
                 success:function(response){
                     if(response.success){
-                        $('#hiddenDiv').toggle();
-                        $('#view-notes-modal-body').html(response.html);
+                        // $('#hiddenDiv').toggle();
+                        $('#view-notes-body').html(response.html);
+                        $('#notesModal').modal('hide');
                     }   
                 },
             });
@@ -218,6 +217,7 @@
                                 window.scrollTo(0, 0);
                                 toastList.forEach(toast => toast.show());
                                 $('#view-notes-modal-body').html(response.html);
+                                drawTable();
                             }else{
                                 // swal("Oops!", "Failed to deleted the data!", "danger");
                                 $('#toast-body').text("You deleted the data!");
@@ -248,45 +248,45 @@
                     if(response.type==1){
                         $('.assigned_to').show();
                     }
-                    $('#hiddenDiv').show();
+                    $('#notesModal').modal('show');
                     $('#saveNotes').attr('data-id',id);
                 },
             });
         }
 
-        function changeStatus(id,type){
-            swal({
-                title: 'Are you sure?',
-                text: "You change the status!",
-                icon: 'warning',
-                buttons: true,
-                dangerMode: true,
-            }).then((result) => {
-                if (result) {
-                    var url="{{route('admin.notes.update','ID')}}";
-                    url=url.replace('ID',id);
-                    $.ajax({
-                        url: url,
-                        type:"PUT",
-                        data:{
-                            "_token": "{{ csrf_token() }}",
-                            "status": 1
-                        },
-                        success:function(response){
-                            console.log(response);
-                            if(response.success){
-                                swal("Good job!", "You changed the status!", "success");
-                                if(type==0){
-                                    openNotes('Notes');
-                                }else{
-                                    openNotes('ToDos');
-                                }
-                            }else{
-                                swal("Oops!", "Failed to change the status!", "danger");
-                            }
-                        },
-                    });
-                }
+        function changeStatus(id,status){
+            var url="{{route('admin.notes.update','ID')}}";
+            url=url.replace('ID',id);
+            var changeStatus=1;
+            if(status==1){
+                changeStatus=0;
+            }
+            $.ajax({
+                url: url,
+                type:"PUT",
+                data:{
+                    "_token": "{{ csrf_token() }}",
+                    "status": changeStatus
+                },
+                success:function(response){
+                    console.log(response);
+                    if(response.success){
+                        // swal("Good job!", "You changed the status!", "success");
+                        $('#toast-body').text("You changed the status!");
+                        $('#toast_class').addClass('bg-success');
+                        $('#toast_class').removeClass('bg-danger');
+                        window.scrollTo(0, 0);
+                        toastList.forEach(toast => toast.show());
+                        drawTable();
+                    }else{
+                        // swal("Oops!", "Failed to change the status!", "danger");
+                        $('#toast-body').text("Failed to change the status!");
+                        $('#toast_class').addClass('bg-danger');
+                        $('#toast_class').removeClass('bg-success');
+                        window.scrollTo(0, 0);
+                        toastList.forEach(toast => toast.show());
+                    }
+                },
             });
         }
 
