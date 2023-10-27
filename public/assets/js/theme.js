@@ -11,19 +11,34 @@ document.addEventListener("DOMContentLoaded", function () {
     // Sidebar
     // ------------------------------------------------------ //
 
-    const sidebarToggler = document.querySelector(".sidebar-toggler");
+    const sidebarToggler = document.querySelector("#sidebar-toggler");
 
     if (sidebarToggler) {
         sidebarToggler.addEventListener("click", function (e) {
-            e.preventDefault();
-
-            document.querySelector(".sidebar").classList.toggle("shrink");
-            document.querySelector(".sidebar").classList.toggle("show");
-            $(".sidebar_title").toggle();
-            $(".hidden_icon").toggle();
-            $(".show_icon").toggle();
+            if(sidebarToggler.checked){
+                // e.preventDefault();
+                localStorage.setItem("sideBar", 1);
+                document.querySelector(".sidebar").classList.toggle("shrink");
+                document.querySelector(".sidebar").classList.toggle("show");
+                // $(".sidebar_title").toggle();
+                // $(".hidden_icon").toggle();
+                // $(".show_icon").toggle();
+                $(".sidebar_title").hide();
+                $(".hidden_icon").show();
+                $(".show_icon").hide();
+            }else{
+                localStorage.setItem("sideBar", 0);
+                document.querySelector(".sidebar").classList.toggle("shrink");
+                document.querySelector(".sidebar").classList.toggle("show");
+                $(".sidebar_title").show();
+                $(".hidden_icon").hide();
+                $(".show_icon").show();
+            }
+            
         });
     }
+
+    
 
     // ------------------------------------------------------- //
     // Search Dropdown Menu
@@ -61,3 +76,5 @@ document.addEventListener("DOMContentLoaded", function () {
         return new bootstrap.Tooltip(tooltipTriggerEl);
     });
 });
+
+

@@ -39,6 +39,9 @@
         </div>
     </div>
 	<!-- JavaScript files-->
+    <script>
+        var sdBar=localStorage.getItem("sideBar");
+    </script>
     <script src="{{asset('assets/js/jquery.js')}}"></script>
     <script src="{{asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
@@ -109,7 +112,6 @@
                     ['insert', ['link']],
                 ]
             });
-
         });
     
         function timerIncrement() {
@@ -324,7 +326,27 @@
         var toastElList = [].slice.call(document.querySelectorAll('.toast'))
         var toastList = toastElList.map(function(toastEl) {
             return new bootstrap.Toast(toastEl);
-        })
+        });
+
+        if(sdBar==1){
+            localStorage.setItem("sideBar", 1);
+            $('#sidebar-toggler').click();
+            document.querySelector(".sidebar").classList.toggle("shrink");
+            document.querySelector(".sidebar").classList.toggle("show");
+            // $(".sidebar_title").toggle();
+            // $(".hidden_icon").toggle();
+            // $(".show_icon").toggle();
+            $(".sidebar_title").hide();
+            $(".hidden_icon").show();
+            $(".show_icon").hide();
+        }else{
+            localStorage.setItem("sideBar", 0);
+            // document.querySelector(".sidebar").classList.toggle("shrink");
+            // document.querySelector(".sidebar").classList.toggle("show");
+            $(".sidebar_title").show();
+            $(".hidden_icon").hide();
+            $(".show_icon").show();
+        }
     </script>
     @yield('javascripts')
 </body>

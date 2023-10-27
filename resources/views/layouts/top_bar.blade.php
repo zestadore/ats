@@ -3,7 +3,11 @@
     <nav class="navbar navbar-expand-lg px-4 py-2 bg-white shadow"><a class="fw-bold text-uppercase text-base" href="JavaScript:void(0)"><span class="d-none d-brand-partial">
       <img src="{{asset('assets/img/EZISAAS-LOGO-PNG.png')}}" alt="" class="img-responsive show_icon" width="190px">
       <img src="{{asset('assets/img/ezisaas-fav-icon.png')}}" alt="" class="img-responsive hidden_icon" width="30px">
-    </span></a>&nbsp;<a class="sidebar-toggler text-gray-500 me-4 me-lg-5 lead" href="#" style="float: left !important;"><i class="fas fa-align-left"></i></a>
+    </span></a>&nbsp;
+    {{-- <a class="sidebar-toggler text-gray-500 me-4 me-lg-5 lead" href="#" style="float: left !important;">
+      <i class="fas fa-align-left"></i>
+    </a> --}}
+    <input type="checkbox" name="sidebar-toggler" class="sidebar-toggler form-check-input text-gray-500 me-4 me-lg-5 lead" id="sidebar-toggler" style="float: left !important;">
     <div class="spinner-grow centerLoader" role="status" style="float: left;"> <span class="visually-hidden">Loading...</span>
     </div>  
     <ul class="ms-auto d-flex align-items-center list-unstyled mb-0">
