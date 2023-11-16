@@ -20,7 +20,7 @@
                     </nav>
                 </div>
                 <div class="ms-auto">
-                    <a href="{{route('admin.pricing-plans.create')}}" class="btn btn-primary">Add New</a>
+                    <button class="btn btn-primary" type="button" onclick="addNew()">Add New</button>
                 </div>
             </div>
             @if (session('error'))
@@ -78,11 +78,66 @@
             </div>
         </div>
     </div>
+    <!-- Modal -->
+    <div class="modal fade" id="addNewModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="jQueryValidationForm" method="POST">@csrf
+                        <div class="row g-3">
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                <x-forms.input class="form-control {{ $errors->has('plan_name') ? ' is-invalid' : '' }}" title="Pricing plan name" name="plan_name" id="plan_name" type="text" required="True"/>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                <x-forms.input class="form-control {{ $errors->has('price_per_user') ? ' is-invalid' : '' }}" title="Monthly price per user" name="price_per_user" id="price_per_user" type="number" required="True"/>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                <x-forms.input class="form-control {{ $errors->has('price_per_user_yearly') ? ' is-invalid' : '' }}" title="Yearly price per user" name="price_per_user_yearly" id="price_per_user_yearly" type="number" required="True"/>
+                            </div>
+                        </div><p> </p>
+                        <div class="row g-3">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <x-forms.input class="form-control {{ $errors->has('trail_days') ? ' is-invalid' : '' }}" title="Trail days" name="trail_days" id="trail_days" type="number" required="True"/>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <div class="form-floating mb-3">
+                                    <select name="permissions[]" class="form-select" id="permissions" multiple>
+                                        <option value="Matches">Matches</option>
+                                        <option value="Autofill">Autofill</option>
+                                    </select>
+                                    <label for="permissions">Excluded permissions</label>
+                                    @error('permissions')
+                                        <span class="error mt-2 text-danger" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div><p> </p>
+                        <div class="row g-3">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <x-forms.input class="form-control {{ $errors->has('description') ? ' is-invalid' : '' }}" title="Description" name="description" id="description" type="textarea" required="False"/>
+                            </div>
+                        </div><p> </p>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="addNewButton" data-id="0">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 @section('javascripts')
     <script src="{{asset('assets/css/datatable/js/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('assets/css/datatable/js/dataTables.bootstrap5.min.js')}}"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="{{asset('assets/js/jquery.validate.min.js')}}"></script>
     <script>
         function drawTable()
         {
@@ -161,9 +216,35 @@
         drawTable();
 
         function editData(id){
-            var url="{{route('admin.pricing-plans.edit','ID')}}";
+            $('#addNewButton').attr("data-id",id);
+            var url="{{route('admin.pricing-plans.show','ID')}}";
             url=url.replace('ID',id);
-            window.location.href=url;
+            $.ajax({
+                url: url,
+                type:"get",
+                success:function(response){
+                    if(response.success==true){
+                        $('#jQueryValidationForm')[0].reset();
+                        $('#plan_name').val(response.data.plan_name);
+                        $('#price_per_user').val(response.data.price_per_user);
+                        $('#trail_days').val(response.data.trail_days);
+                        $('#description').val(response.data.description);
+                        $('#price_per_user_yearly').val(response.data.price_per_user_yearly);
+                        $('#permissions').val(response.data.permissions);
+                        $('#addNewModal').modal('show');
+                    }else{
+                        // swal("Oops!", "Failed to fetch the data!", "error");
+                        $('#toast-body').text("Failed to fetch the data!");
+                        $('#toast_class').addClass('bg-danger');
+                        $('#toast_class').removeClass('bg-success');
+                        window.scrollTo(0, 0);
+                        toastList.forEach(toast => toast.show());
+                    }
+                },
+            });
+            // var url="{{route('admin.clients.edit','ID')}}";
+            // url=url.replace('ID',id);
+            // window.location.href=url;
         }
 
         function deleteData(id)
@@ -261,6 +342,115 @@
                     },
                 });
             }
+
+            $( document ).ready( function () {
+                $( "#jQueryValidationForm" ).validate( {
+                    rules: {
+                        yourname: "required",
+                        phone: "required",
+                        username: {
+                            required: true,
+                            minlength: 2
+                        },
+                        password: {
+                            required: true,
+                            minlength: 5
+                        },
+                        confirm_password: {
+                            required: true,
+                            minlength: 5,
+                            equalTo: "#input38"
+                        },
+                        email: {
+                            required: true,
+                            email: true
+                        },
+                        country: "required",
+                        address: "required",
+                        agree: "required"
+                    },
+                    messages: {
+                        yourname: "Please enter your your name",
+                        phone: "Please enter your phone number",
+                        username: {
+                            required: "Please enter a username",
+                            minlength: "Your username must consist of at least 2 characters"
+                        },
+                        password: {
+                            required: "Please provide a password",
+                            minlength: "Your password must be at least 5 characters long"
+                        },
+                        confirm_password: {
+                            required: "Please provide a password",
+                            minlength: "Your password must be at least 5 characters long",
+                            equalTo: "Please enter the same password as above"
+                        },
+                        email: "Please enter a valid email address",
+                        country: "Please select country",
+                        address: "Please type your message",
+                        agree: "Please accept our policy"
+                    },errorElement: "div",
+                        errorPlacement: function ( error, element ) {
+                            error.addClass( "invalid-feedback" );
+                            error.insertAfter( element );
+                        },
+                    highlight: function(element) {
+                        $(element).removeClass('is-valid').addClass('is-invalid');
+                    },
+                    unhighlight: function(element) {
+                        $(element).removeClass('is-invalid').addClass('is-valid');
+                    }
+                } );
+            } );
+
+            function addNew(){
+                //clear the form
+                $('#jQueryValidationForm')[0].reset();
+                $('#addNewButton').attr('data-id','0');
+                $('#addNewModal').modal('show');
+            }
+
+            $('#addNewButton').click(function(){
+                if($('#jQueryValidationForm').valid()){
+                    var id=$('#addNewButton').attr('data-id');
+                    if(id==0){
+                        var url="{{route('admin.pricing-plans.store')}}";
+                        var method="post";
+                    }else{
+                        var url="{{route('admin.pricing-plans.update','ID')}}";
+                        url=url.replace('ID',id);
+                        var method="put";
+                    }
+                    //submit form via ajax
+                    $.ajax({
+                        url:url,
+                        "headers": {"X-Requested-With":'XMLHttpRequest'},
+                        method:method,
+                        data:$('#jQueryValidationForm').serialize(),
+                        success:function(response){
+                            console.log(response);
+                            if(response.success==true){
+                                // swal("Good job!", "Data added successfully", "success");
+                                $('#toast-body').text("Data added successfully");
+                                $('#toast_class').addClass('bg-success');
+                                $('#toast_class').removeClass('bg-danger');
+                                window.scrollTo(0, 0);
+                                toastList.forEach(toast => toast.show());
+                                $('#addNewModal').modal('hide');
+                                $('#jQueryValidationForm')[0].reset();
+                                drawTable();
+                            }else{
+                                $('#toast-body').text("Failed to add the data!");
+                                $('#toast_class').addClass('bg-danger');
+                                $('#toast_class').removeClass('bg-success');
+                                window.scrollTo(0, 0);
+                                toastList.forEach(toast => toast.show());
+                                // swal("Oops!", "Failed to add the data!", "error");
+                            }
+                        }
+                    });
+                }
+            })
 
     </script>
 @endsection

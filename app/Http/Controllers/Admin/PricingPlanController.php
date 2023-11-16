@@ -37,10 +37,18 @@ class PricingPlanController extends Controller
     public function store(ValidatePricingPlan $request)
     {
         $res=PricingPlan::create($request->except(['_token']))->id;
-        if($res){
-            return redirect()->route('admin.pricing-plans.index')->with('success', 'Successfully updated the data.');
+        if($request->ajax()){
+            if($res){
+                return response()->json(['success'=>true]);
+            }else{
+                return response()->json(['success'=>false]);
+            }
         }else{
-            return redirect()->route('admin.pricing-plans.index')->with('error', 'Failed to update the data. Please try again.');
+            if($res){
+                return redirect()->route('admin.pricing-plans.index')->with('success', 'Successfully updated the data.');
+            }else{
+                return redirect()->route('admin.pricing-plans.index')->with('error', 'Failed to update the data. Please try again.');
+            }
         }
     }
 
@@ -66,10 +74,18 @@ class PricingPlanController extends Controller
         $id=Crypt::decrypt($id);
         $data=PricingPlan::findOrFail($id);
         $res=$data->update($request->except(['_token']));
-        if($res){
-            return redirect()->route('admin.pricing-plans.index')->with('success', 'Successfully updated the data.');
+        if($request->ajax()){
+            if($res){
+                return response()->json(['success'=>true]);
+            }else{
+                return response()->json(['success'=>false]);
+            }
         }else{
-            return redirect()->back()->route('admin.pricing-plans.index')->with('error', 'Failed to update the data. Please try again.');
+            if($res){
+                return redirect()->route('admin.pricing-plans.index')->with('success', 'Successfully updated the data.');
+            }else{
+                return redirect()->route('admin.pricing-plans.index')->with('error', 'Failed to update the data. Please try again.');
+            }
         }
     }
 

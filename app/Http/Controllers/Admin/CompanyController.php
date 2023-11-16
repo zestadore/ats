@@ -78,10 +78,18 @@ class CompanyController extends Controller
             ];
             $res=$this->createUser($data);
         }
-        if($res){
-            return redirect()->route('admin.companies.index')->with('success', 'Successfully updated the data.');
+        if($request->ajax()){
+            if($res){
+                return response()->json(['success'=>true]);
+            }else{
+                return response()->json(['success'=>false]);
+            }
         }else{
-            return redirect()->route('admin.companies.index')->with('error', 'Failed to update the data. Please try again.');
+            if($res){
+                return redirect()->route('admin.companies.index')->with('success', 'Successfully updated the data.');
+            }else{
+                return redirect()->route('admin.companies.index')->with('error', 'Failed to update the data. Please try again.');
+            }
         }
     }
 
@@ -106,6 +114,7 @@ class CompanyController extends Controller
 
     public function update(ValidateCompany $request, $id)
     {
+        dd($id);
         if($request->file('logo')){
             $request->validate([
                 'logo' => 'required|file|max:2048|mimes:jpg,jpeg,png,gif',
@@ -150,10 +159,18 @@ class CompanyController extends Controller
             }
             $res=$this->updateUser($data,$id);
         }
-        if($res){
-            return redirect()->route('admin.companies.index')->with('success', 'Successfully updated the data.');
+        if($request->ajax()){
+            if($res){
+                return response()->json(['success'=>true]);
+            }else{
+                return response()->json(['success'=>false]);
+            }
         }else{
-            return redirect()->route('admin.companies.index')->with('error', 'Failed to update the data. Please try again.');
+            if($res){
+                return redirect()->route('admin.companies.index')->with('success', 'Successfully updated the data.');
+            }else{
+                return redirect()->route('admin.companies.index')->with('error', 'Failed to update the data. Please try again.');
+            }
         }
     }
 

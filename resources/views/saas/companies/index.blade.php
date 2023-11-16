@@ -20,7 +20,7 @@
                     </nav>
                 </div>
                 <div class="ms-auto">
-                    <a href="{{route('admin.companies.create')}}" class="btn btn-primary">Add New</a>
+                    <button class="btn btn-primary" type="button" onclick="addNew()">Add New</button>
                 </div>
             </div>
             @if (session('error'))
@@ -79,11 +79,63 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="addNewModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="jQueryValidationForm" method="POST" enctype="multipart/form-data">@csrf
+                        <div class="row g-3">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <x-forms.input class="form-control {{ $errors->has('company_name') ? ' is-invalid' : '' }}" title="Company name" name="company_name" id="company_name" type="text" required="True"/>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <x-forms.input class="form-control {{ $errors->has('logo') ? ' is-invalid' : '' }}" title="Logo" name="logo" id="logo" type="file" required="False"/>
+                            </div>
+                        </div><p> </p>
+                        <div class="row g-3">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <x-forms.input class="form-control {{ $errors->has('address') ? ' is-invalid' : '' }}" title="Address" name="address" id="address" type="text" required="False"/>
+                            </div>
+                        </div><p> </p>
+                        <h6>For Admin Access</h6><hr>
+                        <div class="row g-3">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <x-forms.input class="form-control {{ $errors->has('first_name') ? ' is-invalid' : '' }}" title="First name" name="first_name" id="first_name" type="text" required="True"/>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <x-forms.input class="form-control {{ $errors->has('last_name') ? ' is-invalid' : '' }}" title="Last name" name="last_name" id="last_name" type="text" required="False"/>
+                            </div>
+                        </div><p> </p>
+                        <div class="row g-3">
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                <x-forms.input class="form-control {{ $errors->has('email') ? ' is-invalid' : '' }}" title="Email" name="email" id="email" type="email" required="True"/>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                <x-forms.input class="form-control {{ $errors->has('mobile') ? ' is-invalid' : '' }}" title="Mobile" name="mobile" id="mobile" type="number" required="True"/>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                <x-forms.input class="form-control {{ $errors->has('password_string') ? ' is-invalid' : '' }}" title="Password" name="password_string" id="password_string" type="password" required="False"/>
+                            </div>
+                        </div><p> </p>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="addNewButton" data-id="0">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 @section('javascripts')
     <script src="{{asset('assets/css/datatable/js/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('assets/css/datatable/js/dataTables.bootstrap5.min.js')}}"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="{{asset('assets/js/jquery.validate.min.js')}}"></script>
     <script>
         function drawTable()
         {
@@ -166,9 +218,36 @@
         drawTable();
 
         function editData(id){
-            var url="{{route('admin.companies.edit','ID')}}";
+            $('#addNewButton').attr("data-id",id);
+            var url="{{route('admin.companies.show','ID')}}";
             url=url.replace('ID',id);
-            window.location.href=url;
+            $.ajax({
+                url: url,
+                type:"get",
+                success:function(response){
+                    if(response.success==true){
+                        $('#jQueryValidationForm')[0].reset();
+                        $('#company_name').val(response.data.company_name);
+                        $('#address').val(response.data.address);
+                        $('#pricing_plan_id').val(response.data.pricing_plan_id);
+                        $('#first_name').val(response.data.company_admin.first_name);
+                        $('#last_name').val(response.data.company_admin.last_name);
+                        $('#email').val(response.data.company_admin.email);
+                        $('#mobile').val(response.data.company_admin.mobile);
+                        $('#addNewModal').modal('show');
+                    }else{
+                        // swal("Oops!", "Failed to fetch the data!", "error");
+                        $('#toast-body').text("Failed to fetch the data!");
+                        $('#toast_class').addClass('bg-danger');
+                        $('#toast_class').removeClass('bg-success');
+                        window.scrollTo(0, 0);
+                        toastList.forEach(toast => toast.show());
+                    }
+                },
+            });
+            // var url="{{route('admin.clients.edit','ID')}}";
+            // url=url.replace('ID',id);
+            // window.location.href=url;
         }
 
         function deleteData(id)
@@ -313,6 +392,120 @@
                 },
             });
         }
+
+        $( document ).ready( function () {
+                $( "#jQueryValidationForm" ).validate( {
+                    rules: {
+                        yourname: "required",
+                        phone: "required",
+                        username: {
+                            required: true,
+                            minlength: 2
+                        },
+                        password: {
+                            required: true,
+                            minlength: 5
+                        },
+                        confirm_password: {
+                            required: true,
+                            minlength: 5,
+                            equalTo: "#input38"
+                        },
+                        email: {
+                            required: true,
+                            email: true
+                        },
+                        country: "required",
+                        address: "required",
+                        agree: "required"
+                    },
+                    messages: {
+                        yourname: "Please enter your your name",
+                        phone: "Please enter your phone number",
+                        username: {
+                            required: "Please enter a username",
+                            minlength: "Your username must consist of at least 2 characters"
+                        },
+                        password: {
+                            required: "Please provide a password",
+                            minlength: "Your password must be at least 5 characters long"
+                        },
+                        confirm_password: {
+                            required: "Please provide a password",
+                            minlength: "Your password must be at least 5 characters long",
+                            equalTo: "Please enter the same password as above"
+                        },
+                        email: "Please enter a valid email address",
+                        country: "Please select country",
+                        address: "Please type your message",
+                        agree: "Please accept our policy"
+                    },errorElement: "div",
+                        errorPlacement: function ( error, element ) {
+                            error.addClass( "invalid-feedback" );
+                            error.insertAfter( element );
+                        },
+                    highlight: function(element) {
+                        $(element).removeClass('is-valid').addClass('is-invalid');
+                    },
+                    unhighlight: function(element) {
+                        $(element).removeClass('is-invalid').addClass('is-valid');
+                    }
+                } );
+            } );
+
+            function addNew(){
+                //clear the form
+                $('#jQueryValidationForm')[0].reset();
+                $('#addNewButton').attr('data-id','0');
+                $('#addNewModal').modal('show');
+            }
+
+            $('#addNewButton').click(function(){
+                if($('#jQueryValidationForm').valid()){
+                    var id=$('#addNewButton').attr('data-id');
+                    var form = $('#jQueryValidationForm')[0];
+                    var formData = new FormData(form);
+                    if(id==0){
+                        var url="{{route('admin.companies.store')}}";
+                        var method="post";
+                    }else{
+                        var url="{{route('admin.companies.update','ID')}}";
+                        url=url.replace('ID',id);
+                        var method="post";
+                        formData.append('_method', 'put');
+                    }
+                    //submit form via ajax
+                    $.ajax({
+                        url:url,
+                        "headers": {"X-Requested-With":'XMLHttpRequest'},
+                        method:method,
+                        processData: false,
+                        contentType: false,
+                        data:formData,
+                        success:function(response){
+                            console.log(response);
+                            if(response.success==true){
+                                // swal("Good job!", "Data added successfully", "success");
+                                    $('#toast-body').text("Data added successfully");
+                                    $('#toast_class').addClass('bg-success');
+                                    $('#toast_class').removeClass('bg-danger');
+                                    window.scrollTo(0, 0);
+                                    toastList.forEach(toast => toast.show());
+                                $('#addNewModal').modal('hide');
+                                $('#jQueryValidationForm')[0].reset();
+                                drawTable();
+                            }else{
+                                $('#toast-body').text("Failed to add the data!");
+                                    $('#toast_class').addClass('bg-danger');
+                                    $('#toast_class').removeClass('bg-success');
+                                    window.scrollTo(0, 0);
+                                    toastList.forEach(toast => toast.show());
+                                    // swal("Oops!", "Failed to add the data!", "error");
+                            }
+                        }
+                    });
+                }
+            });
 
 
     </script>
