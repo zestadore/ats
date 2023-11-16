@@ -19,6 +19,10 @@ class PricingPlan extends Model
         return LogOptions::defaults()->logOnly(['*']);
     }
 
+    protected $casts = [
+        'permissions' => 'array',
+    ];
+
     public static function boot()
     {
         parent::boot();

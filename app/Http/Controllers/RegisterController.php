@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ValidateCompany;
 use App\Models\Company;
 use App\Models\User;
+use App\Models\PricingPlan;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use App\Mail\EmailVerificationMail;
@@ -14,7 +15,8 @@ class RegisterController extends Controller
 {
     public function companySignup()
     {
-        return view('application.profile.register');
+        $plans=PricingPlan::get();
+        return view('application.profile.register',compact('plans'));
     }
 
     public function registerCompany(ValidateCompany $request)

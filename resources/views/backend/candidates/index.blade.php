@@ -29,17 +29,23 @@
                 </div>
                 <div class="ms-auto">
                     <div class="row">
-                        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-                            <form action="{{route('admin.upload-auto-resume')}}" method="POST" enctype="multipart/form-data" id="uploadResumeForm">@csrf
-                                <x-forms.input class="form-control {{ $errors->has('resume') ? ' is-invalid' : '' }}" title="Resume(.pdf)" name="resume" id="resume" type="file" required="False"/>
-                            </form>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" style="text-align: right;">
-                            <button class="btn btn-primary" type="button" onclick="addNew()">Add New</button>
-                            {{-- <a href="{{route('admin.candidates.create')}}" class="btn btn-primary">Add New</a> --}}
-                        </div>
+                        @if (!in_array('Matches',Auth::user()?->company?->pricingPlan?->permissions??[]))
+                            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                                <form action="{{route('admin.upload-auto-resume')}}" method="POST" enctype="multipart/form-data" id="uploadResumeForm">@csrf
+                                    <x-forms.input class="form-control {{ $errors->has('resume') ? ' is-invalid' : '' }}" title="Resume(.pdf)" name="resume" id="resume" type="file" required="False"/>
+                                </form>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" style="text-align: right;">
+                                <button class="btn btn-primary" type="button" onclick="addNew()">Add New</button>
+                                {{-- <a href="{{route('admin.candidates.create')}}" class="btn btn-primary">Add New</a> --}}
+                            </div>
+                        @else
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align: right;">
+                                <button class="btn btn-primary" type="button" onclick="addNew()">Add New</button>
+                                {{-- <a href="{{route('admin.candidates.create')}}" class="btn btn-primary">Add New</a> --}}
+                            </div>
+                        @endif
                     </div>
-                    
                 </div>
             </div>
             @if (session('error'))
@@ -90,7 +96,9 @@
                                 <tr>
                                     <th class="nosort">#</th>
                                     <th class="nosort">{{ __('Candidate Name') }}</th>
-                                    <th class="nosort">{{ __('Matches') }}</th>
+                                    @if (!in_array('Matches',Auth::user()?->company?->pricingPlan?->permissions??[]))
+                                        <th class="nosort">{{ __('Matches') }}</th>
+                                    @endif
                                     <th class="nosort">{{ __('Email') }}</th>
                                     <th class="nosort">{{ __('Contact') }}</th>
                                     <th class="nosort">{{ __('Location') }}</th>
@@ -278,37 +286,8 @@
         var rowCount=1;
         function drawTable()
         {
-            var table = $('#item-table').DataTable({
-                processing: true,
-                serverSide: true,
-                "oLanguage": {
-                    "oPaginate": {
-                        "sFirst": "",
-                        "sLast": ""
-                    }
-                },
-                destroy: true,
-                // responsive: true,
-                buttons: buttons,
-                lengthChange: true,
-                lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
-                displayLength: 10,
-                pagingType: "full_numbers",
-                dom: 'B<"clear">lrtip',
-                ajax: {
-                    "url": '{{route("admin.candidates.index")}}',
-                    "headers": {"X-Requested-With":'XMLHttpRequest'},
-                    "data": function(d) {
-                        var searchprams = $('#filterfordatatable').serializeArray();
-                        var indexed_array = {};
-
-                        $.map(searchprams, function(n, i) {
-                            indexed_array[n['name']] = n['value'];
-                        });
-                        return $.extend({}, d, indexed_array);
-                    },
-                },
-                columns: [{
+            var choice="{{$choice}}";
+            var columns=[{
                         data: 'DT_RowIndex',
                         name: 'name'
                     },
@@ -340,7 +319,69 @@
                         data: 'action',
                         name: 'action'
                     }
-                ],
+                ];
+            if(choice<=0){
+                columns=[{
+                        data: 'DT_RowIndex',
+                        name: 'name'
+                    },
+                    {
+                        data: 'candidate_name',
+                        name: 'candidate_name'
+                    },
+                    {
+                        data: 'email',
+                        name: 'email'
+                    },
+                    {
+                        data: 'contact',
+                        name: 'contact'
+                    },
+                    {
+                        data: 'location',
+                        name: 'location'
+                    },
+                    {
+                        data: 'job_title',
+                        name: 'job_title'
+                    },
+                    {
+                        data: 'action',
+                        name: 'action'
+                    }
+                ];
+            }
+            var table = $('#item-table').DataTable({
+                processing: true,
+                serverSide: true,
+                "oLanguage": {
+                    "oPaginate": {
+                        "sFirst": "",
+                        "sLast": ""
+                    }
+                },
+                destroy: true,
+                // responsive: true,
+                buttons: buttons,
+                lengthChange: true,
+                lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                displayLength: 10,
+                pagingType: "full_numbers",
+                dom: 'B<"clear">lrtip',
+                ajax: {
+                    "url": '{{route("admin.candidates.index")}}',
+                    "headers": {"X-Requested-With":'XMLHttpRequest'},
+                    "data": function(d) {
+                        var searchprams = $('#filterfordatatable').serializeArray();
+                        var indexed_array = {};
+
+                        $.map(searchprams, function(n, i) {
+                            indexed_array[n['name']] = n['value'];
+                        });
+                        return $.extend({}, d, indexed_array);
+                    },
+                },
+                columns: columns,
 
                 'aoColumnDefs': [{
                     'bSortable': false,

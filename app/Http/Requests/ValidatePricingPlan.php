@@ -16,11 +16,7 @@ class ValidatePricingPlan extends FormRequest
     {
         return [
             'plan_name' => 'required',
-            'plan_type' => 'required',
-            'price' => 'required|numeric',
-            'plan_interval'=>'required|numeric',
-            'maximum_users'=>'required|numeric',
-            'monthly_invoices'=>'required|numeric',
+            'price_per_user' => 'required|numeric',
         ];
     }
 }

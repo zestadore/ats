@@ -10,6 +10,7 @@ use App\Models\Candidate;
 use Illuminate\Http\Request;
 use App\Http\Requests\ValidateJobOpportunity;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Auth;
 use DataTables;
 
 class JobOpportunityController extends Controller
@@ -56,7 +57,11 @@ class JobOpportunityController extends Controller
         $clients=Client::get();
         $accountManagers=User::where('role','account_manager')->get();
         $recruiters=User::where('role','recruiter')->get();
-        return view('backend.job_opportunities.index',['clients'=>$clients,'accountManagers'=>$accountManagers,'recruiters'=>$recruiters]);
+        $choice=0;
+        if(!in_array('Matches',Auth::user()?->company?->pricingPlan?->permissions??[])){
+            $choice=1;
+        }
+        return view('backend.job_opportunities.index',['clients'=>$clients,'accountManagers'=>$accountManagers,'recruiters'=>$recruiters,'choice'=>$choice]);
     }
 
     public function create()

@@ -7,7 +7,7 @@
               <ul class="sidebar-menu list-unstyled {{ (request()->is('admin/site-settings*')|| request()->is('admin/mail-settings*')|| request()->is('admin/pricing-plans*')|| request()->is('admin/companies*'))? '' : 'collapse' }}" id="saasDropdown">
                 <li class="sidebar-list-item"><a class="sidebar-link text-muted {{ (request()->is('admin/site-settings*'))? 'active' : '' }}" href="{{route('admin.get-site.details')}}">Site settings</a></li>
                 <li class="sidebar-list-item"><a class="sidebar-link text-muted {{ (request()->is('admin/mail-settings*'))? 'active' : '' }}" href="{{route('admin.get-mail.details')}}">Mail settings</a></li>
-                {{-- <li class="sidebar-list-item"><a class="sidebar-link text-muted {{ (request()->is('admin/pricing-plans*'))? 'active' : '' }}" href="{{route('admin.pricing-plans.index')}}">Pricing plans</a></li> --}}
+                <li class="sidebar-list-item"><a class="sidebar-link text-muted {{ (request()->is('admin/pricing-plans*'))? 'active' : '' }}" href="{{route('admin.pricing-plans.index')}}">Pricing plans</a></li>
                 <li class="sidebar-list-item"><a class="sidebar-link text-muted {{ (request()->is('admin/companies*'))? 'active' : '' }}" href="{{route('admin.companies.index')}}">Companies</a></li>
               </ul>
             </li>

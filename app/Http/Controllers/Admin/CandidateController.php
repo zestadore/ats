@@ -14,6 +14,7 @@ use DataTables;
 use Spatie\PdfToText\Pdf;
 use Nnjeim\World\World;
 use Skills;
+use Illuminate\Support\Facades\Auth;
 use PhpOffice\PhpWord\Settings;
 
 class CandidateController extends Controller
@@ -63,7 +64,11 @@ class CandidateController extends Controller
         }
         $renderHtml=view('backend.candidates.add_more')->render();
         $renderHtml = preg_replace("/[\r\n]*/","",$renderHtml);
-        return view('backend.candidates.index',['renderHtml'=>$renderHtml]);
+        $choice=0;
+        if(!in_array('Matches',Auth::user()?->company?->pricingPlan?->permissions??[])){
+            $choice=1;
+        }
+        return view('backend.candidates.index',['renderHtml'=>$renderHtml,'choice'=>$choice]);
     }
 
     public function create()

@@ -50,11 +50,9 @@
                                 <tr>
                                     <th class="nosort">#</th>
                                     <th class="nosort">{{ __('Plan Name') }}</th>
-                                    <th class="nosort">{{ __('Type') }}</th>
-                                    <th class="nosort">{{ __('Interval') }}</th>
-                                    <th class="nosort">{{ __('Price') }}</th>
-                                    <th class="nosort">{{ __('Max Users') }}</th>
-                                    <th class="nosort">{{ __('Max Invoices') }}</th>
+                                    <th class="nosort">{{ __('Price/User Monthly') }}</th>
+                                    <th class="nosort">{{ __('Price/User Yearly') }}</th>
+                                    <th class="nosort">{{ __('Excluded Permissions') }}</th>
                                     <th class="nosort">{{ __('Trail Days') }}</th>
                                     <th class="nosort">Action</th>
                                 </tr>
@@ -127,34 +125,16 @@
                         name: 'plan_name'
                     },
                     {
-                        data: 'plan_type',
-                        name: 'plan_type',
-                        render: function(data) {
-                            return data.toUpperCase();
-                        }
+                        data: 'price_per_user',
+                        name: 'price_per_user'
                     },
                     {
-                        data: 'plan_interval',
-                        name: 'plan_interval',
-                        render: function(data) {
-                            if(data==0){
-                                return "Monthly";
-                            }else{
-                                return "Yearly";
-                            }
-                        }
+                        data: 'price_per_user_yearly',
+                        name: 'price_per_user_yearly'
                     },
                     {
-                        data: 'price',
-                        name: 'price'
-                    },
-                    {
-                        data: 'maximum_users',
-                        name: 'maximum_users'
-                    },
-                    {
-                        data: 'monthly_invoices',
-                        name: 'monthly_invoices'
+                        data: 'permissions',
+                        name: 'permissions'
                     },
                     {
                         data: 'trail_days',
@@ -243,33 +223,29 @@
                             html+="<td>"+response.data.plan_name+"</td>";
                             html+="</tr>";
                             html+="<tr>";
-                            html+="<td>Plan Type</td>";
-                            html+="<td>"+response.data.plan_type.toUpperCase()+"</td>";
+                            html+="<td>Price/User Monthly</td>";
+                            html+="<td>"+response.data.price_per_user+"</td>";
                             html+="</tr>";
                             html+="<tr>";
-                            html+="<td>Plan Interval</td>";
-                            if(response.data.plan_interval==0){
-                                html+="<td>Monthly</td>";
-                            }else{
-                                html+="<td>Yearly</td>";
-
-                            }
-                            html+="</tr>";
-                            html+="<tr>";
-                            html+="<td>Price</td>";
-                            html+="<td>"+response.data.price+"</td>";
-                            html+="</tr>";
-                            html+="<tr>";
-                            html+="<td>Maximum Users</td>";
-                            html+="<td>"+response.data.maximum_users+"</td>";
-                            html+="</tr>";
-                            html+="<tr>";
-                            html+="<td>Monthly Invoices</td>";
-                            html+="<td>"+response.data.monthly_invoices+"</td>";
+                            html+="<td>Price/User Yearly</td>";
+                            html+="<td>"+response.data.price_per_user_yearly+"</td>";
                             html+="</tr>";
                             html+="<tr>";
                             html+="<td>Trail Days</td>";
                             html+="<td>"+response.data.trail_days+"</td>";
+                            html+="</tr>";
+                            html+="<tr>";
+                            html+="<td>Permissions</td>";
+                            if(response.data.permissions!=null){
+                                html+="<td>"+response.data.permissions+"</td>";
+                            }else{
+                                html+="<td> </td>";
+                            }
+                            html+="</tr>";
+                            html+="<tr>";
+                            html+="<td>Description</td>";
+                            html+="<td>"+response.data.description+"</td>";
+                            html+="</tr>";
                             html+="</table>";
                             html=html+"</html>";
                             $('#view-modal-body').html(html);

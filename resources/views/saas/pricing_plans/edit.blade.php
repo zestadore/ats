@@ -40,50 +40,34 @@
                     <form action="{{route('admin.pricing-plans.update',[Crypt::encrypt($data->id)])}}" id="jQueryValidationForm" method="POST">@csrf
                         @method('PUT')
                         <div class="row g-3">
-                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                                 <x-forms.input class="form-control {{ $errors->has('plan_name') ? ' is-invalid' : '' }}" title="Pricing plan name" name="plan_name" id="plan_name" type="text" required="True"/>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                <label for="plan_type">Plan type <span style="color:red;"> *</span></label>
-                                <select name="plan_type" id="plan_type" class="form-select {{ $errors->has('plan_type') ? ' is-invalid' : '' }}" required>
-                                    <option value="">Select plan type</option>
-                                    <option value="one_time">One time</option>
-                                    <option value="recurring">Recurring</option>
-                                </select>
-                                @error('plan_type')
-                                    <span class="error mt-2 text-danger" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                <x-forms.input class="form-control {{ $errors->has('price_per_user') ? ' is-invalid' : '' }}" title="Monthly price per user" name="price_per_user" id="price_per_user" type="number" required="True"/>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                <x-forms.input class="form-control {{ $errors->has('price_per_user_yearly') ? ' is-invalid' : '' }}" title="Yearly price per user" name="price_per_user_yearly" id="price_per_user_yearly" type="number" required="True"/>
                             </div>
                         </div><p> </p>
                         <div class="row g-3">
                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                <label for="plan_interval">Plan interval <span style="color:red;"> *</span></label>
-                                <select name="plan_interval" id="plan_interval" class="form-select {{ $errors->has('plan_interval') ? ' is-invalid' : '' }}" required>
-                                    <option value="">Select plan interval</option>
-                                    <option value="0">Monthly</option>
-                                    <option value="1">Yearly</option>
-                                </select>
-                                @error('plan_interval')
-                                    <span class="error mt-2 text-danger" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                <x-forms.input class="form-control {{ $errors->has('price') ? ' is-invalid' : '' }}" title="Price" name="price" id="price" type="number" required="True"/>
-                            </div>
-                        </div><p> </p>
-                        <div class="row g-3">
-                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                                <x-forms.input class="form-control {{ $errors->has('maximum_users') ? ' is-invalid' : '' }}" title="Max users" name="maximum_users" id="maximum_users" type="number" required="True"/>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                                <x-forms.input class="form-control {{ $errors->has('monthly_invoices') ? ' is-invalid' : '' }}" title="Max invoices" name="monthly_invoices" id="monthly_invoices" type="number" required="True"/>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                                 <x-forms.input class="form-control {{ $errors->has('trail_days') ? ' is-invalid' : '' }}" title="Trail days" name="trail_days" id="trail_days" type="number" required="True"/>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <div class="form-floating mb-3">
+                                    <select name="permissions[]" class="form-select" id="permissions" multiple>
+                                        <option value="">Select excluded Permissions</option>
+                                        <option value="Matches" @if (in_array('Matches', $data?->permissions??[]))selected @endif>Matches</option>
+                                        <option value="Autofill" @if (in_array('Autofill', $data?->permissions??[]))selected @endif>Autofill</option>
+                                    </select>
+                                    <label for="permissions">Excluded permissions</label>
+                                    @error('permissions')
+                                        <span class="error mt-2 text-danger" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
                             </div>
                         </div><p> </p>
                         <div class="row g-3">
@@ -168,13 +152,10 @@
 
         function prefillForm(){
             $('#plan_name').val('{{$data->plan_name}}');
-            $('#plan_type').val('{{ $data->plan_type }}');
-            $('#plan_interval').val('{{ $data->plan_interval }}');
-            $('#price').val('{{ $data->price }}');
-            $('#maximum_users').val('{{ $data->maximum_users }}');
-            $('#monthly_invoices').val('{{ $data->monthly_invoices }}');
+            $('#price_per_user').val('{{ $data->price_per_user}}');
             $('#trail_days').val('{{ $data->trail_days }}');
             $('#description').val('{{ $data->description }}');
+            $('#price_per_user_yearly').val('{{ $data->price_per_user_yearly}}');
         }
         prefillForm();
     </script>

@@ -60,7 +60,9 @@
                                     <th class="nosort">#</th>
                                     <th class="nosort">{{ __('Title') }}</th>
                                     <th class="nosort">{{ __('Type') }}</th>
-                                    <th class="nosort">{{ __('Matches') }}</th>
+                                    @if (!in_array('Matches',Auth::user()?->company?->pricingPlan?->permissions??[]))
+                                        <th class="nosort">{{ __('Matches') }}</th>
+                                    @endif
                                     <th class="nosort">{{ __('Job Owner') }}</th>
                                     <th class="nosort">{{ __('Job Status') }}</th>
                                     <th class="nosort">{{ __('Client') }}</th>
@@ -232,37 +234,8 @@
         });
         function drawTable()
         {
-            var table = $('#item-table').DataTable({
-                processing: true,
-                serverSide: true,
-                "oLanguage": {
-                    "oPaginate": {
-                        "sFirst": "",
-                        "sLast": ""
-                    }
-                },
-                destroy: true,
-                // responsive: true,
-                buttons: buttons,
-                lengthChange: true,
-                lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
-                displayLength: 10,
-                pagingType: "full_numbers",
-                dom: 'B<"clear">lrtip',
-                ajax: {
-                    "url": '{{route("admin.job-opportunities.index")}}',
-                    "headers": {"X-Requested-With":'XMLHttpRequest'},
-                    "data": function(d) {
-                        var searchprams = $('#filterfordatatable').serializeArray();
-                        var indexed_array = {};
-
-                        $.map(searchprams, function(n, i) {
-                            indexed_array[n['name']] = n['value'];
-                        });
-                        return $.extend({}, d, indexed_array);
-                    },
-                },
-                columns: [{
+            var choice="{{$choice}}";
+            var columns=[{
                         data: 'DT_RowIndex',
                         name: 'name'
                     },
@@ -316,7 +289,92 @@
                         data: 'action',
                         name: 'action'
                     }
-                ],
+                ];
+            if(choice<=0){
+                columns=[{
+                        data: 'DT_RowIndex',
+                        name: 'name'
+                    },
+                    {
+                        data: 'title',
+                        name: 'title'
+                    },
+                    {
+                        data: 'type',
+                        name: 'type',
+                        render: function(data) {
+                            if(data==0){
+                                return "Contract";
+                            }else if(data==1){
+                                return "Fulltime";
+                            }
+                        }
+                    },
+                    {
+                        data: 'job_owner_names',
+                        name: 'job_owner_names'
+                    },
+                    {
+                        data: 'status',
+                        name: 'status',
+                        render: function(data) {
+                            if(data==0){
+                                return "<span class='badge bg-danger'>Inactive</span>";
+                            }else if(data==1){
+                                return "<span class='badge bg-success'>Active</span>";
+                            }
+                        }
+                    },
+                    {
+                        data: 'client',
+                        name: 'client'
+                    },
+                    {
+                        data: 'end_client',
+                        name: 'end_client'
+                    },
+                    {
+                        data: 'key_skills',
+                        name: 'key_skills'
+                    },
+                    {
+                        data: 'action',
+                        name: 'action'
+                    }
+                ];
+
+            }
+            var table = $('#item-table').DataTable({
+                processing: true,
+                serverSide: true,
+                "oLanguage": {
+                    "oPaginate": {
+                        "sFirst": "",
+                        "sLast": ""
+                    }
+                },
+                destroy: true,
+                // responsive: true,
+                buttons: buttons,
+                lengthChange: true,
+                lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                displayLength: 10,
+                pagingType: "full_numbers",
+                dom: 'B<"clear">lrtip',
+                ajax: {
+                    "url": '{{route("admin.job-opportunities.index")}}',
+                    "headers": {"X-Requested-With":'XMLHttpRequest'},
+                    "data": function(d) {
+                        var searchprams = $('#filterfordatatable').serializeArray();
+                        var indexed_array = {};
+
+                        $.map(searchprams, function(n, i) {
+                            indexed_array[n['name']] = n['value'];
+                        });
+                        return $.extend({}, d, indexed_array);
+                    },
+                },
+                columns: columns,
 
                 'aoColumnDefs': [{
                     'bSortable': false,
