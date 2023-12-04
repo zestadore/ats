@@ -293,6 +293,7 @@
             dateClick: function(info) {
                 // localStorage.setItem("interview_date", info.dateStr);
                 $('#jQueryValidationForm')[0].reset();
+                clearValidation();
                 $('#addNewButton').attr('data-id','0');
                 var date = info.dateStr;
                 if(date){
@@ -484,6 +485,7 @@
                                 toastList.forEach(toast => toast.show());
                             $('#addNewModal').modal('hide');
                             $('#jQueryValidationForm')[0].reset();
+                            clearValidation();
                             location.reload();
                         }else{
                             $('#toast-body').text("Failed to add the data!");

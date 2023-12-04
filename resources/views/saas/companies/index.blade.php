@@ -227,13 +227,21 @@
                 success:function(response){
                     if(response.success==true){
                         $('#jQueryValidationForm')[0].reset();
+                        clearValidation();
                         $('#company_name').val(response.data.company_name);
                         $('#address').val(response.data.address);
                         $('#pricing_plan_id').val(response.data.pricing_plan_id);
-                        $('#first_name').val(response.data.company_admin.first_name);
-                        $('#last_name').val(response.data.company_admin.last_name);
-                        $('#email').val(response.data.company_admin.email);
-                        $('#mobile').val(response.data.company_admin.mobile);
+                        if(response.data.company_admin){
+                            $('#first_name').val(response.data.company_admin.first_name);
+                            $('#last_name').val(response.data.company_admin.last_name);
+                            $('#email').val(response.data.company_admin.email);
+                            $('#mobile').val(response.data.company_admin.mobile);
+                        }else{
+                            $('#first_name').val('');
+                            $('#last_name').val('');
+                            $('#email').val('');
+                            $('#mobile').val('');
+                        }
                         $('#addNewModal').modal('show');
                     }else{
                         // swal("Oops!", "Failed to fetch the data!", "error");
@@ -318,10 +326,10 @@
                         html+="<td>Address</td>";
                         html+="<td>"+response.data.address+"</td>";
                         html+="</tr>";
-                        html+="<tr>";
-                        html+="<td>Website</td>";
-                        html+="<td>"+response.data.website+"</td>";
-                        html+="</tr>";
+                        // html+="<tr>";
+                        // html+="<td>Website</td>";
+                        // html+="<td>"+response.data.website+"</td>";
+                        // html+="</tr>";
                         // html+="<tr>";
                         // html+="<td>Date format</td>";
                         // html+="<td>"+response.data.date_format+"</td>";
@@ -367,15 +375,27 @@
                         html+="</tr>";
                         html+="<tr>";
                         html+="<td>Name</td>";
-                        html+="<td>"+response.data.company_admin.full_name+"</td>";
+                        if(response.data.company_admin){
+                            html+="<td>"+response.data.company_admin.full_name+"</td>";
+                        }else{
+                            html+="<td> </td>";
+                        }
                         html+="</tr>";
                         html+="<tr>";
                         html+="<td>Email</td>";
-                        html+="<td>"+response.data.company_admin.email+"</td>";
+                        if(response.data.company_admin){
+                            html+="<td>"+response.data.company_admin.email+"</td>";
+                        }else{
+                            html+="<td> </td>";
+                        }
                         html+="</tr>";
                         html+="<tr>";
                         html+="<td>Mobile/Contact</td>";
-                        html+="<td>"+response.data.company_admin.mobile+"</td>";
+                        if(response.data.company_admin){
+                            html+="<td>"+response.data.company_admin.mobile+"</td>";
+                        }else{
+                            html+="<td> </td>";
+                        }
                         html+="</tr>";
                         html+="</table>";
                         html=html+"</html>";
@@ -456,6 +476,7 @@
             function addNew(){
                 //clear the form
                 $('#jQueryValidationForm')[0].reset();
+                clearValidation();
                 $('#addNewButton').attr('data-id','0');
                 $('#addNewModal').modal('show');
             }
@@ -493,6 +514,7 @@
                                     toastList.forEach(toast => toast.show());
                                 $('#addNewModal').modal('hide');
                                 $('#jQueryValidationForm')[0].reset();
+                                clearValidation();
                                 drawTable();
                             }else{
                                 $('#toast-body').text("Failed to add the data!");

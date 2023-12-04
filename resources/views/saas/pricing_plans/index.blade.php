@@ -225,6 +225,7 @@
                 success:function(response){
                     if(response.success==true){
                         $('#jQueryValidationForm')[0].reset();
+                        clearValidation();
                         $('#plan_name').val(response.data.plan_name);
                         $('#price_per_user').val(response.data.price_per_user);
                         $('#trail_days').val(response.data.trail_days);
@@ -325,7 +326,11 @@
                             html+="</tr>";
                             html+="<tr>";
                             html+="<td>Description</td>";
-                            html+="<td>"+response.data.description+"</td>";
+                            if(response.data.description!=null){
+                                html+="<td>"+response.data.description+"</td>";
+                            }else{
+                                html+="<td> </td>";
+                            }
                             html+="</tr>";
                             html+="</table>";
                             html=html+"</html>";
@@ -406,6 +411,7 @@
             function addNew(){
                 //clear the form
                 $('#jQueryValidationForm')[0].reset();
+                clearValidation();
                 $('#addNewButton').attr('data-id','0');
                 $('#addNewModal').modal('show');
             }
@@ -438,6 +444,7 @@
                                 toastList.forEach(toast => toast.show());
                                 $('#addNewModal').modal('hide');
                                 $('#jQueryValidationForm')[0].reset();
+                                clearValidation();
                                 drawTable();
                             }else{
                                 $('#toast-body').text("Failed to add the data!");

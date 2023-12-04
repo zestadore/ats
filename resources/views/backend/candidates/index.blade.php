@@ -407,6 +407,7 @@
                 success:function(response){
                     if(response.success==true){
                         $('#jQueryValidationForm')[0].reset();
+                        clearValidation();
                         var atts=response.data.additional_attachments;
                         var html2="<table class='table table-striped table-bordered'>";
                         if(atts.length>0){
@@ -652,6 +653,7 @@
         function addNew(){
             //clear the form
             $('#jQueryValidationForm')[0].reset();
+            clearValidation();
             $('#addNewButton').attr('data-id','0');
             $('#wrapperRows').html('');
             $('#listAdditionalAttachments').html('');
@@ -692,6 +694,7 @@
                                 toastList.forEach(toast => toast.show());
                             $('#addNewModal').modal('hide');
                             $('#jQueryValidationForm')[0].reset();
+                            clearValidation();
                             drawTable();
                         }else{
                             $('#toast-body').text("Failed to add the data!");

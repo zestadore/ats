@@ -207,6 +207,7 @@
             $('#addNewButton').attr("data-id",id);
             var url="{{route('admin.clients.show','ID')}}";
             url=url.replace('ID',id);
+            clearValidation();
             $.ajax({
                 url: url,
                 type:"get",
@@ -402,6 +403,7 @@
             function addNew(){
                 //clear the form
                 $('#jQueryValidationForm')[0].reset();
+                clearValidation();
                 $('#addNewButton').attr('data-id','0');
                 $('#addNewModal').modal('show');
             }
@@ -434,6 +436,7 @@
                                 toastList.forEach(toast => toast.show());
                                 $('#addNewModal').modal('hide');
                                 $('#jQueryValidationForm')[0].reset();
+                                clearValidation();
                                 drawTable();
                             }else{
                                 $('#toast-body').text("Failed to add the data!");

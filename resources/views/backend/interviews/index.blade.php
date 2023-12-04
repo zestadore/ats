@@ -454,6 +454,7 @@
         function addNew(){
             //clear the form
             $('#jQueryValidationForm')[0].reset();
+            clearValidation();
             $('#addNewButton').attr('data-id','0');
             // $('#candidate_id').val('').trigger('change');
             $('#addNewModal').modal('show');
@@ -484,13 +485,14 @@
                         console.log(response);
                         if(response.success==true){
                             // swal("Good job!", "Data added successfully", "success");
-                                $('#toast-body').text("Data added successfully");
-                                $('#toast_class').addClass('bg-success');
-                                $('#toast_class').removeClass('bg-danger');
-                                window.scrollTo(0, 0);
-                                toastList.forEach(toast => toast.show());
+                            $('#toast-body').text("Data added successfully");
+                            $('#toast_class').addClass('bg-success');
+                            $('#toast_class').removeClass('bg-danger');
+                            window.scrollTo(0, 0);
+                            toastList.forEach(toast => toast.show());
                             $('#addNewModal').modal('hide');
                             $('#jQueryValidationForm')[0].reset();
+                            clearValidation();
                             drawTable();
                         }else{
                             $('#toast-body').text("Failed to add the data!");

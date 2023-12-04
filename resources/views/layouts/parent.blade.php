@@ -347,6 +347,11 @@
             $(".hidden_icon").hide();
             $(".show_icon").show();
         }
+
+        function clearValidation(){
+            $(".is-valid").removeClass("is-valid");
+            $(".is-invalid").removeClass("is-invalid");
+        }
     </script>
     @yield('javascripts')
 </body>

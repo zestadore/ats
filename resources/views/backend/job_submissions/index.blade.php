@@ -491,6 +491,7 @@
                         html2+="</table>";
                         $('#listAdditionalAttachments').html(html2);
                         $('#jQueryValidationForm')[0].reset();
+                        clearValidation();
                         $('#job_title_id').val(response.data.job_title_id);
                         // $('#candidate_id').val(response.data.candidate_id).trigger('change');
                         $('#contact').val(response.data.contact);
@@ -840,6 +841,7 @@
         function addNew(){
             //clear the form
             $('#jQueryValidationForm')[0].reset();
+            clearValidation();
             $('#addNewButton').attr('data-id','0');
             $('#candidate_id').val('').trigger('change');
             $('#addNewModal').modal('show');
@@ -877,6 +879,7 @@
                                 toastList.forEach(toast => toast.show());
                             $('#addNewModal').modal('hide');
                             $('#jQueryValidationForm')[0].reset();
+                            clearValidation();
                             drawTable();
                         }else{
                             $('#toast-body').text("Failed to add the data!");

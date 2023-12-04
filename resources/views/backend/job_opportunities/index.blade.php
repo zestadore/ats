@@ -409,6 +409,7 @@
                             }));
                         });
                         $('#jQueryValidationForm')[0].reset();
+                        clearValidation();
                         $('#title').val(response.data.title);
                         $('#type').val(response.data.type);
                         $('#salary').val(response.data.salary);
@@ -723,6 +724,7 @@
             function addNew(){
                 //clear the form
                 $('#jQueryValidationForm')[0].reset();
+                clearValidation();
                 $('#job_owner').val('').trigger('change');
                 $('#assign_recruiter').val('').trigger('change');
                 $('#addNewButton').attr('data-id','0');
@@ -757,6 +759,7 @@
                                 toastList.forEach(toast => toast.show());
                                 $('#addNewModal').modal('hide');
                                 $('#jQueryValidationForm')[0].reset();
+                                clearValidation();
                                 drawTable();
                             }else{
                                 $('#toast-body').text("Failed to add the data!");

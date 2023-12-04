@@ -239,6 +239,7 @@
                 success:function(response){
                     if(response.success==true){
                         $('#jQueryValidationForm')[0].reset();
+                        clearValidation();
                         $('#first_name').val(response.data.first_name);
                         $('#last_name').val(response.data.last_name);
                         $('#email').val(response.data.email);
@@ -471,6 +472,7 @@
             function addNew(){
                 //clear the form
                 $('#jQueryValidationForm')[0].reset();
+                clearValidation();
                 $('#addNewButton').attr('data-id','0');
                 $('#addNewModal').modal('show');
             }
@@ -503,6 +505,7 @@
                                 toastList.forEach(toast => toast.show());
                                 $('#addNewModal').modal('hide');
                                 $('#jQueryValidationForm')[0].reset();
+                                clearValidation();
                                 drawTable();
                             }else{
                                 $('#toast-body').text("Failed to add the data!");
