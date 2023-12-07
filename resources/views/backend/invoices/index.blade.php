@@ -20,7 +20,7 @@
                     </nav>
                 </div>
                 <div class="ms-auto">
-                    <a href="{{route('admin.invoices.create')}}" class="btn btn-primary">Add New</a>
+                    <a href="{{route('admin.invoices.create')}}" class="btn blue-button">Add New</a>
                 </div>
             </div>
             @if (session('error'))
@@ -81,7 +81,7 @@
                 </div>
                 <div class="modal-body" id="view-modal-body"></div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn cancel-button" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>

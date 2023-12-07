@@ -352,7 +352,7 @@
                         <p>Hi,</p>
                         <p>Greetings.</p>
                         <p>Kindly view your invoice.</p>
-                        <a href="{{ route('view-invoice', Crypt::encrypt($invoice->id)) }}" class="btn btn-primary" target="_blank">View Invoice</a>
+                        <a href="{{ route('view-invoice', Crypt::encrypt($invoice->id)) }}" class="btn blue-button" target="_blank">View Invoice</a>
                         <p>Thanks you,</p>
                         <p><b>ATS.</b></p>
                       </td>

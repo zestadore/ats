@@ -51,9 +51,9 @@
                             </div>
                         </div><p> </p>
                         <div class="btn-group" role="group" aria-label="Basic example" style="float: right;">
-                            <a href="Javascript::Void(0);" id="currentLogo" class="btn btn-secondary">Current logo</a>
-                            <a href="{{route('admin.dashboard')}}" class="btn btn-secondary">Cancel</a>
-                            <button type="submit" class="btn btn-primary" style="float:right;">Submit</button>
+                            {{-- <a href="Javascript::Void(0);" id="currentLogo" class="btn btn-secondary">Current logo</a> --}}
+                            <a href="{{route('admin.dashboard')}}" class="btn cancel-button">Cancel</a>
+                            <button type="submit" class="btn btn-submit">Submit</button>
                         </div>
                     </form>
                 </div>
@@ -72,7 +72,7 @@
                     <img src="{{asset('uploads/site_logo/'.$data['site_logo'])}}" alt="">
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn cancel-button" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>

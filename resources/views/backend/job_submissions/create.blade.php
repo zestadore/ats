@@ -61,7 +61,7 @@
                                 @enderror
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                <label class="form-label" for="candidate_id">Legal name <span style="color:red;"> *</span></label><button type="button" class="btn btn-primary btn-sm" style="float:right;" data-bs-toggle="modal" data-bs-target="#addCandidateModal">+</button>
+                                <label class="form-label" for="candidate_id">Legal name <span style="color:red;"> *</span></label><button type="button" class="btn blue-button btn-sm" style="float:right;" data-bs-toggle="modal" data-bs-target="#addCandidateModal">+</button>
                                 <select name="candidate_id" id="candidate_id" class="form-select mb-3" required>
                                     <option value="">Select candidate</option>
                                     {{-- @foreach ($candidates as $item)
@@ -158,8 +158,8 @@
                             <tbody id="wrapperRows"></tbody>
                         </table>
                         <div class="btn-group" role="group" aria-label="Basic example" style="float: right;">
-                            <a href="{{route('admin.job-submissions.index')}}" class="btn btn-secondary">Cancel</a>
-                            <button type="submit" class="btn btn-primary" style="float:right;">Submit</button>
+                            <a href="{{route('admin.job-submissions.index')}}" class="btn cancel-button">Cancel</a>
+                            <button type="submit" class="btn btn-submit">Submit</button>
                         </div>
                     </form>
                 </div>
@@ -270,7 +270,7 @@
                                 <x-forms.input class="form-control {{ $errors->has('employer_email') ? ' is-invalid' : '' }}" title="Employer email" name="employer_email" id="employer_email" type="email" required="False"/>
                             </div>
                         </div><p> </p>
-                        <button type="button" class="btn btn-primary" id="submitCandidate" style="float:right;">Submit</button>
+                        <button type="button" class="btn blue-button" id="submitCandidate" style="float:right;">Submit</button>
                     </form>
                 </div>
             </div>

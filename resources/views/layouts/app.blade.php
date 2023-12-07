@@ -42,15 +42,15 @@
                             </div>
                             <x-forms.input class="form-control summernote {{ $errors->has('note_description') ? ' is-invalid' : '' }}" title=" " name="note_description" id="note_description" type="textarea" required="False"/>
                             {{-- <div style="text-align: right;">
-                                <button type="button" class="btn btn-primary" id="saveNotes" data-id="0">Save</button>
+                                <button type="button" class="btn blue-button" id="saveNotes" data-id="0">Save</button>
                             </div> --}}
                         </div>
                         <p> </p>
                         <div id="view-notes-modal-body"></div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" id="saveNotes" data-id="0">Submit</button>
+                        <button type="button" class="btn cancel-button" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn blue-button" id="saveNotes" data-id="0">Submit</button>
                     </div>
                 </div>
             </div>
@@ -65,10 +65,10 @@
                 <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-6 text-center text-md-start fw-bold">
-                    <p class="mb-2 mb-md-0 fw-bold">{{env('APP_FOOTER','')}} &copy; {{date('Y')}}</p>
+                    <p class="mb-2 mb-md-0 fw-bold">{{env('APP_FOOTER','')}}</p>
                     </div>
                     <div class="col-md-6 text-center text-md-end text-gray-400">
-                    <p class="mb-0">Version 1.3.2</p>
+                    {{-- <p class="mb-0">Version 1.3.2</p> --}}
                     </div>
                 </div>
                 </div>

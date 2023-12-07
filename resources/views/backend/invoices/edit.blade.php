@@ -80,14 +80,14 @@
                                     <span id="vendorAddress"></span>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                    <button type="button" id="addDetailsButton" class="btn btn-primary btn-sm" style="float: right;">Add details</button>
+                                    <button type="button" id="addDetailsButton" class="btn blue-button btn-sm" style="float: right;">Add details</button>
                                 </div>
                             </div>
                             <div id="wrapperRows"></div><p> </p>
                             <div>
                                 <div class="btn-group" role="group" aria-label="Basic example" style="float: right;">
-                                    <a href="{{route('admin.invoices.index')}}" class="btn btn-secondary">Cancel</a>
-                                    <button type="submit" class="btn btn-primary" style="float:right;">Submit</button>
+                                    <a href="{{route('admin.invoices.index')}}" class="btn cancel-button">Cancel</a>
+                                    <button type="submit" class="btn btn-submit">Submit</button>
                                 </div>
                             </div>
                         </form>

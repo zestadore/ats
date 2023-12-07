@@ -173,7 +173,7 @@
                     <x-forms.input class="form-control {{ $errors->has('email') ? ' is-invalid' : '' }}" title="Email" name="email" id="email" type="email" required="True"/>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn cancel-button" data-bs-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-info" id="mailInvoiceButton">Email</button>
                 </div>
             </div>

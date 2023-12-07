@@ -202,8 +202,8 @@
                         <x-forms.input class="form-control {{ $errors->has('comments') ? ' is-invalid' : '' }}" title="Comments" name="comments" id="comments" type="textarea" required="False"/>
                         <p> </p>
                         <div class="btn-group" role="group" aria-label="Basic example" style="float: right;">
-                            <a href="{{route('admin.interviews.index')}}" class="btn btn-secondary">Cancel</a>
-                            <button type="submit" class="btn btn-primary" style="float:right;">Submit</button>
+                            <a href="{{route('admin.interviews.index')}}" class="btn cancel-button">Cancel</a>
+                            <button type="submit" class="btn btn-submit">Submit</button>
                         </div>
                     </form>
                 </div>

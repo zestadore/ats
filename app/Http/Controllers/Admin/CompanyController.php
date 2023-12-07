@@ -49,6 +49,10 @@ class CompanyController extends Controller
 
     public function store(ValidateCompany $request)
     {
+        $request->validate([
+            'email' => 'required|email|unique:users',
+            'mobile'=>'required|unique:users',
+        ]);
         if($request->file('logo')){
             $request->validate([
                 'logo' => 'required|file|max:2048|mimes:jpg,jpeg,png,gif',
@@ -114,7 +118,11 @@ class CompanyController extends Controller
 
     public function update(ValidateCompany $request, $id)
     {
-        dd($id);
+        $userId=User::where('company_id',Crypt::decrypt($id))->firstorfail()->id??0;
+        $request->validate([
+            'email' => 'required|email|unique:users,email,'. $userId . ',id',
+            'mobile'=>'required|unique:users,mobile,'. $userId . ',id',
+        ]);
         if($request->file('logo')){
             $request->validate([
                 'logo' => 'required|file|max:2048|mimes:jpg,jpeg,png,gif',

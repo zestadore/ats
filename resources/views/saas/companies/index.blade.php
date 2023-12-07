@@ -20,7 +20,7 @@
                     </nav>
                 </div>
                 <div class="ms-auto">
-                    <button class="btn btn-primary" type="button" onclick="addNew()">Add New</button>
+                    <button class="btn blue-button" type="button" onclick="addNew()">Add New</button>
                 </div>
             </div>
             @if (session('error'))
@@ -74,7 +74,7 @@
                 </div>
                 <div class="modal-body" id="view-modal-body"></div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn cancel-button" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -83,7 +83,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Add New</h5>
+                    <h5 class="modal-title" id="addNewModalLabel"></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -124,8 +124,8 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="addNewButton" data-id="0">Submit</button>
+                    <button type="button" class="btn cancel-button" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-submit" id="addNewButton" data-id="0">Submit</button>
                 </div>
             </div>
         </div>
@@ -243,6 +243,7 @@
                             $('#mobile').val('');
                         }
                         $('#addNewModal').modal('show');
+                        $('#addNewModalLabel').text("{{getPageTitle(request()->route()->getName(), 'Edit')}}");
                     }else{
                         // swal("Oops!", "Failed to fetch the data!", "error");
                         $('#toast-body').text("Failed to fetch the data!");
@@ -479,9 +480,11 @@
                 clearValidation();
                 $('#addNewButton').attr('data-id','0');
                 $('#addNewModal').modal('show');
+                $('#addNewModalLabel').text("{{getPageTitle(request()->route()->getName(), ' Add New')}}");
             }
 
             $('#addNewButton').click(function(){
+                clearValidation();
                 if($('#jQueryValidationForm').valid()){
                     var id=$('#addNewButton').attr('data-id');
                     var form = $('#jQueryValidationForm')[0];
@@ -524,7 +527,7 @@
                                     toastList.forEach(toast => toast.show());
                                     // swal("Oops!", "Failed to add the data!", "error");
                             }
-                        }
+                        },
                     });
                 }
             });

@@ -12,11 +12,11 @@
     </div>  
     <ul class="ms-auto d-flex align-items-center list-unstyled mb-0">
         <li class="nav-item dropdown me-2" onclick="openCalendar()" style="padding : 10px;cursor : pointer" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Schedule Interviews">
-          <div class="icon text-white bg-indigo"><i class="far fa-calendar-plus"></i></div>
+          <div class="icon black-icon"><i class="far fa-calendar-plus"></i></div>
         </li>
         <li class="nav-item dropdown me-2" style="padding : 10px;cursor : pointer" data-bs-toggle="tooltip" data-bs-placement="bottom" title="ToDos">
           <a class="nav-link pe-0" id="notesInfo" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <div class="icon text-white bg-indigo"><i class="fas fa-plus"></i></div>
+            <div class="icon black-icon"><i class="fas fa-plus"></i></div>
           </a>
           <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated" aria-labelledby="notesInfo">
             {{-- <a class="dropdown-item" href="Javascript::void(0)" onclick="openNotes('Notes')">
@@ -35,7 +35,7 @@
         </li>
         <li class="nav-item dropdown me-2" style="padding : 15px;" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Dasboard Settings">
           <a class="nav-link pe-0" id="dashboardInfo" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <div class="icon text-white bg-indigo"><i class="fas fa-cog"></i></div>
+            <div class="icon black-icon"><i class="fas fa-cog"></i></div>
           </a>
           <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated" aria-labelledby="dashboardInfo">
             <a class="dropdown-item" href="Javascript::void(0)">

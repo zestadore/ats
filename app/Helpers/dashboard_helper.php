@@ -190,4 +190,33 @@ use Spatie\Activitylog\Models\Activity;
         }
     }
 
+    function getPageTitle($route,$mode){
+        switch($route){
+            case 'admin.pricing-plans.index':
+                return $mode . ' Pricing Plan';
+            case 'admin.clients.index':
+                return $mode . ' Client';
+            case 'admin.clients.end-clients.index':
+                return $mode . ' End Client';
+            case 'admin.candidates.index':
+                return $mode . ' Candidate';
+            case 'admin.job-opportunities.index':
+                return $mode . ' Job Opportunity';
+            case 'admin.job-submissions.index':
+                return $mode . ' Job Submission';
+            case 'admin.users.index':
+                return $mode . ' User';
+            case 'admin.interviews.index':
+                return $mode . ' Interview';
+            case 'admin.companies.index':
+                return $mode . ' Company';
+            case 'admin.invoices.index':
+                return $mode . ' Invoice';
+            case 'admin.view.calendar':
+                return $mode . ' Interview';
+            default:
+                return $mode . ' ' . $route;
+        }
+    }
+
 ?>

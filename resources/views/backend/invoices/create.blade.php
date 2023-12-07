@@ -49,14 +49,24 @@
                         <h5 class="mb-4">Add New Invoice</h5>
                         <form action="{{route('admin.invoices.store')}}" id="jQueryValidationForm" method="POST">@csrf
                             <div class="row g-3">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-4">
+                                        <button type="button" class="btn blue-button btn-sm" style="float:right;" data-bs-toggle="modal" data-bs-target="#addClientModal">Add Client</button>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-4">
+                                        <button type="button" class="btn blue-button btn-sm" style="float:right;" data-bs-toggle="modal" data-bs-target="#addCandidateModal">Add Candidate</button>
+                                    </div>
+                                </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-4">
-                                    <label class="form-label" for="client_id">Vendor name <span style="color:red;"> *</span></label><button type="button" class="btn btn-primary btn-sm" style="float:right;" data-bs-toggle="modal" data-bs-target="#addClientModal">+</button>
-                                    <select name="client_id" id="client_id" class="form-select" data-placeholder="Select client" required>
-                                        <option value="">Select a client</option>
-                                        @foreach ($clients as $item)
-                                            <option value="{{Crypt::encrypt($item->id)}}">{{$item->client_name}}</option>
-                                        @endforeach
-                                    </select>
+                                    <div class="form-floating mb-3">
+                                        <select name="client_id" id="client_id" class="form-select  mb-3" data-placeholder="Select client" required>
+                                            <option value="">Select a client</option>
+                                            @foreach ($clients as $item)
+                                                <option value="{{Crypt::encrypt($item->id)}}">{{$item->client_name}}</option>
+                                            @endforeach
+                                        </select>
+                                        <label for="client_id">Vendor name <span style="color:red;"> *</span></label>
+                                    </div>
                                     @error('interviewers_id')
                                         <span class="error mt-2 text-danger" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -64,10 +74,12 @@
                                     @enderror
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                    <label class="form-label" for="candidate_id">Candidate name <span style="color:red;"> *</span></label><button type="button" class="btn btn-primary btn-sm" style="float:right;" data-bs-toggle="modal" data-bs-target="#addCandidateModal">+</button>
-                                    <select name="candidate_id" id="candidate_id" class="form-select mb-3" required>
-                                        <option value="">Select candidate</option>
-                                    </select>
+                                    <div class="form-floating mb-3">
+                                        <select name="candidate_id" id="candidate_id" class="form-select mb-3" required>
+                                            <option value="">Select candidate</option>
+                                        </select>
+                                        <label class="form-label" for="candidate_id">Candidate name <span style="color:red;"> *</span></label>
+                                    </div>
                                     @error('candidate_id')
                                         <span class="error mt-2 text-danger" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -80,7 +92,7 @@
                                     <span id="vendorAddress"></span>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                    {{-- <button type="button" id="addDetailsButton" class="btn btn-primary btn-sm" style="float: right;">Add details</button> --}}
+                                    {{-- <button type="button" id="addDetailsButton" class="btn blue-button btn-sm" style="float: right;">Add details</button> --}}
                                 </div>
                             </div>
                             <table class="table table-striped">
@@ -98,8 +110,8 @@
                             </table><p> </p>
                             <div>
                                 <div class="btn-group" role="group" aria-label="Basic example" style="float: right;">
-                                    <a href="{{route('admin.invoices.index')}}" class="btn btn-secondary">Cancel</a>
-                                    <button type="submit" class="btn btn-primary" style="float:right;">Generate Invoice</button>
+                                    <a href="{{route('admin.invoices.index')}}" class="btn cancel-button">Cancel</a>
+                                    <button type="submit" class="btn blue-button" style="float:right;">Generate Invoice</button>
                                 </div>
                             </div>
                         </form>
@@ -124,8 +136,8 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-info" id="addClientButton" data-bs-dismiss="modal">Save</button>
+                    <button type="button" class="btn cancel-button" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn blue-button" id="addClientButton" data-bs-dismiss="modal">Save</button>
                 </div>
             </div>
         </div>
@@ -146,8 +158,8 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-info" id="addCandidateButton" data-bs-dismiss="modal">Save</button>
+                    <button type="button" class="btn cancel-button" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn blue-button" id="addCandidateButton" data-bs-dismiss="modal">Save</button>
                 </div>
             </div>
         </div>

@@ -52,7 +52,7 @@
                 </div>
                 <div class="modal-body" id="view-modal-body"></div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn cancel-button" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -62,7 +62,7 @@
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Add New</h5>
+                    <h5 class="modal-title" id="addNewModalLabel"></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -234,14 +234,14 @@
                         <x-forms.input class="form-control {{ $errors->has('comments') ? ' is-invalid' : '' }}" title="Comments" name="comments" id="comments" type="textarea" required="False"/>
                         <p> </p>
                         {{-- <div class="btn-group" role="group" aria-label="Basic example" style="float: right;">
-                            <a href="{{route('admin.interviews.index')}}" class="btn btn-secondary">Cancel</a>
-                            <button type="submit" class="btn btn-primary" style="float:right;">Submit</button>
+                            <a href="{{route('admin.interviews.index')}}" class="btn cancel-button">Cancel</a>
+                            <button type="submit" class="btn btn-submit">Submit</button>
                         </div> --}}
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="addNewButton" data-id="0">Submit</button>
+                    <button type="button" class="btn cancel-button" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-submit" id="addNewButton" data-id="0">Submit</button>
                 </div>
             </div>
         </div>
@@ -294,6 +294,7 @@
                 // localStorage.setItem("interview_date", info.dateStr);
                 $('#jQueryValidationForm')[0].reset();
                 clearValidation();
+                $('#addNewModalLabel').text("{{getPageTitle('Interview', ' Add New')}}");
                 $('#addNewButton').attr('data-id','0');
                 var date = info.dateStr;
                 if(date){
@@ -454,6 +455,7 @@
         });
 
         $('#addNewButton').click(function(){
+                clearValidation();
             if($('#jQueryValidationForm').valid()){
                 var id=$('#addNewButton').attr('data-id');
                 var formData = new FormData($('#jQueryValidationForm')[0]);

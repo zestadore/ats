@@ -50,7 +50,7 @@
             <div class="card">
                 <div class="card-body p-4">
                     <h5 class="mb-4">Candidates Matches</h5>
-                    <h6>Candidate name : {{$candidate->candidate_name}} <button class="btn btn-primary btn-sm" onclick="viewCandidatesModal('{{Crypt::encrypt($candidate->id)}}')">View</button></h6>
+                    <h6>Candidate name : {{$candidate->candidate_name}} <button class="btn blue-button btn-sm" onclick="viewCandidatesModal('{{Crypt::encrypt($candidate->id)}}')">View</button></h6>
                     <table class="table table-striped">
                         <tr>
                             <th class="nosort">#</th>
@@ -75,7 +75,7 @@
                                 <td>{{ $item->job_owner_names }}</td>
                                 <td>{{ $item->client?->client_name }}</td>
                                 <td>{{ $item->key_skills }}</td>
-                                <td><a href="Javascript:void(0);" onclick="viewModal('{{Crypt::encrypt($item->id)}}')" class="btn btn-primary btn-sm"><i class="fa far fa-eye"></i></a></td>
+                                <td><a href="Javascript:void(0);" onclick="viewModal('{{Crypt::encrypt($item->id)}}')" class="btn blue-button btn-sm"><i class="fa far fa-eye"></i></a></td>
                             </tr>
                         @endforeach
                     </table>
@@ -94,7 +94,7 @@
                 </div>
                 <div class="modal-body" id="view-modal-body"></div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn cancel-button" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -109,7 +109,7 @@
                 </div>
                 <div class="modal-body" id="view-attachment-body"></div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn cancel-button" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>

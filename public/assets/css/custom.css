@@ -92,8 +92,122 @@ div.dt-buttons {
 	}
 	
 	.fc-col-header-cell{
-		background:purple;
+		background:#056AC8;
 	}
 	.fc-col-header-cell-cushion {
 		color: white !important;
 	}
+
+	.error-class{
+		color: red;
+	}
+
+	.cancel-button{
+		background:black;
+		color:white;
+	}
+
+	.btn-submit{
+		background:#056AC8;
+		color:white;
+		float:right;
+	}
+
+	.blue-button{
+		background:#056AC8;
+		color:white;
+	}
+
+	.page-link.active, .active > .page-link{
+		background:#056AC8 !important;
+		color:white;
+	}
+
+	.button-group-flex{
+		display: inline-flex;
+	}
+
+	.fc .fc-button{
+		background:#056AC8 !important;
+	}
+
+	.black-icon {
+		color: #002855;
+		background: transparent;
+		font-size: 15px;
+	}
+
+	.black-icon:hover {
+		color: #056AC8;
+		background: transparent;
+		font-size: 25px;
+	}
+
+	.ui-widget-header{
+		background: #056AC8 !important;
+		border: 1px solid #056AC8 !important;
+	}
+
+	.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active{
+		border: 1px solid #056AC8 !important;
+		color: #056AC8 !important;
+	}
+
+	.ui-state-default:hover{
+		border: #002855 !important;
+		color:#002855 !important;
+	}
+
+	.ui-state-active:hover{
+		background: #002855 !important;
+		border: #002855 !important;
+		color:white !important;
+	}
+
+	.ui-state-highlight{
+		background: #002855 !important;
+		border: #002855 !important;
+		color:white !important;
+	}
+	
+	.ui-widget-header a:hover {
+		color: #056AC8 !important;
+	}
+
+	.ui-datepicker-calendar{
+		color:#002855 !important;
+	}
+
+	.ui-datepicker-prev:hover{
+		background:#002855 !important;
+		border: #002855 !important;
+	}
+
+	.ui-datepicker-next {
+		background:#002855 !important;
+		border: #002855 !important;
+	}
+
+	.select2-container .select2-selection--single {
+		height: 45pt !important;
+	}
+
+	.select2-container--default .select2-selection--single .select2-selection__arrow {
+		height: 26px;
+		position: absolute;
+		top: 16.5px !important;
+		right: 1px;
+		width: 20px;
+	}
+
+	.select2-container .select2-selection--single .select2-selection__rendered {
+		display: block;
+		padding-left: 8px;
+		padding-right: 20px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		position: relative;
+		top: 17px !important;
+	}
+	

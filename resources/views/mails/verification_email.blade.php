@@ -352,7 +352,7 @@
                         <p>Hi,</p>
                         <p>Greetings.</p>
                         <p>Kindly verify your email.</p>
-                        <a href="{{ route('verify-email', Crypt::encrypt($user->id)) }}" class="btn btn-primary" target="_blank">Verify</a>
+                        <a href="{{ route('verify-email', Crypt::encrypt($user->id)) }}" class="btn blue-button" target="_blank">Verify</a>
                         <p>Thanks you,</p>
                         <p><b>ATS.</b></p>
                       </td>

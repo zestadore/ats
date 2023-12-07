@@ -1,5 +1,5 @@
 @canany(['isAdmin','isAccountManager','isTeamLead','isCompanyAdmin'])
-    <div class="btn-group" role="group" aria-label="First group">
+    <div class="button-group-flex" role="group" aria-label="First group">
         <button type="button" class="btn btn-outline-dark" data-bs-toggle="dropdown" data-boundary="window" aria-expanded="false"><i class="fa fas fa-ellipsis-v"></i></button>
         <ul class="dropdown-menu" style="white-space: nowrap !important;">
             <li><a class="dropdown-item" href="javascript::void(0)" onclick="editData('{{Crypt::encrypt($id)}}')">Edit</a></li>

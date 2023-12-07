@@ -37,7 +37,7 @@
                                             <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
                                             <label class="form-check-label" for="remember">Remember me</label>
                                         </div>
-                                        <button class="btn btn-primary btn-lg" type="submit">Submit</button>
+                                        <button class="btn blue-button btn-lg" type="submit">Submit</button>
                                     </form><br>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">

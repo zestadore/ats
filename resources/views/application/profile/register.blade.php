@@ -93,7 +93,7 @@
                                             <input class="form-check-input" type="checkbox" name="terms" id="terms" {{ old('remember') ? 'checked' : '' }} required checked>
                                             <label class="form-check-label" for="remember">I agree to the <a href="javascript:void(0);">Terms and Conditions</a> & <a href="javascript:void(0);">Privacy Policy</a>.</label>
                                         </div>
-                                        <button class="btn btn-primary btn-lg" type="submit">Submit</button>
+                                        <button class="btn blue-button btn-lg" type="submit">Submit</button>
                                     </form><br>
                                     {{-- <p>By signing up, </p> --}}
                                 </div>
@@ -146,7 +146,7 @@
                                         </div>
                                         <div class="text-center">
                                             {{-- <button class="btn btn-outline-primary btn-lg" style="border-radius:30px">Select</button> --}}
-                                            <button class="btn btn-primary btn-lg" >Select</button>
+                                            <button class="btn blue-button btn-lg" >Select</button>
                                         </div>
                                         {{-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> --}}
                                     </div>

@@ -10,9 +10,6 @@
         #viewLargeModal .modal-content {
             height: 100%; /* = 100% of the .modal-dialog block */
         }
-        .select2-container .select2-selection--single {
-            height: 37px !important;
-        }
     </style>
 @endsection
 @section('title')
@@ -33,8 +30,8 @@
                     </nav>
                 </div>
                 <div class="ms-auto">
-                    <button class="btn btn-primary" type="button" onclick="addNew()">Add New</button>
-                    {{-- <a href="{{route('admin.job-submissions.create')}}" class="btn btn-primary">Add New</a> --}}
+                    <button class="btn blue-button" type="button" onclick="addNew()">Add New</button>
+                    {{-- <a href="{{route('admin.job-submissions.create')}}" class="btn blue-button">Add New</a> --}}
                 </div>
             </div>
             @if (session('error'))
@@ -96,7 +93,7 @@
                 </div>
                 <div class="modal-body" id="view-modal-body"></div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn cancel-button" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -111,7 +108,7 @@
                 </div>
                 <div class="modal-body" id="view-attachment-body"></div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn cancel-button" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -121,12 +118,12 @@
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Add New</h5>
+                    <h5 class="modal-title" id="addNewModalLabel"></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div style="text-align: right;">
-                        <button type="button" class="btn btn-primary btn-sm"  data-bs-toggle="modal" data-bs-target="#addCandidateModal">Add Candidate</button>
+                        <button type="button" class="btn blue-button btn-sm"  data-bs-toggle="modal" data-bs-target="#addCandidateModal">Add Candidate</button>
                     </div><br>
                     <form id="jQueryValidationForm" method="POST" enctype="multipart/form-data">@csrf
                         <div class="row g-3">
@@ -148,13 +145,13 @@
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                 <div class="form-floating mb-3">
-                                    <select name="candidate_id" id="candidate_id" class="form-select mb-3" style="width:100%;" required>
+                                    <select name="candidate_id" id="candidate_id" class="form-select mb-3" style="width:100%;height:100%;" required>
                                         <option value="">Select candidate</option>
                                         {{-- @foreach ($candidates as $item)
                                             <option value="{{$item->id}}">{{$item->candidate_name}}</option>
                                         @endforeach --}}
                                     </select>
-                                    {{-- <label class="form-label" for="candidate_id">Legal name <span style="color:red;"> *</span></label> --}}
+                                    <label class="form-label" for="candidate_id">Legal name <span style="color:red;"> *</span></label>
                                 </div>
                                 @error('candidate_id')
                                     <span class="error mt-2 text-danger" role="alert">
@@ -249,14 +246,14 @@
                             <tbody id="wrapperRows"></tbody>
                         </table>
                         {{-- <div class="btn-group" role="group" aria-label="Basic example" style="float: right;">
-                            <a href="{{route('admin.job-submissions.index')}}" class="btn btn-secondary">Cancel</a>
-                            <button type="submit" class="btn btn-primary" style="float:right;">Submit</button>
+                            <a href="{{route('admin.job-submissions.index')}}" class="btn cancel-button">Cancel</a>
+                            <button type="submit" class="btn btn-submit">Submit</button>
                         </div> --}}
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="addNewButton" data-id="0">Submit</button>
+                    <button type="button" class="btn cancel-button" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-submit" id="addNewButton" data-id="0">Submit</button>
                 </div>
             </div>
         </div>
@@ -369,7 +366,7 @@
                                 <x-forms.input class="form-control {{ $errors->has('employer_email') ? ' is-invalid' : '' }}" title="Employer email" name="employer_email" id="employer_email" type="email" required="False"/>
                             </div>
                         </div><p> </p>
-                        <button type="button" class="btn btn-primary" id="submitCandidate" style="float:right;">Submit</button>
+                        <button type="button" class="btn blue-button" id="submitCandidate" style="float:right;">Submit</button>
                     </form>
                 </div>
             </div>
@@ -507,6 +504,7 @@
                         $('#candidate_type').val(response.data.candidate_type);
                         $('#interview_availability').val(response.data.interview_availability);
                         $('#addNewModal').modal('show');
+                        $('#addNewModalLabel').text("{{getPageTitle(request()->route()->getName(), 'Edit')}}");
                     }else{
                         // swal("Oops!", "Failed to fetch the data!", "error");
                         $('#toast-body').text("Failed to fetch the data!");
@@ -845,9 +843,11 @@
             $('#addNewButton').attr('data-id','0');
             $('#candidate_id').val('').trigger('change');
             $('#addNewModal').modal('show');
+            $('#addNewModalLabel').text("{{getPageTitle(request()->route()->getName(), ' Add New')}}");
         }
 
         $('#addNewButton').click(function(){
+                clearValidation();
             if($('#jQueryValidationForm').valid()){
                 var id=$('#addNewButton').attr('data-id');
                 var formData = new FormData($('#jQueryValidationForm')[0]);

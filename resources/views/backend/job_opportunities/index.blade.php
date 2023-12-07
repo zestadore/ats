@@ -24,8 +24,8 @@
                 </div>
                 <div class="ms-auto">
                     @canany(['isAdmin','isAccountManager','isTeamLead','isCompanyAdmin'])
-                        <button class="btn btn-primary" type="button" onclick="addNew()">Add New</button>
-                        {{-- <a href="{{route('admin.job-opportunities.create')}}" class="btn btn-primary">Add New</a> --}}
+                        <button class="btn blue-button" type="button" onclick="addNew()">Add New</button>
+                        {{-- <a href="{{route('admin.job-opportunities.create')}}" class="btn blue-button">Add New</a> --}}
                     @endcanany
                 </div>
             </div>
@@ -87,7 +87,7 @@
                 </div>
                 <div class="modal-body" id="view-modal-body"></div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn cancel-button" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -97,7 +97,7 @@
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Add New</h5>
+                    <h5 class="modal-title" id="addNewModalLabel"></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -205,14 +205,14 @@
                             </div>
                         </div><p> </p>
                         {{-- <div class="btn-group" role="group" aria-label="Basic example" style="float: right;">
-                            <a href="{{route('admin.job-opportunities.index')}}" class="btn btn-secondary">Cancel</a>
-                            <button type="submit" class="btn btn-primary" style="float:right;">Submit</button>
+                            <a href="{{route('admin.job-opportunities.index')}}" class="btn cancel-button">Cancel</a>
+                            <button type="submit" class="btn btn-submit">Submit</button>
                         </div> --}}
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="addNewButton" data-id="0">Submit</button>
+                    <button type="button" class="btn cancel-button" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-submit" id="addNewButton" data-id="0">Submit</button>
                 </div>
             </div>
         </div>
@@ -428,6 +428,7 @@
                             $("#status").prop('checked', true);
                         }
                         $('#addNewModal').modal('show');
+                        $('#addNewModalLabel').text("{{getPageTitle(request()->route()->getName(), 'Edit')}}");
                     }else{
                         // swal("Oops!", "Failed to fetch the data!", "error");
                         $('#toast-body').text("Failed to fetch the data!");
@@ -729,9 +730,11 @@
                 $('#assign_recruiter').val('').trigger('change');
                 $('#addNewButton').attr('data-id','0');
                 $('#addNewModal').modal('show');
+                $('#addNewModalLabel').text("{{getPageTitle(request()->route()->getName(), ' Add New')}}");
             }
 
             $('#addNewButton').click(function(){
+                clearValidation();
                 if($('#jQueryValidationForm').valid()){
                     var id=$('#addNewButton').attr('data-id');
                     if(id==0){

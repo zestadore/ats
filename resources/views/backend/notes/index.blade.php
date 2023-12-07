@@ -20,8 +20,8 @@
                     </nav>
                 </div>
                 <div class="ms-auto">
-                    <button class="btn btn-primary" type="button" onclick="addNew()">Add New</button>
-                    {{-- <a href="{{route('admin.users.create')}}" class="btn btn-primary">Add New</a> --}}
+                    <button class="btn blue-button" type="button" onclick="addNew()">Add New</button>
+                    {{-- <a href="{{route('admin.users.create')}}" class="btn blue-button">Add New</a> --}}
                 </div>
             </div>
             @if (session('error'))
@@ -88,6 +88,7 @@
             $('#assigned_to').val('');
             $('#saveNotes').attr('data-id','0');
             $('#notesModal').modal('show');
+            $('#notesTitle').text("{{getPageTitle('Note/Todo', ' Add New')}}");
         }
 
 

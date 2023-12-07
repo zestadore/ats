@@ -252,6 +252,7 @@
                     }
                     $('#notesModal').modal('show');
                     $('#saveNotes').attr('data-id',id);
+                    $('#notesTitle').text("{{getPageTitle('Note/Todo', ' Edit')}}");
                 },
             });
         }
@@ -351,7 +352,21 @@
         function clearValidation(){
             $(".is-valid").removeClass("is-valid");
             $(".is-invalid").removeClass("is-invalid");
+            $('.error-class').html('');
         }
+
+        $(function () {
+            //setup ajax error handling
+            $.ajaxSetup({
+                error: function (err) {
+                    $.each(err.responseJSON.errors, function (i, error) {
+                        var el = $(document).find('[name="'+i+'"]');
+                        el.after($('<span class="error-class">'+error[0]+'</span>'));
+                    });
+                }
+            });
+        });
+
     </script>
     @yield('javascripts')
 </body>
